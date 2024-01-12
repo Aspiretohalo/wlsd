@@ -14,8 +14,10 @@
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
             </el-menu>
             <div class="login">
-                <a style="border-right: 1px solid;padding-right: 3px;">登录</a>
-                <a style="padding-left: 3px;">注册</a>
+                <!-- <a style="border-right: 1px solid;padding-right: 3px;">登录</a> -->
+                <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;">登录</el-link>
+                <el-link type="info" :underline="false" style="padding-left: 3px;">注册</el-link>
+                <!-- <a style="padding-left: 3px;">注册</a> -->
             </div>
         </div>
 

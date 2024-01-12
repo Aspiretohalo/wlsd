@@ -5,7 +5,7 @@
                 <el-header style="height: 80px;padding: 0;">
                     <TopNav></TopNav>
                 </el-header>
-                <el-main style="padding: 0;width: 100vw;overflow: hidden;">
+                <el-main class="main bgc">
                     attendance_guide
                 </el-main>
                 <el-footer style="padding: 0;">

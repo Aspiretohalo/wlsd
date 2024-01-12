@@ -18,6 +18,23 @@ h5 {
   margin: 0;
 }
 
+.main {
+  padding: 0;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.bgc {
+  background-image: url(assets/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.w-margin {
+  margin: 50px auto;
+  width: 1200px;
+}
+
 .middle {
   width: 1200px;
   display: flex;

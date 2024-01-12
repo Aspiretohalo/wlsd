@@ -10,16 +10,16 @@ const router = VueRouter.createRouter({
 const jwt = ref()
 
 
-router.beforeEach(async (to: any) => {
-    jwt.value = localStorage.getItem('token')
-    if (!jwt.value && (to.name !== 'login1' && to.name !== 'login2')) {
-        ElMessage({
-            showClose: true,
-            message: '请先登录！！',
-            type: 'warning',
-        })
-        // 将用户重定向到登录页面
-        return { name: 'login1' }
-    }
-})
+// router.beforeEach(async (to: any) => {
+//     jwt.value = localStorage.getItem('token')
+//     if (!jwt.value && (to.name !== 'login1' && to.name !== 'login2')) {
+//         ElMessage({
+//             showClose: true,
+//             message: '请先登录！！',
+//             type: 'warning',
+//         })
+//         // 将用户重定向到登录页面
+//         return { name: 'login1' }
+//     }
+// })
 export default router

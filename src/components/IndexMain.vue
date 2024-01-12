@@ -1,45 +1,25 @@
 <template>
-    <div>
+    <div class="main">
+
         <el-carousel :interval="5000" class="carousel" trigger="click">
             <el-carousel-item v-for="item in 4" :key="item" style="height: 650px;">
-
                 <img class="banner" src="../assets/banner/banner01.png" alt="">
-
             </el-carousel-item>
         </el-carousel>
         <div class="meetings">
-
-            <div class="Conference_Agenda">
+            <div class="Conference_Agenda w-margin">
                 <h1>大会日程</h1>
                 <el-card class="box-card Highlights">
                     <el-button @click="goToAgenda(1)">议程</el-button>
                 </el-card>
             </div>
-
-            <div class="Conference_Highlights">
-                <h1>大会亮点</h1>
-                <h3>Conference Highlights</h3>
-                <el-row class="data">
-                    <el-col :span="5" v-for="i in 5" :key="i">
-                        <el-statistic title="Daily active users" :value="268500">
-                            <template #suffix>
-                                <el-icon style="vertical-align: -0.125em">
-                                    <Plus />
-                                </el-icon>
-                            </template>
-                        </el-statistic>
-                    </el-col>
-                </el-row>
-                <el-card class="box-card Highlights">
-                    <div v-for="o in 4" :key="o" style="height: 200px;">{{ 'List item ' + o }}</div>
-                </el-card>
-            </div>
+            <Highlights></Highlights>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { Plus } from '@element-plus/icons-vue'
+import Highlights from './Highlights.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
@@ -52,37 +32,8 @@ const goToAgenda = (id: Number) => {
 .carousel {
     height: 650px;
     text-align: center;
-    // justify-content: center;
 }
 
-.meetings {
-    .Conference_Highlights {
-        margin: 50px auto;
-        width: 1200px;
-
-        h1,
-        h3 {
-            margin: 20px auto;
-        }
-
-        .data {
-            margin-top: 50px;
-        }
-
-        .el-col-5 {
-            width: 20%;
-            flex: none;
-        }
-
-        :deep(.el-statistic__content) {
-            font-size: 32px;
-        }
-
-        .Highlights {
-            margin-top: 30px;
-        }
-    }
-}
 
 .banner {
     // display: flex;

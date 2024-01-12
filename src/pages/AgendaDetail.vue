@@ -5,7 +5,7 @@
                 <el-header style="height: 80px;padding: 0;">
                     <TopNav></TopNav>
                 </el-header>
-                <el-main style="padding: 0;width: 100vw;overflow: hidden;">
+                <el-main class="main bgc">
                     <div class="meeting">
                         <div class="video">
                             <video id="my-video" class="video-js" controls preload="auto" width="850" height="480"
@@ -18,11 +18,11 @@
                                         video</a>
                                 </p>
                             </video>
-                            <div style="width: 850px;height: 80px; background-color: aqua;">格致论道@西湖论剑</div>
+                            <div style="margin-top: 40px;width: 850px;height: 80px; background-color: aqua;">格致论道@西湖论剑</div>
                         </div>
                         <div class="agenda">
                             <el-card>
-                                <div style="height: 560px;width: 300px;">会议议程</div>
+                                <div style="height: 600px;width: 300px;">会议议程</div>
                             </el-card>
                         </div>
                     </div>
@@ -35,6 +35,7 @@
                             </el-card>
                         </div>
                     </div>
+                    <Comment></Comment>
                 </el-main>
                 <el-footer style="padding: 0;">
                     <Bottom></Bottom>
@@ -47,6 +48,7 @@
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
+import Comment from '../components/Comment.vue';
 </script>
 
 <style lang="scss" scoped>
