@@ -2,7 +2,7 @@
     <div class="topNav">
         <div class="middle">
             <img class="logo" src="../assets/logo.png" alt="">
-            <el-menu class="el-menu-demo" mode="horizontal" :router="true">
+            <el-menu class="el-menu-demo" :default-active="defaultMenu" mode="horizontal" :router="true" :ellipsis="false">
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/conferenceAgenda">大会议程</el-menu-item>
                 <el-menu-item index="/aboutConference">关于大会</el-menu-item>
@@ -14,18 +14,20 @@
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
             </el-menu>
             <div class="login">
-                <!-- <a style="border-right: 1px solid;padding-right: 3px;">登录</a> -->
                 <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;">登录</el-link>
                 <el-link type="info" :underline="false" style="padding-left: 3px;">注册</el-link>
-                <!-- <a style="padding-left: 3px;">注册</a> -->
             </div>
         </div>
 
     </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router'
 
+const route = useRoute();
+const defaultMenu = computed(() => { return route.path })
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,11 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <Exhibitor></Exhibitor>
+                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">新闻资讯</h1>
+                    <NewsNav></NewsNav>
+                    <div style="height: 500px;">
+                        精彩花絮
+                    </div>
                 </el-main>
                 <el-footer style="padding: 0;">
                     <Bottom></Bottom>
@@ -19,7 +23,7 @@
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
-import Exhibitor from '../components/Exhibitor.vue';
+import NewsNav from '../components/NewsNav.vue';
 </script>
 
 <style lang="scss" scoped></style>
