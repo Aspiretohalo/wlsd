@@ -16,7 +16,7 @@
                             </p>
                         </div>
                         <div class="image">
-                            <video src="../assets/banner/个人所得税.mp4" type="video/mp4" autoplay></video>
+                            <video src="../assets/banner/个人所得税.mp4" muted type="video/mp4" autoplay></video>
                         </div>
                     </div>
                     <Highlights></Highlights>

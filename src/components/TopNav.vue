@@ -13,9 +13,48 @@
                 <el-menu-item index="/news">媒体中心</el-menu-item>
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
             </el-menu>
-            <div class="login">
-                <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;">登录</el-link>
-                <el-link type="info" :underline="false" style="padding-left: 3px;">注册</el-link>
+            <div class="login" v-if="token == null && route.path != '/login'">
+                <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;"
+                    @click="goToLogin()">登录</el-link>
+                <el-link type="info" :underline="false" style="padding-left: 3px;" @click="goToRegister()">注册</el-link>
+            </div>
+            <div class="user" v-else-if="token != null && route.path != '/login'">
+                <el-popover placement="bottom-end" :width="300" trigger="click">
+                    <template #reference>
+                        <el-link type="info" :underline="false">
+                            <el-icon size="16">
+                                <User />
+                            </el-icon>
+                            个人中心</el-link>
+                    </template>
+                    <h2 style="margin-left: 20px;">cy</h2>
+                    <van-cell title="个人主页" to="/user" is-link>
+                        <template #icon>
+                            <img class="img_icon mr" src="../assets/icon/个人.svg">
+                        </template>
+                    </van-cell>
+                    <van-cell title="报名活动" is-link>
+                        <template #icon>
+                            <img class="img_icon mr" src="../assets/icon/旅行活动.svg">
+                        </template>
+                    </van-cell>
+                    <van-cell title="订阅" is-link>
+                        <template #icon>
+                            <img class="img_icon mr" src="../assets/icon/订阅.svg">
+                        </template>
+                    </van-cell>
+                    <van-cell title="积分" to="integralDetail" is-link>
+                        <template #icon>
+                            <img class="img_icon mr" src="../assets/icon/积分.svg">
+                        </template>
+                    </van-cell>
+                    <van-cell title="退出登录" is-link @click="logout()">
+                        <template #icon>
+                            <img class="img_icon mr" src="../assets/icon/退出.svg">
+                        </template>
+                    </van-cell>
+                </el-popover>
+
             </div>
         </div>
 
@@ -23,14 +62,36 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useRoute } from 'vue-router'
+import { computed, ref } from 'vue'
+import { User } from '@element-plus/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute();
+const router = useRouter();
+const token: any = ref(localStorage.getItem('token') || null)
 const defaultMenu = computed(() => { return route.path })
+
+const logout = () => {
+    localStorage.clear()
+    router.push('/login')
+}
+const goToLogin = () => {
+    router.push('/login')
+}
+const goToRegister = () => {
+    router.push('/login')
+}
 </script>
 
 <style lang="scss" scoped>
+.img_icon {
+    width: 20px;
+}
+
+.mr {
+    margin-right: 10px;
+}
+
 .topNav {
     display: flex;
     justify-content: center;
@@ -54,5 +115,9 @@ const defaultMenu = computed(() => { return route.path })
         border-bottom: 0;
     }
 
+}
+
+:hover :deep(.van-cell) {
+    background-color: #eee;
 }
 </style>

@@ -10,9 +10,13 @@ import MediaVideo from "../pages/MediaVideo.vue";
 import Results from "../pages/Results.vue";
 import WonderfulActivity from "../pages/WonderfulActivity.vue";
 import AgendaDetail from "../pages/AgendaDetail.vue"
+import User from "../pages/User.vue"
+import IntegralDetail from "../pages/IntegralDetail.vue"
+import Login from "../pages/Login.vue";
 
 const routes = [
     { path: "/", component: Index },
+    { path: "/login", component: Login },
     { path: "/conferenceAgenda", component: ConferenceAgenda },
     { path: "/aboutConference", component: AboutConference },
     { path: "/attendanceGuide", component: AttendanceGuide },
@@ -24,6 +28,9 @@ const routes = [
     { path: "/results", component: Results },
     { path: "/wonderfulActivity", component: WonderfulActivity },
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
+    { path: "/user", component: User },
+    { path: "/integralDetail", component: IntegralDetail },
+
     // {
     //     path: "/courseId/:courseId",
     //     component: CourseDetails,
