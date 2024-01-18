@@ -12,6 +12,7 @@
                 <el-menu-item index="/results">成果发布</el-menu-item>
                 <el-menu-item index="/news">媒体中心</el-menu-item>
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
+                <el-menu-item index="/communityCenter">社区中心</el-menu-item>
             </el-menu>
             <div class="login" v-if="token == null && route.path != '/login'">
                 <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;"

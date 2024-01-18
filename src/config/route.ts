@@ -13,6 +13,7 @@ import AgendaDetail from "../pages/AgendaDetail.vue"
 import User from "../pages/User.vue"
 import IntegralDetail from "../pages/IntegralDetail.vue"
 import Login from "../pages/Login.vue";
+import CommunityCenter from "../pages/CommunityCenter.vue";
 
 const routes = [
     { path: "/", component: Index },
@@ -30,6 +31,7 @@ const routes = [
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
     { path: "/user", component: User },
     { path: "/integralDetail", component: IntegralDetail },
+    { path: "/communityCenter", component: CommunityCenter },
 
     // {
     //     path: "/courseId/:courseId",
