@@ -1,5 +1,5 @@
 <template>
-    <div class="ccmain">
+    <div class="ccmain w-margin">
         <h1>社区中心</h1>
         <!-- 左边栏目 -->
         <div class="leftcc">

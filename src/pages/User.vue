@@ -7,7 +7,8 @@
                 </el-header>
                 <el-main class="main bgc">
                     <div class="name w-margin">
-                        <span>cy</span>
+                        <el-avatar :size="64" :src="circleUrl" />
+                        <span style="margin-left: 20px;">cy</span>
                     </div>
                     <div class="message w-margin">
                         <el-card class="msg_card">
@@ -168,6 +169,7 @@ const options = [
         label: '活动订阅',
     },
 ]
+const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const dialogFormVisible = ref(false)
 
@@ -187,7 +189,7 @@ const form = reactive({
     email: '957886410@qq.com',
 })
 const checkIntegral = () => {
-    router.push('/integralDetail')
+    router.push('/integral/integralDetails')
 }
 </script>
 

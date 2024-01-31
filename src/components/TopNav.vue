@@ -1,7 +1,7 @@
 <template>
     <div class="topNav">
         <div class="middle">
-            <img class="logo" src="../assets/logo.png" alt="">
+            <img class="logo" src="../assets/logo.png" @click="goToIndex()">
             <el-menu class="el-menu-demo" :default-active="defaultMenu" mode="horizontal" :router="true" :ellipsis="false">
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/conferenceAgenda">大会议程</el-menu-item>
@@ -28,7 +28,11 @@
                             </el-icon>
                             个人中心</el-link>
                     </template>
-                    <h2 style="margin-left: 20px;">cy</h2>
+                    <div class="msg">
+                        <el-avatar :size="32" :src="circleUrl" />
+                        <h2 style="margin-left: 20px;">cy</h2>
+                    </div>
+
                     <van-cell title="个人主页" to="/user" is-link>
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/个人.svg">
@@ -69,9 +73,15 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute();
 const router = useRouter();
+const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+
 const token: any = ref(localStorage.getItem('token') || null)
 const defaultMenu = computed(() => { return route.path })
 
+
+const goToIndex = () => {
+    router.push('/')
+}
 const logout = () => {
     localStorage.clear()
     router.push('/login')
@@ -93,6 +103,11 @@ const goToRegister = () => {
     margin-right: 10px;
 }
 
+.msg {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .topNav {
     display: flex;
     justify-content: center;
@@ -106,10 +121,11 @@ const goToRegister = () => {
 
     .logo {
         height: 48px;
+        cursor: pointer;
     }
 
     :deep(.el-menu-item) {
-        padding: 0 15px;
+        padding: 0 10px;
     }
 
     :deep(.el-menu--horizontal) {
