@@ -7,8 +7,8 @@
                 </el-header>
                 <el-main class="main bgc">
                     <div class="name w-margin">
-                        <el-avatar :size="64" :src="circleUrl" />
-                        <span style="margin-left: 20px;">cy</span>
+                        <el-avatar :size="64" :src="form.userAvatar" />
+                        <span style="margin-left: 20px;">{{ form.userName }}</span>
                     </div>
                     <div class="message w-margin">
                         <el-card class="msg_card">
@@ -16,7 +16,7 @@
                             <el-dialog v-model="dialogFormVisible" title="个人资料" width="35%">
                                 <el-form :model="form" label-width="80px">
                                     <el-form-item label="姓名">
-                                        <el-input v-model="form.username" autocomplete="off" />
+                                        <el-input v-model="form.userName" autocomplete="off" />
                                     </el-form-item>
                                     <el-form-item label="性别">
                                         <el-input v-model="form.gender" autocomplete="off" />
@@ -97,7 +97,7 @@
                                     <div class="integral">
                                         <el-icon size="28">
                                             <Coin />
-                                        </el-icon>600
+                                        </el-icon>{{ form.integral }}
                                     </div>
                                     <el-button class="btn">签到</el-button>
                                     <!-- <el-button class="btn" disabled>已签到</el-button> -->
@@ -169,27 +169,18 @@ const options = [
         label: '活动订阅',
     },
 ]
-const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const dialogFormVisible = ref(false)
 
 const handleEdit = () => {
     dialogFormVisible.value = true
     console.log(dialogFormVisible.value);
-
 }
 
-const form = reactive({
-    username: '湖小西',
-    gender: '男',
-    company: '安恒信息',
-    department: '技术部',
-    position: '后端开发',
-    phoneNumber: '19357518926',
-    email: '957886410@qq.com',
-})
+const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+
 const checkIntegral = () => {
-    router.push('/integral/integralDetails')
+    router.push('/integral/integralGifts')
 }
 </script>
 

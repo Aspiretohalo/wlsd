@@ -7,12 +7,11 @@
                 </el-header>
                 <el-main class="main bgc">
                     <div class="name w-margin">
-                        <el-avatar :size="64" :src="circleUrl" />
-                        <span style="margin-left: 20px;">cy</span>
+                        <el-avatar :size="64" :src="user.userAvatar" />
+                        <span style="margin-left: 20px;">{{ user.userName }}</span>
                     </div>
                     <div class="message w-margin">
                         <el-card class="msg_card">
-
                             <el-menu :router="true" :default-active="defaultMenu" class="el-menu-vertical-demo">
                                 <el-menu-item index="/integral/integralGifts">
                                     <el-icon>
@@ -61,11 +60,12 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue';
+import { computed, reactive } from 'vue'
 
 const route = useRoute();
-const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const defaultMenu = computed(() => { return route.path })
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+
 
 </script>
 
@@ -104,8 +104,7 @@ const defaultMenu = computed(() => { return route.path })
 
     .msg_card {
         width: 350px;
-        //
-        // height: 800px;
+        height: 280px;
 
     }
 

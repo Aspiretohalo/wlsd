@@ -24,7 +24,8 @@
                                 <img src="../assets/icon/微信.svg" width="36">
                             </div>
                             <el-form-item>
-                                <el-button class="login_btn" type="primary" round @click="onSubmit">登录/注册</el-button>
+                                <el-button class="login_btn" type="primary" round
+                                    @click="handleLogin(form)">登录/注册</el-button>
                             </el-form-item>
                         </el-form>
                         <div class="protocol">注册或登录即代表您同意《用户协议》和《隐私协议》</div>
@@ -42,15 +43,47 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { reactive } from 'vue'
+import myAxios from '../plugins/myAxios';
+import { ElMessage } from 'element-plus'
+import router from '../config/router';
+import getUserMsg from '../functions/getUserMsg';
 
 // do not use same name with ref
 const form = reactive({
     phoneNumber: '',
     verificationCode: '',
 })
-const onSubmit = () => {
-    console.log('submit!')
+const handleLogin = async (user: { phoneNumber: string, verificationCode: string }) => {
+    let obj = {
+        phoneNumber: user.phoneNumber,
+        userPassword: user.verificationCode
+    }
+    try {
+        // 创建章节，即将章节信息传给后端，存入数据库
+        const response = await myAxios.post('/user/login', obj, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        localStorage.setItem('token', response.data.data.jwt)
+        ElMessage({
+            showClose: true,
+            message: '登录成功',
+            type: 'success',
+        })
+        await getUserMsg()
+        router.push('/')
+        console.log(response);
+    } catch (error) {
+        ElMessage({
+            showClose: true,
+            message: '账号或密码错误',
+            type: 'error',
+        })
+        console.error('账号或密码错误', error);
+    }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -94,4 +127,4 @@ const onSubmit = () => {
         font-size: 12px;
     }
 }
-</style>
+</style>../functions/Request../functions/getUserMsg

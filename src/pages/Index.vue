@@ -18,6 +18,17 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import IndexMain from '../components/IndexMain.vue'
+import getUserMsg from '../functions/getUserMsg';
+import getAllExpert from '../functions/getAllExpert';
+import getAllCommittee from '../functions/getAllCommittee';
+import { onMounted } from 'vue'
+
+onMounted(async () => {
+    await getUserMsg()
+    await getAllExpert()
+    await getAllCommittee()
+
+})
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped></style>../functions/getUserMsg

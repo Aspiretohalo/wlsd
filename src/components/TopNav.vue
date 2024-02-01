@@ -29,8 +29,8 @@
                             个人中心</el-link>
                     </template>
                     <div class="msg">
-                        <el-avatar :size="32" :src="circleUrl" />
-                        <h2 style="margin-left: 20px;">cy</h2>
+                        <el-avatar :size="32" :src="user.userAvatar" />
+                        <h2 style="margin-left: 20px;">{{ user.userName }}</h2>
                     </div>
 
                     <van-cell title="个人主页" to="/user" is-link>
@@ -48,7 +48,7 @@
                             <img class="img_icon mr" src="../assets/icon/订阅.svg">
                         </template>
                     </van-cell>
-                    <van-cell title="积分" to="integralDetail" is-link>
+                    <van-cell title="积分" to="/integral/integralGifts" is-link>
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/积分.svg">
                         </template>
@@ -67,23 +67,24 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { User } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute();
 const router = useRouter();
-const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 
 const token: any = ref(localStorage.getItem('token') || null)
 const defaultMenu = computed(() => { return route.path })
 
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
 const goToIndex = () => {
     router.push('/')
 }
 const logout = () => {
     localStorage.clear()
+    sessionStorage.clear()
     router.push('/login')
 }
 const goToLogin = () => {
