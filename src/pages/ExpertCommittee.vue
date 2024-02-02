@@ -14,6 +14,8 @@
                         <el-row class="data">
                             <el-col :span="5" v-for="item in AllExpert" :key="item.expertId">
                                 <img :src="item.expertImg" style="width: 200px; height: 200px; margin-top: 20px;">
+                                <div class="name">{{ item.expertName }}</div>
+                                <div class="position">{{ item.expertPosition }}</div>
                             </el-col>
                         </el-row>
                     </div>
@@ -33,12 +35,6 @@ import Committee from '../components/Committee.vue';
 import { ref } from 'vue'
 
 const AllExpert = ref(JSON.parse(sessionStorage.getItem("AllExpert") || "null") || "")
-// const AllExpert = ref([
-//     {
-//         expertId: 1,
-//         expertImg: "https://star-wish.oss-cn-hangzhou.aliyuncs.com/c6ed0f8d-f7bb-4c1b-a280-35433fd196df.jpg"
-//     }
-// ])
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +42,15 @@ const AllExpert = ref(JSON.parse(sessionStorage.getItem("AllExpert") || "null") 
     .el-col-5 {
         width: 20%;
         flex: none;
+    }
+
+    .name {
+        font-size: 22px;
+    }
+
+    .position {
+        padding: 0 15px;
+        font-size: 12px;
     }
 }
 </style>

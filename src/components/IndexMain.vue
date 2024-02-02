@@ -3,7 +3,7 @@
 
         <el-carousel :interval="5000" class="carousel" trigger="click">
             <el-carousel-item v-for="item in 4" :key="item" style="height: 650px;">
-                <img class="banner" src="../assets/banner/banner01.png" alt="">
+                <img class="banner" src="../assets/banner/2024banner.png" alt="">
             </el-carousel-item>
         </el-carousel>
         <div class="meetings">
@@ -39,6 +39,7 @@ const goToAgenda = (id: Number) => {
     // display: flex;
     // justify-content: center;
     // align-items: center;
+    width: 100%;
     height: 650px;
 }
 

@@ -21,14 +21,17 @@ import IndexMain from '../components/IndexMain.vue'
 import getUserMsg from '../functions/getUserMsg';
 import getAllExpert from '../functions/getAllExpert';
 import getAllCommittee from '../functions/getAllCommittee';
+import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
+import getAllMediaVideo from '../functions/getAllMediaVideo';
 import { onMounted } from 'vue'
 
 onMounted(async () => {
     await getUserMsg()
     await getAllExpert()
     await getAllCommittee()
-
+    await getAllWonderfulPictures()
+    await getAllMediaVideo()
 })
 </script>
 
-<style lang="scss" scoped></style>../functions/getUserMsg
+<style lang="scss" scoped></style>
