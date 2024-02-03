@@ -49,6 +49,10 @@ const tabPosition = ref('全部')
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .all_activities {
     margin-top: 100px;
 }

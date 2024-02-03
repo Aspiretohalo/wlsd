@@ -21,4 +21,8 @@ import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+</style>

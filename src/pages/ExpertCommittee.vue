@@ -13,7 +13,8 @@
                         <h5>speakers</h5>
                         <el-row class="data">
                             <el-col :span="5" v-for="item in AllExpert" :key="item.expertId">
-                                <img :src="item.expertImg" style="width: 200px; height: 200px; margin-top: 20px;">
+                                <img :src="item.expertImg"
+                                    style="width: 200px; height: 200px;border-radius: 50%; margin-top: 20px;">
                                 <div class="name">{{ item.expertName }}</div>
                                 <div class="position">{{ item.expertPosition }}</div>
                             </el-col>
@@ -38,6 +39,10 @@ const AllExpert = ref(JSON.parse(sessionStorage.getItem("AllExpert") || "null") 
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .speakers {
     .el-col-5 {
         width: 20%;

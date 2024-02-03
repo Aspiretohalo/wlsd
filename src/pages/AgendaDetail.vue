@@ -52,6 +52,10 @@ import Comment from '../components/Comment.vue';
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .meeting {
     margin: 80px auto;
     width: 1200px;
