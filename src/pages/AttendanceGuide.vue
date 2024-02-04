@@ -10,8 +10,18 @@
                     <el-card class="box w-margin">
                         <template #header>
                             <div class="card-header">
-                                <span>Card name</span>
-                                <el-button class="button" text>Operation button</el-button>
+                                <el-tabs v-model="activeTab" type="card" class="demo-tabs">
+                                    <el-tab-pane label="大会签到" name="1"></el-tab-pane>
+                                    <el-tab-pane label="大会场馆" name="2"></el-tab-pane>
+                                    <el-tab-pane label="大会交通" name="3"></el-tab-pane>
+                                    <el-tab-pane label="酒店住宿" name="4"></el-tab-pane>
+                                    <el-tab-pane label="联系我们" name="5"></el-tab-pane>
+                                    <!-- <el-button :class="{ 'active-tab': activeTab === '1' }" text round>大会签到</el-button>
+                                    <el-button :class="{ 'active-tab': activeTab === '2' }" text round>大会场馆</el-button>
+                                    <el-button :class="{ 'active-tab': activeTab === '3' }" text round>大会交通</el-button>
+                                    <el-button :class="{ 'active-tab': activeTab === '4' }" text round>酒店住宿</el-button>
+                                    <el-button :class="{ 'active-tab': activeTab === '5' }" text round>联系我们</el-button> -->
+                                </el-tabs>
                             </div>
                         </template>
                         <div class="guide_item">
@@ -123,7 +133,7 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { ref } from 'vue';
-
+const activeTab = '1'
 const transport = ref([
     {
         title: '杭州萧山国际机场—杭州洲际酒店',
@@ -140,6 +150,40 @@ const transport = ref([
 </script>
 
 <style lang="scss" scoped>
+:deep(.is-active) {
+    color: #303133;
+    border: 0;
+    background-color: #fff;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
+    border-bottom: 0;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item) {
+    border-left: 0;
+    border-radius: 25px;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__nav) {
+    border: 0;
+}
+
+:deep(.el-tabs__item) {
+    border: 0;
+}
+
+:deep(.el-tabs__item:hover) {
+    color: #303133;
+    background-color: #fff;
+    transition: opacity 1s;
+}
+
+:deep(.el-tabs__header) {
+    height: 0;
+    border-bottom: 0px;
+}
+
 :deep(.el-card) {
     border-radius: 15px;
 }
@@ -150,6 +194,12 @@ const transport = ref([
 
 .box {
     background-color: rgba($color: #fff, $alpha: 0.3);
+
+    .card-header {
+        display: flex;
+        justify-content: flex-start;
+        height: 50px;
+    }
 
     .guide_item {
         padding: 0 30px;
