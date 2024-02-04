@@ -20,8 +20,21 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { onMounted } from 'vue'
+const AllCommittee = ref([] as {
+    committeeId: number;
+    committeeImg: string;
+    committeeName: string;
+    committeePosition: string;
+}[]);
 
-const AllCommittee = ref(JSON.parse(sessionStorage.getItem("AllCommittee") || "null") || "")
+onMounted(async () => {
+    setTimeout(() => {
+        AllCommittee.value = JSON.parse(sessionStorage.getItem("AllCommittee") || "null")
+    }, 1000)
+
+})
+
 </script>
 
 <style lang="scss" scoped>

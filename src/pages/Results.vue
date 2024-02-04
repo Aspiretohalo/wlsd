@@ -53,7 +53,8 @@
                                 :key="item.style">
                                 <img :src="item.img" style="height: 180px;width: 90%;">
                                 <h2>{{ item.title }}</h2>
-                                <div style="text-align: left;font-size: 12px;color: #666;">{{ item.description }}</div>
+                                <div style="padding: 0 20px; text-align: justify;font-size: 12px;color: #666;">{{
+                                    item.description }}</div>
                             </el-card>
                         </div>
 
@@ -100,7 +101,7 @@ const Product = ref([
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/bf77ef3740464bd38b383633d30831a6.jpg'
     }, {
         title: '安全托管运营服务MSS',
-        description: '提供体系化、常态化的安全托管服务，协助构建7*24小时全天候、全方位的安全运营体系， 实现安全风险从发现到响应处置的闭环，持续不断提高网络安全水平',
+        description: '提供体系化、常态化的安全托管服务，协助构建7*24小时全天候、全方位的安全运营体系， 实现安全风险从发现到响应处置的闭环，持续不断提高网络安全水平。',
         style: '#f0f0fb',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/500e36be359f492ab623b7998263ccc2.jpg'
     }
