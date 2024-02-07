@@ -8,7 +8,7 @@
         </el-carousel>
         <div class="meetings">
             <div class="Conference_Agenda w-margin">
-                <h1>大会日程</h1>
+                <h1>大会议程</h1>
                 <el-card class="box-card Highlights">
                     <el-button @click="goToAgenda(1)">议程</el-button>
                 </el-card>

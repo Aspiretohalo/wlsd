@@ -16,11 +16,6 @@
                                     <el-tab-pane label="大会交通" name="3"></el-tab-pane>
                                     <el-tab-pane label="酒店住宿" name="4"></el-tab-pane>
                                     <el-tab-pane label="联系我们" name="5"></el-tab-pane>
-                                    <!-- <el-button :class="{ 'active-tab': activeTab === '1' }" text round>大会签到</el-button>
-                                    <el-button :class="{ 'active-tab': activeTab === '2' }" text round>大会场馆</el-button>
-                                    <el-button :class="{ 'active-tab': activeTab === '3' }" text round>大会交通</el-button>
-                                    <el-button :class="{ 'active-tab': activeTab === '4' }" text round>酒店住宿</el-button>
-                                    <el-button :class="{ 'active-tab': activeTab === '5' }" text round>联系我们</el-button> -->
                                 </el-tabs>
                             </div>
                         </template>
@@ -150,7 +145,7 @@ const transport = ref([
 </script>
 
 <style lang="scss" scoped>
-:deep(.is-active) {
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
     color: #303133;
     border: 0;
     background-color: #fff;
@@ -246,15 +241,15 @@ const transport = ref([
 
         .tip {
             border-radius: 5px;
-            border: 2px solid #ffd3b3;
-            background-color: rgba($color: #fff8f3, $alpha: 1);
+            border: 2px solid #fab6b6;
+            background-color: rgba($color: #fef0f0, $alpha: 1);
             // height: 50px;
             padding: 20px;
             text-align: left;
             margin-top: 10px;
 
             span {
-                color: #fa6400;
+                color: #F56C6C;
             }
         }
 

@@ -21,7 +21,7 @@
                             <div style="margin-top: 40px;width: 850px;height: 80px; background-color: aqua;">格致论道@西湖论剑</div>
                         </div>
                         <div class="agenda">
-                            <el-card>
+                            <el-card style="border-radius: 0;">
                                 <div style="height: 600px;width: 300px;">会议议程</div>
                             </el-card>
                         </div>

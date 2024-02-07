@@ -23,6 +23,7 @@ import getAllExpert from '../functions/getAllExpert';
 import getAllCommittee from '../functions/getAllCommittee';
 import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
 import getAllMediaVideo from '../functions/getAllMediaVideo';
+import getAllMeetings from '../functions/getAllMeetings';
 import { onMounted } from 'vue'
 
 onMounted(async () => {
@@ -31,6 +32,7 @@ onMounted(async () => {
     await getAllCommittee()
     await getAllWonderfulPictures()
     await getAllMediaVideo()
+    await getAllMeetings()
 })
 </script>
 

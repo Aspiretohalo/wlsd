@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-card class="w-margin" :body-style="{ backgroundColor: '#fef2f0' }">
+        <el-card class="w-margin box">
             <h2>专家委员会</h2>
             <h5>Expert Committee</h5>
             <div class="demo-image">
@@ -44,6 +44,11 @@ onMounted(async () => {
 
 :deep(.el-carousel__mask) {
     background-color: transparent;
+}
+
+.box {
+    background-color: rgba($color: #fff, $alpha: 0.3);
+
 }
 
 .demo-image {
