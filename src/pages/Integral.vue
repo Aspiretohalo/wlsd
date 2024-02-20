@@ -43,9 +43,7 @@
                             <el-card class="record">
                                 <router-view></router-view>
                             </el-card>
-
                         </div>
-
                     </div>
                 </el-main>
                 <el-footer style="padding: 0;">
@@ -60,8 +58,11 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { useRoute } from 'vue-router'
-import { computed, reactive } from 'vue'
-
+import { computed, reactive, onMounted } from 'vue'
+import getDrawRecord from '../functions/getDrawRecord';
+onMounted(async () => {
+    await getDrawRecord()
+})
 const route = useRoute();
 const defaultMenu = computed(() => { return route.path })
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
@@ -88,8 +89,6 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 
 :deep(.el-menu) {
     border-right: 0px;
-    // border-top: 2px solid #e2e2e2;
-    // border-bottom: 2px solid #e2e2e2;
 }
 
 .name {
@@ -115,6 +114,11 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
     .msg_right {
         margin-left: 20px;
         width: 100%;
+
+        :deep(.el-card__body) {
+            padding: 0;
+        }
     }
+
 }
 </style>

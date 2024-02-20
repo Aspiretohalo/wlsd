@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pad">
         <h2>积分规则</h2>
         <div class="rule">
             1.您所得积分可参与平台不定期开展的物品兑换活动,具体参见每次兑换活动说明;
@@ -32,4 +32,8 @@
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pad {
+    padding: 20px;
+}
+</style>

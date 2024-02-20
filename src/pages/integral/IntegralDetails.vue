@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pad">
         积分详情
     </div>
 </template>
@@ -8,4 +8,8 @@
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.pad {
+    padding: 20px;
+}
+</style>

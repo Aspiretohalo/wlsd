@@ -10,7 +10,9 @@
             <button class="sidebar-button" @click="visitMiniProgram">小程序访问</button>
         </div>
         <div class="sidebar">
-            <button class="sidebar-button" @click="goToTop">返回顶部</button>
+            <el-backtop visibility-height="0">
+                <button class="sidebar-button" @click="goToTop">返回顶部</button>
+            </el-backtop>
         </div>
 
         <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%" style="height: 550px;border-radius: 20px;"
@@ -237,35 +239,48 @@ const goToTop = () => {
 </script>
 
 <style scoped lang="scss">
+:deep(.el-backtop) {
+    width: 100%;
+    position: initial;
+}
+
 .side {
     position: fixed;
     z-index: 1000;
-    top: 300px;
-}
-
-.sidebar {
-    transform: translateY(-50%);
-    width: 100px; // 调整侧边栏宽度
+    top: 35%;
+    right: 0;
     background-color: #f0f0f0;
-    padding: 20px;
-    text-align: center;
+
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    .sidebar {
+        // transform: translateY(-50%);
+        width: 100px; // 调整侧边栏宽度
+        padding: 20px;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .sidebar-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .sidebar-button:hover {
+        background-color: #0056b3;
+    }
 }
 
-.sidebar-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s ease;
-}
 
-.sidebar-button:hover {
-    background-color: #0056b3;
-}
 
 .dialog-footer button:first-child {
     margin-right: 10px;

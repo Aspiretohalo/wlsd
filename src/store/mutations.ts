@@ -1,6 +1,5 @@
 export default {
-
-    // attribute(state, active) {
-    //     state.Attribute = active
-    // }
+    setDrawRecord(state: any, newDrawRecord: any) {
+        state.drawRecord = newDrawRecord;
+    },
 }

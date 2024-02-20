@@ -14,29 +14,69 @@
                 <div class="overview_main">
                     <img src="../assets/agenda/0.png" class="img_main" alt="">
                     <div class="words">
-                        <div class="time">5月7日 09:00 - 12:00</div>
-                        <div class="title">主论坛</div>
+                        <div class="mask">
+                            <div class="time">5月7日 09:00 - 12:00</div>
+                            <div class="title">主论坛</div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="overviews">
                     <div class="overview">
                         <img src="../assets/agenda/1.png" alt="">
+                        <div class="words">
+                            <div class="mask">
+                                <div class="time">5月5日 18:00 - 21:00</div>
+                                <div class="title">格致论道@西湖论剑</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="overview">
                         <img src="../assets/agenda/2.png" alt="">
+                        <div class="words">
+                            <div class="mask">
+                                <div class="time">5月7日 13:30 - 18:00</div>
+                                <div class="title">数字中国&安全治理论坛</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="overview">
                         <img src="../assets/agenda/3.png" alt="">
+                        <div class="words">
+                            <div class="mask">
+                                <div class="time">5月7日 12:30 - 13:00</div>
+                                <div class="title">生态“朋友圈”</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="overview">
                         <img src="../assets/agenda/4.png" alt="">
+                        <div class="words">
+                            <div class="mask">
+                                <div class="time"> 08:30 - 12:10</div>
+                                <div class="title">教育技术产业融合创新发展论坛</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="overview">
                         <img src="../assets/agenda/5.png" alt="">
+                        <div class="words">
+                            <div class="mask">
+                                <div class="time">5月7日 09:00 - 22:00</div>
+                                <div class="title">生态合作伙伴分论坛</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview" @click="goToAgendaPage()">
                         <img src="../assets/agenda/6.png" alt="">
+                        <div class="words">
+                            <div class="mask1">
+                                <div class="title">查看全部议程</div>
+                                <div class="arrow">
+                                    <img src="../assets/icon/右箭头.png" alt="">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,12 +87,15 @@
 <script lang="ts" setup>
 import Highlights from './Highlights.vue';
 import Committee from './Committee.vue';
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-// const router = useRouter();
+const router = useRouter();
 // const goToAgenda = (id: Number) => {
 //     router.push('/agendaDetail/' + id)
 // }
+const goToAgendaPage = () => {
+    router.push('/conferenceAgenda')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -123,22 +166,30 @@ import Committee from './Committee.vue';
     height: 650px;
 }
 
-.words {
-    position: relative;
-
-    .title {
-        position: absolute;
-        font-size: 24px;
-    }
-}
 
 .agenda {
+
     .overview_main {
+        margin-top: 40px;
+
+        cursor: pointer;
+
         .img_main {
             width: 100%;
             object-fit: cover;
             height: 150px;
             border-radius: 10px;
+        }
+
+        .words {
+            position: relative;
+
+            .mask {
+                position: absolute;
+                top: -115px;
+                left: 40%;
+                font-size: 24px;
+            }
         }
     }
 
@@ -149,6 +200,7 @@ import Committee from './Committee.vue';
 
         .overview {
             width: 32.7%;
+            cursor: pointer;
 
             img {
                 margin-top: 8px;
@@ -156,6 +208,38 @@ import Committee from './Committee.vue';
                 width: 100%;
                 object-fit: cover;
                 height: 150px;
+            }
+
+            .words {
+                position: relative;
+
+                .mask {
+                    text-align: left;
+                    position: absolute;
+                    top: -60px;
+                    left: 4%;
+                    font-size: 18px;
+                    color: #fff;
+                }
+
+                .mask1 {
+                    display: flex;
+                    align-items: flex-start;
+                    color: #fff;
+                    text-align: left;
+                    position: absolute;
+                    top: -40px;
+                    left: 4%;
+
+                    .arrow {
+                        img {
+                            width: 20px;
+                            height: 20px;
+                            object-fit: fill;
+                            margin-top: 2px;
+                        }
+                    }
+                }
             }
         }
     }
