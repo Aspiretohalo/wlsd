@@ -31,7 +31,7 @@
                                 <el-popover placement="right" :title="item.past_title" :width="300" trigger="hover"
                                     :content="item.past_descrpition">
                                     <template #reference>
-                                        <img :src="item.past_cover" style="width: 100%;">
+                                        <img @click="goTo(item.past_url)" :src="item.past_cover" style="width: 100%;">
                                     </template>
                                 </el-popover>
                             </el-carousel-item>
@@ -51,7 +51,9 @@ import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import Highlights from '../components/Highlights.vue';
 import { ref } from 'vue';
-
+const goTo = (url: string) => {
+    window.open(url)
+}
 const PastReview = ref([
     {
         past_title: '2023  数字安全@数字中国',

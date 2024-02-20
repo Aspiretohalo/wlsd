@@ -4,8 +4,8 @@
             <h1>大会亮点</h1>
             <h3>Conference Highlights</h3>
             <el-row class="data">
-                <el-col :span="5" v-for="i in 5" :key="i">
-                    <el-statistic title="Daily active users" :value="268500">
+                <el-col :span="5" v-for="item in highlight_data" :key="item.title">
+                    <el-statistic :title="item.title" :value="item.data">
                         <template #suffix>
                             <el-icon style="vertical-align: -0.125em">
                                 <Plus />
@@ -29,7 +29,24 @@
 <script lang="ts" setup>
 import { Plus } from '@element-plus/icons-vue'
 import { ref } from 'vue';
-
+const highlight_data = ref([
+    {
+        title: '主题演讲',
+        data: '500',
+    }, {
+        title: '合作伙伴',
+        data: '550',
+    }, {
+        title: '与会嘉宾',
+        data: '10000',
+    }, {
+        title: '行业从业者',
+        data: '10万',
+    }, {
+        title: '直播观看',
+        data: '2500万',
+    },
+])
 const Highlights = ref([
     {
         HighlightsTitle: '议题更前沿',

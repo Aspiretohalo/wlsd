@@ -1,21 +1,45 @@
 <template>
     <div class="main">
-
         <el-carousel :interval="5000" class="carousel" trigger="click">
             <el-carousel-item v-for="item in 4" :key="item" style="height: 650px;">
                 <img class="banner" src="../assets/banner/2024banner.png" alt="">
             </el-carousel-item>
         </el-carousel>
         <div class="meetings">
-            <div class="Conference_Agenda w-margin">
-                <h1>大会议程</h1>
-                <el-card class="box-card Highlights">
-                    <el-button @click="goToAgenda(1)">议程</el-button>
-                </el-card>
-            </div>
             <Highlights></Highlights>
             <Committee></Committee>
+            <div class="agenda w-margin">
+                <h1>大会总览</h1>
+                <h3>Conference Overview</h3>
+                <div class="overview_main">
+                    <img src="../assets/agenda/0.png" class="img_main" alt="">
+                    <div class="words">
+                        <div class="time">5月7日 09:00 - 12:00</div>
+                        <div class="title">主论坛</div>
+                    </div>
+                </div>
 
+                <div class="overviews">
+                    <div class="overview">
+                        <img src="../assets/agenda/1.png" alt="">
+                    </div>
+                    <div class="overview">
+                        <img src="../assets/agenda/2.png" alt="">
+                    </div>
+                    <div class="overview">
+                        <img src="../assets/agenda/3.png" alt="">
+                    </div>
+                    <div class="overview">
+                        <img src="../assets/agenda/4.png" alt="">
+                    </div>
+                    <div class="overview">
+                        <img src="../assets/agenda/5.png" alt="">
+                    </div>
+                    <div class="overview">
+                        <img src="../assets/agenda/6.png" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -23,12 +47,12 @@
 <script lang="ts" setup>
 import Highlights from './Highlights.vue';
 import Committee from './Committee.vue';
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
-const router = useRouter();
-const goToAgenda = (id: Number) => {
-    router.push('/agendaDetail/' + id)
-}
+// const router = useRouter();
+// const goToAgenda = (id: Number) => {
+//     router.push('/agendaDetail/' + id)
+// }
 </script>
 
 <style lang="scss" scoped>
@@ -94,16 +118,46 @@ const goToAgenda = (id: Number) => {
     }
 }
 
-
 .banner {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     width: 100%;
     height: 650px;
 }
 
-.demonstration {
-    color: var(--el-text-color-secondary);
+.words {
+    position: relative;
+
+    .title {
+        position: absolute;
+        font-size: 24px;
+    }
+}
+
+.agenda {
+    .overview_main {
+        .img_main {
+            width: 100%;
+            object-fit: cover;
+            height: 150px;
+            border-radius: 10px;
+        }
+    }
+
+    .overviews {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .overview {
+            width: 32.7%;
+
+            img {
+                margin-top: 8px;
+                border-radius: 10px;
+                width: 100%;
+                object-fit: cover;
+                height: 150px;
+            }
+        }
+    }
 }
 </style>

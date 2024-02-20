@@ -13,24 +13,45 @@
             <button class="sidebar-button" @click="goToTop">返回顶部</button>
         </div>
 
-        <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%" style="height: 650px;" align-center>
-            <div style="margin-bottom: 30px;">
-                <h3 class="dgh">截至目前，您答对了{{ correctCount }}道题, 获得了{{ score }}积分。</h3>
-                <p class="dgtxt">{{ currentQuestion.question }}</p>
-                <el-radio-group v-model="currentQuestion.selectedOption" size="large">
-                    <div class="radio-container">
-                        <div class="radio-item" v-for="option in currentQuestion.options" :key="option.id">
-                            <el-radio-button :label="option.id" :disabled="currentQuestion.selectedOption !== null">
-                                {{ option.text }}
-                            </el-radio-button>
+        <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%" style="height: 550px;border-radius: 20px;"
+            align-center>
+            <div class="question">
+                <div class="left">
+                    <div style="margin-bottom: 30px;">
+                        <h3 class="dgh">截至目前，您答对了{{ correctCount }}道题, 获得了{{ score }}积分。</h3>
+                        <p class="dgtxt">{{ currentQuestion.question }}</p>
+                        <el-radio-group v-model="currentQuestion.selectedOption" size="large">
+                            <div class="radio-container">
+                                <div class="radio-item" v-for="option in currentQuestion.options" :key="option.id">
+                                    <el-radio-button :label="option.id" :disabled="currentQuestion.selectedOption !== null">
+                                        {{ option.text }}
+                                    </el-radio-button>
+                                </div>
+                            </div>
+                        </el-radio-group>
+                    </div>
+                    <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
+                        @click="renderQuestion(index)">
+                        {{ index + 1 }}
+                    </el-button>
+                </div>
+
+                <div class="right">
+                    <h2>答案解析</h2>
+                    <div v-if="currentQuestion.selectedOption !== null">
+                        <p v-if="currentQuestion.selectedOption === currentQuestion.correctOptionId" class="answer-correct"
+                            style="font-size: 15px; color:green;">回答正确！
+                        </p>
+                        <p v-else class="answer-incorrect" style="font-size: 15px; color:red;">回答错误！正确答案是：{{
+                            currentQuestion.options.find(option => option.id ===
+                                currentQuestion.correctOptionId)?.text }}</p>
+                        <div class="itd">
+                            <p>{{ currentQuestion.description }}</p>
                         </div>
                     </div>
-                </el-radio-group>
+                </div>
+
             </div>
-            <el-button v-for="(question, index) in questions" :key="index + 1" type="primary"
-                @click="renderQuestion(index)">
-                {{ index + 1 }}
-            </el-button>
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -40,17 +61,7 @@
                 </span>
             </template>
 
-            <div v-if="currentQuestion.selectedOption !== null">
-                <p v-if="currentQuestion.selectedOption === currentQuestion.correctOptionId" class="answer-correct"
-                    style="font-size: 15px; color:black;">回答正确！
-                </p>
-                <p v-else class="answer-incorrect" style="font-size: 15px; color:red;">回答错误！正确答案是：{{
-                    currentQuestion.options.find(option => option.id ===
-                        currentQuestion.correctOptionId)?.text }}</p>
-                <div class="itd">
-                    <p>{{ currentQuestion.description }}</p>
-                </div>
-            </div>
+
         </el-dialog>
     </div>
 </template>
@@ -228,6 +239,7 @@ const goToTop = () => {
 <style scoped lang="scss">
 .side {
     position: fixed;
+    z-index: 1000;
     top: 300px;
 }
 
@@ -259,17 +271,35 @@ const goToTop = () => {
     margin-right: 10px;
 }
 
-.dgh {
-    text-align: left;
-    margin-left: 50px;
+.question {
+    display: flex;
+    justify-content: space-around;
+
+    .left {
+        .dgh {
+            text-align: left;
+            margin-left: 50px;
+        }
+
+        .dgtxt {
+            // text-align: left;
+            color: #000;
+            margin-bottom: 20px;
+            font-size: 25px;
+        }
+    }
+
+    .right {
+        width: 30%;
+
+        .itd {
+            text-align: justify;
+            text-indent: 2em;
+        }
+    }
 }
 
-.dgtxt {
-    // text-align: left;
-    color: #000;
-    margin-bottom: 20px;
-    font-size: 25px;
-}
+
 
 .radio-container {
     display: flex;
@@ -280,12 +310,5 @@ const goToTop = () => {
     display: flex;
     align-items: center;
     margin-top: 10px;
-}
-
-.itd {
-    width: 700px;
-    margin-left: 150px;
-    text-align: justify;
-    text-indent: 2em;
 }
 </style>
