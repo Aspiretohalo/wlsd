@@ -22,12 +22,18 @@
 
                     <el-card class="all_activities w-margin">
                         <div class="select">
-                            <el-radio-group v-model="tabPosition" style="margin-bottom: 30px">
+                            <!-- <el-radio-group v-model="tabPosition" style="margin-bottom: 30px">
                                 <el-radio-button label="top">全部</el-radio-button>
                                 <el-radio-button label="right">西湖论剑</el-radio-button>
                                 <el-radio-button label="bottom">格致论道</el-radio-button>
                                 <el-radio-button label="left">安恒信息新品发布</el-radio-button>
-                            </el-radio-group>
+                            </el-radio-group> -->
+                            <el-tabs v-model="activeTab" type="card" class="demo-tabs">
+                                <el-tab-pane label="全部" name="1"></el-tab-pane>
+                                <el-tab-pane label="西湖论剑" name="2"></el-tab-pane>
+                                <el-tab-pane label="格致论道" name="3"></el-tab-pane>
+                                <el-tab-pane label="安恒信息新品发布" name="4"></el-tab-pane>
+                            </el-tabs>
                         </div>
                     </el-card>
                 </el-main>
@@ -43,14 +49,25 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 
-import { ref } from 'vue'
+import { ref } from 'vue';
+// import { useRouter, useRoute } from 'vue-router'
+// const router = useRouter();
+// const route = useRoute();
 
-const tabPosition = ref('全部')
+const activeTab = ref('1')
+// const goToPage = (item: string) => {
+//     router.push(item)
+// }
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .all_activities {
     margin-top: 100px;
+    background-color: rgba($color: #fff, $alpha: 0.3);
 }
 
 .activity {
@@ -85,5 +102,39 @@ const tabPosition = ref('全部')
     top: 300px;
     right: 24px;
     font-size: 15px;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
+    color: #303133;
+    border: 0;
+    background-color: #fff;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
+    border-bottom: 0;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item) {
+    border-left: 0;
+    border-radius: 25px;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__nav) {
+    border: 0;
+}
+
+:deep(.el-tabs__item) {
+    border: 0;
+}
+
+:deep(.el-tabs__item:hover) {
+    color: #303133;
+    background-color: #fff;
+    transition: opacity 1s;
+}
+
+:deep(.el-tabs__header) {
+    height: 0;
+    border-bottom: 0px;
 }
 </style>

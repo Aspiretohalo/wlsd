@@ -190,12 +190,14 @@ const checkIntegral = () => {
 }
 
 :deep(.el-card) {
-    --el-dialog-width: 35%
+    --el-dialog-width: 35%;
+    border-radius: 15px;
 }
 
 :deep(.el-dialog__body) {
     padding: 30px;
 }
+
 
 .name {
     display: flex;

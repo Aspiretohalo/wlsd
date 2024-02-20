@@ -23,4 +23,8 @@ import Community from '../components/Community.vue'
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+</style>

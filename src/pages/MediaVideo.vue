@@ -43,6 +43,10 @@ const MediaVideo = ref(JSON.parse(sessionStorage.getItem("MediaVideo") || "null"
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .words {
     position: relative;
 

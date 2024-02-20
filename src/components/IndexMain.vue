@@ -8,18 +8,21 @@
         </el-carousel>
         <div class="meetings">
             <div class="Conference_Agenda w-margin">
-                <h1>大会日程</h1>
+                <h1>大会议程</h1>
                 <el-card class="box-card Highlights">
                     <el-button @click="goToAgenda(1)">议程</el-button>
                 </el-card>
             </div>
             <Highlights></Highlights>
+            <Committee></Committee>
+
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import Highlights from './Highlights.vue';
+import Committee from './Committee.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
@@ -32,6 +35,63 @@ const goToAgenda = (id: Number) => {
 .carousel {
     height: 650px;
     text-align: center;
+
+    .el-carousel__item h3 {
+        color: #475669;
+        opacity: 0.75;
+        line-height: 150px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n + 1) {
+        background-color: #d3dce6;
+    }
+
+    :deep(.el-carousel__indicators--horizontal) {
+        bottom: 48px;
+
+        .el-carousel__indicator--horizontal button {
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .el-carousel__indicator--horizontal.is-active button {
+            width: 48px;
+            height: 16px;
+            background: #ffffff;
+            opacity: 0.5;
+            border-radius: 10px;
+        }
+
+    }
+
+    :deep(.el-carousel__arrow) {
+        height: 60px;
+        width: 60px;
+    }
+
+    :deep(.el-carousel__arrow--left) {
+        align-items: center;
+        top: 300px;
+        left: 24px;
+        font-size: 15px;
+    }
+
+    //右箭头
+    :deep(.el-carousel__arrow--right) {
+        align-items: center;
+        top: 300px;
+        right: 24px;
+        font-size: 15px;
+    }
 }
 
 
@@ -45,62 +105,5 @@ const goToAgenda = (id: Number) => {
 
 .demonstration {
     color: var(--el-text-color-secondary);
-}
-
-.el-carousel__item h3 {
-    color: #475669;
-    opacity: 0.75;
-    line-height: 150px;
-    margin: 0;
-    text-align: center;
-}
-
-.el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-}
-
-:deep(.el-carousel__indicators--horizontal) {
-    bottom: 48px;
-
-    .el-carousel__indicator--horizontal button {
-        width: 16px;
-        height: 16px;
-        background: #ffffff;
-        border-radius: 50%;
-        opacity: 0.5;
-    }
-
-    .el-carousel__indicator--horizontal.is-active button {
-        width: 48px;
-        height: 16px;
-        background: #ffffff;
-        opacity: 0.5;
-        border-radius: 10px;
-    }
-
-}
-
-:deep(.el-carousel__arrow) {
-    height: 60px;
-    width: 60px;
-}
-
-:deep(.el-carousel__arrow--left) {
-    align-items: center;
-    top: 300px;
-    left: 24px;
-    font-size: 15px;
-}
-
-//右箭头
-:deep(.el-carousel__arrow--right) {
-    align-items: center;
-    top: 300px;
-    right: 24px;
-    font-size: 15px;
 }
 </style>

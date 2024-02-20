@@ -10,10 +10,6 @@ h1 {
   line-height: 1.1;
 }
 
-/* img {
-  width: 20px;
-} */
-
 h1,
 h2,
 h3,
@@ -29,7 +25,29 @@ h5 {
 }
 
 .bgc {
-  background-image: url(assets/background.png);
+  /* background-image: url(assets/background.png); */
+  background:
+    radial-gradient(circle at 50% 0,
+      rgba(63,
+        110,
+        234, 0.5),
+      rgba(63,
+        110,
+        234, 0) 70.71%),
+    radial-gradient(circle at 6.7% 75%,
+      rgba(234,
+        222,
+        216, 0.5),
+      rgba(234,
+        222,
+        216, 0) 70.71%),
+    radial-gradient(circle at 93.3% 75%,
+      rgba(212,
+        137,
+        184, 0.5),
+      rgba(179,
+        207,
+        242, 0) 70.71%) beige;
   background-repeat: no-repeat;
   background-size: cover;
 }

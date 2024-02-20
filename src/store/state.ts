@@ -4,4 +4,5 @@ export default {
     AllExpert: [],
     WonderfulPictures: [],
     MediaVideo: [],
+    Meeting: [],
 }

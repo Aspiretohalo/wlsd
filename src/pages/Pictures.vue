@@ -40,6 +40,10 @@ const WonderfulPictures = ref(JSON.parse(sessionStorage.getItem("WonderfulPictur
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 .pictures {
     display: flex;
     flex-wrap: wrap;

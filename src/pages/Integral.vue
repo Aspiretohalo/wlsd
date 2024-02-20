@@ -78,6 +78,10 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
     --el-dialog-width: 35%
 }
 
+:deep(.el-card) {
+    border-radius: 15px;
+}
+
 :deep(.el-dialog__body) {
     padding: 30px;
 }
