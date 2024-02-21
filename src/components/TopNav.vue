@@ -48,7 +48,7 @@
                             <img class="img_icon mr" src="../assets/icon/订阅.svg">
                         </template>
                     </van-cell>
-                    <van-cell title="积分" to="/integral/integralGifts" is-link>
+                    <van-cell title="积分" to="/integral/integralDetails" is-link>
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/积分.svg">
                         </template>

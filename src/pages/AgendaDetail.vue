@@ -9,8 +9,8 @@
                     <div class="meeting">
                         <div class="video">
                             <video id="my-video" class="video-js" controls preload="auto" width="850" height="480"
-                                poster="../assets/logo.png" data-setup="{}">
-                                <source src="../assets/banner/个人所得税.mp4" type="video/mp4" />
+                                poster="../assets/videos/poster.png" data-setup="{}" style="display: block;">
+                                <source src="../assets/videos/video1.mp4" type="video/mp4" />
                                 <p class="vjs-no-js">
                                     To view this video please enable JavaScript, and consider upgrading to a
                                     web browser that
@@ -18,11 +18,31 @@
                                         video</a>
                                 </p>
                             </video>
-                            <div style="margin-top: 40px;width: 850px;height: 80px; background-color: aqua;">格致论道@西湖论剑</div>
+                            <div class="operation">
+                                <h3>{{ SingleMeeting.itemTitle }}</h3>
+                                <!-- <div class="icon_items">
+                                    
+                                </div> -->
+                                <div class="btn">
+                                    <div class="icon_item">
+                                        <img src="../assets/icon/浏览量(黑).png" alt="" class="icon">
+                                        {{ 66 }}
+                                    </div>
+                                    <div class="icon_item">
+                                        <img src="../assets/icon/点赞.png" alt="" class="icon">
+                                        {{ 88 }}
+                                    </div>
+                                    <el-button round>订阅+</el-button>
+                                    <el-button round>PPT下载</el-button>
+                                    <el-button round>AI视频总结</el-button>
+                                </div>
+
+
+                            </div>
                         </div>
                         <div class="agenda">
-                            <el-card style="border-radius: 0;">
-                                <div style="height: 600px;width: 300px;">会议议程</div>
+                            <el-card style="border-radius: 15px;height: 560px;width: 300px;">
+                                <div>会议议程</div>
                             </el-card>
                         </div>
                     </div>
@@ -49,9 +69,38 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import Comment from '../components/Comment.vue';
+import { reactive } from 'vue'
+const SingleMeeting: any = reactive(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
 </script>
 
 <style lang="scss" scoped>
+.operation {
+    width: 810px;
+    height: 80px;
+    background-color: rgba($color: #fff, $alpha: 0.3);
+    display: flex;
+    padding: 0 20px;
+    justify-content: space-between;
+    align-items: center;
+
+    .btn {
+        display: flex;
+    }
+
+    .icon_item {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 5px;
+        }
+    }
+}
+
+
 :deep(.el-card) {
     border-radius: 15px;
 }

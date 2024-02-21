@@ -32,7 +32,6 @@ const routes = [
     { path: "/mediaVideo", component: MediaVideo },
     { path: "/results", component: Results },
     { path: "/wonderfulActivity", component: WonderfulActivity },
-    { path: "/agendaDetail/:agendaId", component: AgendaDetail },
     { path: "/user", component: User },
     {
         path: "/integral", component: Integral,
@@ -53,6 +52,7 @@ const routes = [
         ]
     },
     { path: "/communityCenter", component: CommunityCenter },
+    { path: "/agendaDetail/:agendaId", component: AgendaDetail },
 
     // {
     //     path: "/courseId/:courseId",

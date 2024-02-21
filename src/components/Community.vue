@@ -1,8 +1,8 @@
 <template>
     <div class="ccmain w-margin">
-        <h1>社区中心</h1>
+        <!-- <h1>社区中心</h1> -->
         <!-- 左边栏目 -->
-        <div class="leftcc">
+        <el-card class="leftcc">
             <div class="upload">
                 <h2>主题分享</h2>
                 <el-input v-model="textarea1" :autosize="{ minRows: 2, maxRows: 4 }" type="textarea" class="custom-input"
@@ -41,23 +41,23 @@
             </div>
             <div class="popularity-ranking">
                 <h2 class="popularity-h2">热点话题排行榜</h2>
-                <el-table :data="tableDataToShow" height="400" style="width: 100%">
-                    <el-table-column prop="Ranking" label="排名" width="120" />
-                    <el-table-column prop="topic" label="话题" width="120" />
+                <el-table :data="tableDataToShow" height="300" style="width: 100%;">
+                    <el-table-column prop="Ranking" label="排名" width="60" />
+                    <el-table-column prop="topic" label="话题" width="150" />
                     <el-table-column prop="heat" label="热度" />
                 </el-table>
                 <el-button class="popularity-bt" v-if="!showAllTopics" @click="showAllTopics = true"
                     type="primary">显示更多</el-button>
             </div>
-        </div>
+        </el-card>
 
         <!-- 博客 -->
-        <div class="rightcc">
+        <el-card class="rightcc">
 
             <el-input v-model="input1" class="search" size="large" placeholder="请输入关键字" :prefix-icon="Search" />
 
             <div class="bk-container">
-                <div v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
+                <div v-infinite-scroll="load" class="infinite-list">
                     <div v-for="i in count" :key="i" class="infinite-list-item">
                         <div class="bk-infor">
                             <el-avatar class="avatar"
@@ -72,23 +72,23 @@
                             <el-image class="bk-img" v-for="url in urls" :key="url" :src="url" :fit="fit" />
                         </div>
                         <div class="bk-communicate">
-                            <el-button class="bkc">
+                            <el-button class="bkc" round>
                                 <el-icon class="bk-ic">
-                                    <ChatLineRound />
+                                    <img src="../assets/icon/评论.png" alt="" class="icon">
                                     <el-text>5</el-text>
                                 </el-icon>
                             </el-button>
-                            <el-button class="bkc">
+                            <el-button class="bkc" round>
                                 <el-icon class="bk-ic">
-                                    <View />
-                                    <el-text>点赞50</el-text>
+                                    <img src="../assets/icon/点赞.png" alt="" class="icon">
+                                    <el-text>50</el-text>
                                 </el-icon>
                             </el-button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </el-card>
     </div>
 </template>
 
@@ -97,7 +97,7 @@ import { ref, watchEffect } from 'vue';
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
 import type { DropdownInstance } from 'element-plus'
-import { Search, View, ChatLineRound } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 
 
 const textarea1 = ref('')
@@ -144,13 +144,8 @@ const tableData = [
     { Ranking: '3', topic: '跳', heat: '500万' },
     { Ranking: '4', topic: 'rap', heat: '401.5万' },
     { Ranking: '5', topic: '篮球', heat: '2.5万' },
-    { Ranking: '6', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '7', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '8', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '9', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '10', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '11', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
-    { Ranking: '12', topic: 'Tom', heat: 'No. 189, Grove St, Los Angeles' },
+    { Ranking: '6', topic: 'Tom', heat: '2.5万' },
+
 ];
 
 const showAllTopics = ref(false);
@@ -182,35 +177,27 @@ const fit = 'cover'
 
 <style lang="scss" scoped>
 .ccmain {
-    // border: 2px solid #000;
-    width: 1400px;
-    height: 1000px;
-    margin-left: 140px;
+    display: flex;
+    justify-content: space-between;
 }
 
-
-.leftcc,
-.rightcc {
-    vertical-align: top;
-}
 
 .leftcc {
-    // border: 1px solid #000;
-    width: 398px;
-    height: 800px;
+    margin-right: 20px;
     display: inline-block;
+    height: 800px;
+    width: 32%;
 }
 
 //发布样式
 .upload {
-    width: 398px;
+    margin: 0 auto;
+    width: 200px;
     height: 300px;
-    // border: 1px solid #000;
 }
 
 .custom-input {
     padding-top: 5px;
-    width: 380px;
     height: 46px;
 }
 
@@ -227,16 +214,14 @@ const fit = 'cover'
 
 
 .upload-p {
-    // padding-top: 10px;
     display: inline-block;
     text-align: left;
 }
 
 .rightcc {
-    // border: 1px solid #000;
-    width: 998px;
-    height: 800px;
-    display: inline-block;
+    text-align: left;
+    padding-left: 30px;
+    width: 64%;
 }
 
 
@@ -263,29 +248,18 @@ const fit = 'cover'
 .bk-container {
     margin-left: 10px;
     margin-top: 20px;
-    width: 980px;
-    height: 700px;
-    overflow: hidden;
-    max-height: 700px;
-    // border: 1px solid #000;
-
 }
 
 .infinite-list {
-    height: 700px;
     padding: 0;
     margin: 0;
     list-style: none;
 }
 
 .infinite-list .infinite-list-item {
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+    border-bottom: 1px solid #cfcfcf;
     height: 350px;
-    // background: var(--el-color-primary-light-9);
     margin: 10px;
-    // color: var(--el-color-primary);
 }
 
 .infinite-list .infinite-list-item+.list-item {
@@ -310,6 +284,7 @@ const fit = 'cover'
 .bk-infor .intxt {
     margin-top: 10px;
     margin-left: 10px;
+    text-align: left;
 }
 
 .elintxt {
@@ -318,11 +293,9 @@ const fit = 'cover'
 
 .bk-content {
     padding-top: 10px;
-    margin-left: 200px;
     width: 500px;
     height: 200px;
-    // border: 1px solid #000;
-
+    text-align: left;
 }
 
 .contxt {
@@ -331,29 +304,29 @@ const fit = 'cover'
 }
 
 .bk-communicate {
-    margin-left: 100px;
-    width: 700px;
+    width: 50px;
     height: 50px;
-    // border: 1px solid #000;
     display: flex;
 }
 
 .bk-img {
     width: 150px;
     height: 150px;
-    padding-top: 20px;
-    padding-right: 20px;
+    padding-top: 10px;
+    padding-right: 10px;
 }
 
 .bkc {
-    width: 350px;
+    width: 80px;
     height: 50px;
-    // border: 1px solid #000;
-
 }
 
 .bk-ic {
     font-size: 30px;
-    // padding-top: 10px;
+
+    .icon {
+        width: 24px;
+        height: 24px;
+    }
 }
 </style>

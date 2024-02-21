@@ -1,8 +1,11 @@
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
-const getDrawRecord = async () => {
+const getDrawRecord = async (value: any) => {
     try {
         const response = await myAxios.get('/getDrawRecord', {
+            params: {
+                user_id: value
+            },
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             }

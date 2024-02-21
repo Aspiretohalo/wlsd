@@ -6,4 +6,5 @@ export default {
     MediaVideo: [],
     Meeting: [],
     DrawRecord: [],
+    SingleMeeting: [],
 }

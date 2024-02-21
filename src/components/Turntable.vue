@@ -97,7 +97,7 @@ const addNewRecord = async (RecordName: string) => {
     });
     localStorage.setItem('token', response.data.data.jwt)
     console.log(response);
-    await getDrawRecord()
+    await getDrawRecord((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
 
   } catch (error) {
 

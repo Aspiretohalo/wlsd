@@ -12,7 +12,34 @@
                     </div>
                     <div class="message w-margin">
                         <el-card class="msg_card">
+                            <div class="Integral">
+                                <img src="../assets/icon/积分.svg" alt="" width="32" height="32">
+                                <h2>100</h2>
+                                <el-button @click="centerDialogVisible = true" style="margin-left: 20px;"
+                                    round>查看明细</el-button>
+                                <el-dialog v-model="centerDialogVisible" title="积分详情" width="500" align-center>
+                                    <div class="detail_item" v-for="o in 10" :key="o">
+                                        <div class="item_msg">
+                                            <h3 class="item_name">
+                                                完善资料
+                                            </h3>
+                                            <div class="time">
+                                                2024.2.21
+                                            </div>
+                                        </div>
+                                        <div class="integral_amount">
+                                            +100
+                                        </div>
+                                    </div>
+                                </el-dialog>
+                            </div>
                             <el-menu :router="true" :default-active="defaultMenu" class="el-menu-vertical-demo">
+                                <el-menu-item index="/integral/integralDetails">
+                                    <el-icon>
+                                        <setting />
+                                    </el-icon>
+                                    <span>积分详情</span>
+                                </el-menu-item>
                                 <el-menu-item index="/integral/integralGifts">
                                     <el-icon>
                                         <setting />
@@ -24,12 +51,6 @@
                                         <setting />
                                     </el-icon>
                                     <span>积分抽奖</span>
-                                </el-menu-item>
-                                <el-menu-item index="/integral/integralDetails">
-                                    <el-icon>
-                                        <setting />
-                                    </el-icon>
-                                    <span>积分详情</span>
                                 </el-menu-item>
                                 <el-menu-item index="/integral/integralRules">
                                     <el-icon>
@@ -60,8 +81,11 @@ import Bottom from '../components/Bottom.vue'
 import { useRoute } from 'vue-router'
 import { computed, reactive, onMounted } from 'vue'
 import getDrawRecord from '../functions/getDrawRecord';
+import { ref } from 'vue'
+
+const centerDialogVisible = ref(false)
 onMounted(async () => {
-    await getDrawRecord()
+    await getDrawRecord((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
 })
 const route = useRoute();
 const defaultMenu = computed(() => { return route.path })
@@ -87,6 +111,10 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
     padding: 30px;
 }
 
+:deep(.el-dialog) {
+    border-radius: 15px;
+}
+
 :deep(.el-menu) {
     border-right: 0px;
 }
@@ -107,8 +135,18 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 
     .msg_card {
         width: 350px;
-        height: 280px;
+        height: 300px;
 
+        .Integral {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+
+            h2 {
+                margin-left: 20px;
+            }
+        }
     }
 
     .msg_right {
@@ -120,5 +158,26 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
         }
     }
 
+}
+
+.detail_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding: 20px;
+
+    .item_name {
+        color: black;
+        font-size: large;
+    }
+
+    .integral_amount {
+        color: gold;
+    }
+}
+
+.detail_item:first-child {
+    border-top: 0;
 }
 </style>

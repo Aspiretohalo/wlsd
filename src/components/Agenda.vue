@@ -19,7 +19,6 @@
 
         <el-card class="box w-margin">
             <div class="agenda">
-                <!-- <h2>5月5日</h2> -->
                 <el-card class="agenda_item" v-for="item in filteredMeetings" :key="item.itemId"
                     style="margin-bottom: 25px;">
                     <div class="meeting">
@@ -39,10 +38,9 @@
                         </div>
                         <div class="review">
                             <el-button type="primary" round plain>订阅+</el-button>
-                            <el-button type="primary" round plain>观看回放</el-button>
+                            <el-button type="primary" round plain @click="goToAgenda(item.itemId)">观看回放</el-button>
                         </div>
                     </div>
-
                 </el-card>
             </div>
         </el-card>
@@ -50,7 +48,15 @@
 </template>
 
 <script  lang="ts" setup>
+import getMeetingById from '../functions/getMeetingById';
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
+const goToAgenda = async (id: Number) => {
+    await getMeetingById(id)
+    router.push('/agendaDetail/' + id)
+}
 const activeTab = ref('1')
 const value = ref('全部')
 const options = [

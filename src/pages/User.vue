@@ -180,7 +180,7 @@ const handleEdit = () => {
 const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
 const checkIntegral = () => {
-    router.push('/integral/integralGifts')
+    router.push('/integral/integralDetails')
 }
 </script>
 
@@ -198,6 +198,9 @@ const checkIntegral = () => {
     padding: 30px;
 }
 
+:deep(.el-dialog) {
+    border-radius: 15px;
+}
 
 .name {
     display: flex;

@@ -11,7 +11,7 @@
             <div class="agenda w-margin">
                 <h1>大会总览</h1>
                 <h3>Conference Overview</h3>
-                <div class="overview_main">
+                <div class="overview_main" @click="goToAgenda(6)">
                     <img src="../assets/agenda/0.png" class="img_main" alt="">
                     <div class="words">
                         <div class="mask">
@@ -20,9 +20,8 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="overviews">
-                    <div class="overview">
+                    <div class="overview" @click="goToAgenda(1)">
                         <img src="../assets/agenda/1.png" alt="">
                         <div class="words">
                             <div class="mask">
@@ -31,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview" @click="goToAgenda(8)">
                         <img src="../assets/agenda/2.png" alt="">
                         <div class="words">
                             <div class="mask">
@@ -40,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview" @click="goToAgenda(21)">
                         <img src="../assets/agenda/3.png" alt="">
                         <div class="words">
                             <div class="mask">
@@ -49,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview" @click="goToAgenda(16)">
                         <img src="../assets/agenda/4.png" alt="">
                         <div class="words">
                             <div class="mask">
@@ -58,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="overview">
+                    <div class="overview" @click="goToAgenda(7)">
                         <img src="../assets/agenda/5.png" alt="">
                         <div class="words">
                             <div class="mask">
@@ -86,13 +85,15 @@
 
 <script lang="ts" setup>
 import Highlights from './Highlights.vue';
+import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
-// const goToAgenda = (id: Number) => {
-//     router.push('/agendaDetail/' + id)
-// }
+const goToAgenda = async (id: Number) => {
+    await getMeetingById(id)
+    router.push('/agendaDetail/' + id)
+}
 const goToAgendaPage = () => {
     router.push('/conferenceAgenda')
 }
