@@ -19,26 +19,29 @@
 
         <el-card class="box w-margin">
             <div class="agenda">
-                <el-card class="agenda_item" v-for="item in filteredMeetings" :key="item.itemId"
+                <el-card class="agenda_item" v-for="item in filteredMeetings" :key="item.meeting.itemId"
                     style="margin-bottom: 25px;">
                     <div class="meeting">
                         <div class="time">
                             <img src="../assets/icon/时间.png">
-                            {{ item.itemDate + ' ' + item.itemTime }}
+                            {{ item.meeting.itemDate + ' ' + item.meeting.itemTime }}
                         </div>
                         <div class="content">
                             <h2 class="title">
-                                {{ item.itemTitle }}
-                                <el-tag class="type">{{ item.itemType }}</el-tag>
+                                {{ item.meeting.itemTitle }}
+                                <el-tag class="type">{{ item.meeting.itemType }}</el-tag>
                             </h2>
                             <div class="location">
                                 <img src="../assets/icon/地点.png">
-                                {{ item.itemLocation }}
+                                {{ item.meeting.itemLocation }}
                             </div>
                         </div>
                         <div class="review">
-                            <el-button type="primary" round plain>订阅+</el-button>
-                            <el-button type="primary" round plain @click="goToAgenda(item.itemId)">观看回放</el-button>
+                            <el-button type="primary" round plain v-if="item.subscribed == false"
+                                @click="handleSetMeetingSubscription(item.meeting.itemId)">订阅+</el-button>
+                            <el-button type="primary" round plain v-else
+                                @click="handleCancelMeetingSubscription(item.meeting.itemId)">已订阅</el-button>
+                            <el-button type="primary" round plain @click="goToAgenda(item.meeting.itemId)">观看回放</el-button>
                         </div>
                     </div>
                 </el-card>
@@ -49,12 +52,20 @@
 
 <script  lang="ts" setup>
 import getMeetingById from '../functions/getMeetingById';
+import getMeetingDetail from '../functions/getMeetingDetail';
+import { reactive } from 'vue'
 import { ref, computed } from 'vue'
+import setMeetingSubscription from '../functions/setMeetingSubscription';
+import cancelMeetingSubscription from '../functions/cancelMeetingSubscription';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+
+
 const goToAgenda = async (id: Number) => {
-    await getMeetingById(id)
+    await getMeetingById(id, user.userId)
+    await getMeetingDetail(id)
     router.push('/agendaDetail/' + id)
 }
 const activeTab = ref('1')
@@ -85,17 +96,25 @@ const options = [
     },
 ]
 const Meeting = ref(JSON.parse(sessionStorage.getItem("Meeting") || "null") || "")
+const handleSetMeetingSubscription = async (itemId: any) => {
+    await setMeetingSubscription(itemId)
+    Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
+}
+const handleCancelMeetingSubscription = async (itemId: any) => {
+    await cancelMeetingSubscription(itemId)
+    Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
+}
 const filteredMeetings = computed(() => {
     // console.log(activeTab);
     if (activeTab.value == '1') {
         return Meeting.value;
     }
     return Meeting.value.filter((m: any) => {
-        console.log(m.itemDate);  // 打印每个 meeting 的 itemDate
-        console.log(activeTab.value);
-        console.log(m.itemDate == activeTab.value);
+        // console.log(m.meeting.itemDate);  // 打印每个 meeting 的 itemDate
+        // console.log(activeTab.value);
+        // console.log(m.meeting.itemDate == activeTab.value);
 
-        return m.itemDate == activeTab.value;
+        return m.meeting.itemDate == activeTab.value;
     });
 });
 const changeTab = ((tab: any) => {

@@ -10,6 +10,7 @@ import MediaVideo from "../pages/MediaVideo.vue";
 import Results from "../pages/Results.vue";
 import WonderfulActivity from "../pages/WonderfulActivity.vue";
 import AgendaDetail from "../pages/AgendaDetail.vue"
+import NewsDetail from "../pages/NewsDetail.vue"
 import User from "../pages/User.vue"
 import Integral from "../pages/Integral.vue"
 import Login from "../pages/Login.vue";
@@ -55,6 +56,7 @@ const routes = [
     },
     { path: "/communityCenter", component: CommunityCenter },
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
+    { path: "/newsDetail/:newsId", component: NewsDetail },
     { path: "/logindemo", component: logindemo },
 
 

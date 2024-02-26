@@ -1,9 +1,12 @@
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
 
-const getAllMeetings = async () => {
+const getAllMeetings = async (user_id: any) => {
     try {
         const response = await myAxios.get('/getAllMeetings', {
+            params: {
+                user_id: user_id
+            },
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             }

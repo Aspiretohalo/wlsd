@@ -8,4 +8,7 @@ export default {
     DrawRecord: [],
     SingleMeeting: [],
     News: [],
+    MeetingDetail: [],
+    NewsDetail: [],
+    SingleNews: [],
 }

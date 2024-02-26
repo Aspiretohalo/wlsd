@@ -86,7 +86,7 @@ onMounted(async () => {
     await getAllCommittee()
     await getAllWonderfulPictures()
     await getAllMediaVideo()
-    await getAllMeetings()
+    await getAllMeetings(user.userId)
     await getAllNews()
 })
 const route = useRoute();

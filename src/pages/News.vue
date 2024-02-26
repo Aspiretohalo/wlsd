@@ -13,9 +13,12 @@
                             <img :src="item.newsUrl" alt="" width="200">
                         </div>
                         <div class="news_content">
-                            <h3 class="news_title">
-                                {{ item.newsTitle }}
-                            </h3>
+                            <el-link :underline="false" @click="goToNewsPage(item.newsId)">
+                                <h3 class="news_title">
+                                    {{ item.newsTitle }}
+                                </h3>
+                            </el-link>
+
                             <div class="description">
                                 {{ item.newsDescription }}
                             </div>
@@ -42,10 +45,21 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import NewsNav from '../components/NewsNav.vue';
+import getNewsById from '../functions/getNewsById';
+import getNewsDetail from '../functions/getNewsDetail';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
+
 
 const News = ref(JSON.parse(sessionStorage.getItem("News") || "null") || "")
+const goToNewsPage = async (newsId: Number) => {
+    await getNewsById(newsId)
+    await getNewsDetail(newsId)
+    router.push('/newsDetail/' + newsId)
 
+}
 </script>
 
 <style lang="scss" scoped>

@@ -6,6 +6,10 @@ import { ref } from 'vue'
 const router = VueRouter.createRouter({
     history: VueRouter.createWebHashHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        // 始终滚动到顶部
+        return { top: 0 }
+    },
 })
 const jwt = ref()
 

@@ -1,23 +1,22 @@
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
-const getMeetingById = async (item_id: any, user_id: any) => {
+const getNewsById = async (newsId: any) => {
     try {
-        const response = await myAxios.get('/getMeetingById', {
+        const response = await myAxios.get('/getNewsById', {
             params: {
-                item_id: item_id,
-                user_id: user_id
+                news_id: newsId
             },
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
             }
         });
         // 处理响应数据
-        state.SingleMeeting = response.data
-        sessionStorage.setItem('SingleMeeting', JSON.stringify(state.SingleMeeting))
+        state.SingleNews = response.data
+        sessionStorage.setItem('SingleNews', JSON.stringify(state.SingleNews))
 
     } catch (error) {
         console.error('获取信息失败', error);
     }
 };
-export default getMeetingById;
+export default getNewsById;
 

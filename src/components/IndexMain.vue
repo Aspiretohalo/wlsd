@@ -89,12 +89,16 @@ import Highlights from './Highlights.vue';
 import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
 // import Exhibitor from '../components/Exhibitor.vue';
+import { reactive } from 'vue'
 
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+
 const goToAgenda = async (id: Number) => {
-    await getMeetingById(id)
+    await getMeetingById(id, user.userId)
+
     router.push('/agendaDetail/' + id)
 }
 const goToAgendaPage = () => {
