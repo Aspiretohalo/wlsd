@@ -18,6 +18,8 @@ import IntegralDetails from "../pages/integral/IntegralDetails.vue"
 import IntegralGifts from "../pages/integral/IntegralGifts.vue"
 import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
+import logindemo from "../pages/logindemo.vue"
+
 
 const routes = [
     { path: "/", component: Index },
@@ -53,6 +55,8 @@ const routes = [
     },
     { path: "/communityCenter", component: CommunityCenter },
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
+    { path: "/logindemo", component: logindemo },
+
 
     // {
     //     path: "/courseId/:courseId",

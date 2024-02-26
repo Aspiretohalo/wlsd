@@ -72,7 +72,7 @@
                             <el-image class="bk-img" v-for="url in urls" :key="url" :src="url" :fit="fit" />
                         </div>
                         <div class="bk-communicate">
-                            <el-button class="bkc" round>
+                            <el-button class="bkc" round @click="toggleComments">
                                 <el-icon class="bk-ic">
                                     <img src="../assets/icon/评论.png" alt="" class="icon">
                                     <el-text>5</el-text>
@@ -84,6 +84,33 @@
                                     <el-text>50</el-text>
                                 </el-icon>
                             </el-button>
+
+                        </div>
+
+                        <div class="bkcomment" v-if="showComments">
+
+                            <div class="comdiv">
+                                <el-text class="comtxt">
+                                    哥哥真的帅！
+                                </el-text>
+                            </div>
+
+                            <div class="comdiv">
+                                <el-text class="comtxt">
+                                    真的是你啊~
+                                </el-text>
+                            </div>
+
+                            <div class="comdiv">
+                                <el-text class="comtxt">
+                                    厉害。
+                                </el-text>
+                            </div>
+
+                            <el-input class="comput" placeholder="请输入评论内容"></el-input>
+                            <el-button type="primary">发表评论</el-button>
+
+
                         </div>
                     </div>
                 </div>
@@ -173,6 +200,13 @@ const urls = [
 ]
 
 const fit = 'cover'
+
+const showComments = ref(true);
+
+const toggleComments = () => {
+    showComments.value = !showComments.value;
+};
+
 </script>
 
 <style lang="scss" scoped>
@@ -327,6 +361,33 @@ const fit = 'cover'
     .icon {
         width: 24px;
         height: 24px;
+    }
+}
+
+//评论
+.bkcomment {
+    margin-top: 20px;
+    margin-left: 120px;
+    // background-color: green;
+    width: 440px;
+
+
+    .comdiv {
+        padding-top: 8px;
+        padding-left: 10px;
+        padding-bottom: 5px;
+    }
+
+    .comtxt {
+        font-size: 16px;
+        color: #000;
+    }
+
+    .comput {
+        width: 300px;
+        // margin-top: 20px;
+        // padding-left: 20px;
+        padding-right: 50px;
     }
 }
 </style>
