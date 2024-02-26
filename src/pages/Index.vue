@@ -20,23 +20,6 @@ import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import IndexMain from '../components/IndexMain.vue'
 import SideBar from '../components/SideBar.vue'
-
-import getUserMsg from '../functions/getUserMsg';
-import getAllExpert from '../functions/getAllExpert';
-import getAllCommittee from '../functions/getAllCommittee';
-import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
-import getAllMediaVideo from '../functions/getAllMediaVideo';
-import getAllMeetings from '../functions/getAllMeetings';
-import { onMounted } from 'vue'
-
-onMounted(async () => {
-    await getUserMsg()
-    await getAllExpert()
-    await getAllCommittee()
-    await getAllWonderfulPictures()
-    await getAllMediaVideo()
-    await getAllMeetings()
-})
 </script>
 
 <style lang="scss" scoped>

@@ -70,7 +70,25 @@
 import { computed, ref, reactive } from 'vue'
 import { User } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
+import getUserMsg from '../functions/getUserMsg';
+import getAllExpert from '../functions/getAllExpert';
+import getAllCommittee from '../functions/getAllCommittee';
+import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
+import getAllMediaVideo from '../functions/getAllMediaVideo';
+import getAllMeetings from '../functions/getAllMeetings';
+import getAllNews from '../functions/getAllNews';
 
+import { onMounted } from 'vue'
+
+onMounted(async () => {
+    await getUserMsg()
+    await getAllExpert()
+    await getAllCommittee()
+    await getAllWonderfulPictures()
+    await getAllMediaVideo()
+    await getAllMeetings()
+    await getAllNews()
+})
 const route = useRoute();
 const router = useRouter();
 

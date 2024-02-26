@@ -79,6 +79,7 @@
                     </div>
                 </div>
             </div>
+            <!-- <Exhibitor></Exhibitor> -->
         </div>
     </div>
 </template>
@@ -87,6 +88,8 @@
 import Highlights from './Highlights.vue';
 import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
+// import Exhibitor from '../components/Exhibitor.vue';
+
 import { useRouter } from 'vue-router'
 
 const router = useRouter();

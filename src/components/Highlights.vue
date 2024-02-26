@@ -65,12 +65,17 @@ const Highlights = ref([
 </script>
 
 <style lang="scss" scoped>
+h1 {
+    margin-top: 100px;
+}
+
+h3 {
+    margin: 20px auto;
+}
+
 .Conference_Highlights {
 
-    h1,
-    h3 {
-        margin: 20px auto;
-    }
+
 
     .data {
         margin-top: 50px;
