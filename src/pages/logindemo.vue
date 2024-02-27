@@ -15,12 +15,23 @@
                             <el-form-item>
                                 <el-input v-model="form.verificationCode" placeholder="验证码">
                                     <template #append>
-                                        <el-button @click="onShow">发送验证码</el-button>
+                                        <!-- <el-button @click="onShow">发送验证码</el-button> -->
+                                        <el-button v-if="!sms.disabled" @click="onShow">
+                                            <span>发送验证码</span>
+                                        </el-button>
+                                        <el-button v-else disabled>
+                                            <span>{{ sms.count }}秒后重新发送</span>
+                                        </el-button>
                                     </template>
                                 </el-input>
+
+                                <!-- span显示图形码验证码是否成功 -->
+                                <span v-if="captchaVerified">图形验证码验证成功！</span>
                             </el-form-item>
                             <div class="islider" v-if="show">
-                                <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider>
+                                <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
+                                <Slider @close="onClose" :log="true"></Slider>
+
                             </div>
 
                             <div class="wxLogin">
@@ -101,10 +112,14 @@ import { ref } from 'vue';
 import Slider from "../components/Slider.vue";
 
 const show = ref(false);
-const loginForm = ref({});
+// const loginForm = ref({});
 
 const onShow = () => {
     show.value = true;
+
+    setTimeout(() => {
+        verifyCaptcha();
+    }, 5000);
 };
 
 const onClose = () => {
@@ -112,22 +127,62 @@ const onClose = () => {
 };
 
 // 获取滑动验证码
-const getImg = (callback) => {
-    sliderCaptcha().then((res) => {
-        callback(res.data.data);
-    }, error => {
-        callback(error);
-    });
-};
+// const getImg = (callback) => {
+//     sliderCaptcha().then((res) => {
+//         callback(res.data.data);
+//     }, error => {
+//         callback(error);
+//     });
+// };
 
 // 操作滑动后返回值，并传去后端验证
-const validImg = (movePercent, id, callback) => {
-    loginForm.value.code = movePercent; // 手动定位返回的值
-    loginForm.value.key = id; // 后台返回的id，再传回去
-    handleLogin(); // 登陆请求方法
-    callback(false);
-    show.value = true;
+// const validImg = (movePercent, id, callback) => {
+//     loginForm.value.code = movePercent; // 手动定位返回的值
+//     loginForm.value.key = id; // 后台返回的id，再传回去
+//     handleLogin(); // 登陆请求方法
+//     callback(false);
+//     show.value = true;
+// };
+
+// 定义一个响应式变量，表示滑动验证码是否验证成功
+const captchaVerified = ref(false);
+
+const verifyCaptcha = () => {
+
+    // 如果验证通过，将 captchaVerified 设置为 true
+    captchaVerified.value = true;
+
+    // 关闭图形验证码
+    onClose();
+
+    timerHandler();
+
 };
+
+
+//60s倒计时
+// 验证码计时器
+const sms = reactive({
+    disabled: false,
+    total: 60,
+    count: 0
+})
+// 计时器处理器
+const timerHandler = () => {
+    sms.count = sms.total
+    sms.disabled = true
+
+    let timer = setInterval(() => {
+        if (sms.count > 1 && sms.count <= sms.total) {
+            sms.count--
+        } else {
+            sms.disabled = false
+            clearInterval(timer)
+        }
+    }, 1000)
+}
+
+
 
 //微信登录请求
 import axios from 'axios';
