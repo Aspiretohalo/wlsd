@@ -73,6 +73,10 @@ const goToNewsPage = async (newsId: Number) => {
     border-bottom: 1px solid #ababab;
     padding-bottom: 30px;
 
+    img {
+        border-radius: 5px;
+    }
+
     .news_content {
         margin-left: 20px;
         text-align: left;

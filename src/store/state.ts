@@ -11,4 +11,6 @@ export default {
     MeetingDetail: [],
     NewsDetail: [],
     SingleNews: [],
+    Activity: [],
+    SingleActivity: [],
 }

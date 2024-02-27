@@ -1,8 +1,8 @@
 import myAxios from "../plugins/myAxios";
 
-const addViews = async (item_id: any) => {
+const addActivityViews = async (item_id: any) => {
     try {
-        const response = await myAxios.get('/addViews', {
+        const response = await myAxios.get('/activity/addViews', {
             params: {
                 item_id: item_id
             },
@@ -15,4 +15,4 @@ const addViews = async (item_id: any) => {
         console.error('获取信息失败', error);
     }
 };
-export default addViews;
+export default addActivityViews;

@@ -87,10 +87,10 @@ import setMeetingSubscription from '../functions/setMeetingSubscription';
 import setMeetingThumb from '../functions/setMeetingThumb';
 import cancelMeetingSubscription from '../functions/cancelMeetingSubscription';
 import cancelMeetingThumb from '../functions/cancelMeetingThumb';
-import addViews from '../functions/addViews';
+import addMeetingViews from '../functions/addViewsMeeting';
 import { onBeforeMount } from 'vue';
 onBeforeMount(async () => {
-    await addViews(SingleMeeting.value.meeting.itemId)
+    await addMeetingViews(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value.meeting.itemViews++
 })
 const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
@@ -252,4 +252,4 @@ const handleCancelThumb = async () => {
 :deep(.el-card__body) {
     padding: 0;
 }
-</style>
+</style>../functions/addViewsMeeting

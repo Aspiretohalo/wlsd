@@ -6,15 +6,23 @@
             </el-header>
             <el-main class="main bgc">
                 <div class="banner">
-                    <h2>{{ SingleNews.newsTitle }}</h2>
+                    <h2 class="title">{{ SingleNews.newsTitle }}</h2>
+                    <div class="msg">
+                        <el-tag>{{ SingleNews.newsTag }}</el-tag>
+                        <div class="date">
+                            {{ SingleNews.newsDate }}
+                        </div>
+                    </div>
 
                 </div>
-                <div class="content" v-for="o in 8" :key="o">
-                    <template v-if="isLink(NewsDetail['detail' + o])">
-                        <img :src="NewsDetail['detail' + o]" alt="Link Image">
+                <div class="content w-margin" v-for="o in 8" :key="o">
+                    <template v-if="NewsDetail['detail' + o] != null && isLink(NewsDetail['detail' + o])">
+                        <img :src="NewsDetail['detail' + o]" width="1200">
                     </template>
                     <template v-else>
-                        {{ NewsDetail['detail' + o] }}
+                        <p class="message">
+                            {{ NewsDetail['detail' + o] }}
+                        </p>
                     </template>
                 </div>
             </el-main>
@@ -48,7 +56,33 @@ const isLink = (value: string) => {
 .banner {
     height: 300px;
     background-color: rgba($color: #fff, $alpha: 0.5);
+
+    .title {
+        font-size: 34px;
+        padding-top: 100px;
+    }
+
+    .msg {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+
+        .date {
+            margin-left: 20px;
+        }
+    }
 }
 
-.content {}
+.content {
+    margin-bottom: 40px;
+
+
+    .message {
+        width: 1200px;
+        text-align: justify;
+        text-indent: 2em;
+        line-height: 2;
+    }
+}
 </style>

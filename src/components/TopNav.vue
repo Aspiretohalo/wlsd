@@ -76,6 +76,7 @@ import getAllCommittee from '../functions/getAllCommittee';
 import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
 import getAllMediaVideo from '../functions/getAllMediaVideo';
 import getAllMeetings from '../functions/getAllMeetings';
+import getAllActivitys from '../functions/getAllActivitys';
 import getAllNews from '../functions/getAllNews';
 
 import { onMounted } from 'vue'
@@ -87,6 +88,7 @@ onMounted(async () => {
     await getAllWonderfulPictures()
     await getAllMediaVideo()
     await getAllMeetings(user.userId)
+    await getAllActivitys(user.userId)
     await getAllNews()
 })
 const route = useRoute();
