@@ -12,6 +12,7 @@
                 <el-menu-item index="/results">成果发布</el-menu-item>
                 <el-menu-item index="/news">媒体中心</el-menu-item>
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
+                <!-- <el-menu-item index="#">社区中心</el-menu-item> -->
                 <el-menu-item index="/communityCenter">社区中心</el-menu-item>
             </el-menu>
             <div class="login" v-if="token == null && route.path != '/login'">
@@ -59,10 +60,8 @@
                         </template>
                     </van-cell>
                 </el-popover>
-
             </div>
         </div>
-
     </div>
 </template>
 
@@ -78,6 +77,9 @@ import getAllMediaVideo from '../functions/getAllMediaVideo';
 import getAllMeetings from '../functions/getAllMeetings';
 import getAllActivitys from '../functions/getAllActivitys';
 import getAllNews from '../functions/getAllNews';
+import getDrawRecord from '../functions/getDrawRecord';
+import getIntegralGifts from '../functions/getIntegralGifts';
+import getIntegralDetail from '../functions/getIntegralDetail';
 
 import { onMounted } from 'vue'
 
@@ -90,6 +92,9 @@ onMounted(async () => {
     await getAllMeetings(user.userId)
     await getAllActivitys(user.userId)
     await getAllNews()
+    await getDrawRecord(user.userId)
+    await getIntegralGifts()
+    await getIntegralDetail(user.userId)
 })
 const route = useRoute();
 const router = useRouter();

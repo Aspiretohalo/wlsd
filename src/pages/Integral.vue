@@ -66,18 +66,8 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { useRoute } from 'vue-router'
-import { computed, onMounted } from 'vue'
-import getDrawRecord from '../functions/getDrawRecord';
-import getIntegralGifts from '../functions/getIntegralGifts';
-import getIntegralDetail from '../functions/getIntegralDetail';
+import { computed } from 'vue'
 import { ref } from 'vue'
-
-
-onMounted(async () => {
-    await getDrawRecord((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
-    await getIntegralGifts()
-    await getIntegralDetail((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
-})
 
 const centerDialogVisible = ref(false)
 
@@ -108,24 +98,6 @@ const formattedData = ref(IntegralDetail.value.reverse().map((item: any) => {
 const handleButtonClick = () => {
     centerDialogVisible.value = true;
 };
-
-
-// // 监听 IntegralDetail 数据变化
-// watch(() => sessionStorage.getItem('User'),
-//     (newVal, oldVal) => {
-//         console.log('Before change:', oldVal);
-//         console.log('After change:', newVal);
-
-//         // 更新 formattedData
-//         // formattedData.value = newVal.reverse().map((item: any) => {
-//         //     const originalDate = new Date(item.integralTime);
-//         //     const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-
-//         //     return { ...item, integralTime: formattedTime };
-//         // });
-//     }
-// );
-
 
 </script>
 
