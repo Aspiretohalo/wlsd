@@ -2,16 +2,15 @@
     <div class="pad">
         <h3 style="padding-left: 20px;">积分兑换</h3>
         <div class="gifts">
-            <el-card class="gift_item" v-for="o in 8" :key="o">
-                <img src="https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/e49da182c8364cb7af6d39fe2bcd2fd3.jpg"
-                    alt="">
+            <el-card class="gift_item" v-for="item in IntegralGifts" :key="item.id">
+                <img :src="item.img" alt="">
                 <div class="gift_msg">
                     <div class="msg">
                         <div class="gift_name">
-                            安恒小龙人抱枕
+                            {{ item.giftName }}
                         </div>
                         <div class="price">
-                            8000
+                            {{ item.price }}
                         </div>
                     </div>
                     <el-button round>
@@ -25,7 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-
+import { ref } from 'vue'
+const IntegralGifts: any = ref(JSON.parse(sessionStorage.getItem("IntegralGifts") || "null") || "")
 </script>
 
 <style lang="scss" scoped>
@@ -53,6 +53,19 @@
             display: flex;
             justify-content: space-between;
             padding: 10px;
+
+            .msg {
+                width: 70%;
+            }
+
+            .gift_name {
+                white-space: nowrap;
+                /* 不换行 */
+                overflow: hidden;
+                /* 隐藏溢出部分 */
+                text-overflow: ellipsis;
+                /* 显示省略号 */
+            }
 
             .price {
                 color: gold;

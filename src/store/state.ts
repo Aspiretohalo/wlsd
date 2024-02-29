@@ -13,4 +13,6 @@ export default {
     SingleNews: [],
     Activity: [],
     SingleActivity: [],
+    IntegralDetail: [],
+    IntegralGifts: [],
 }

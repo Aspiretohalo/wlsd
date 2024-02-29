@@ -10,7 +10,7 @@
                     <el-card class="box w-margin">
                         <template #header>
                             <div class="card-header">
-                                <el-tabs v-model="activeTab" type="card" class="demo-tabs">
+                                <el-tabs v-model="activeTab" type="card" @tab-click="handleTabClick" class="demo-tabs">
                                     <el-tab-pane label="大会签到" name="1"></el-tab-pane>
                                     <el-tab-pane label="大会场馆" name="2"></el-tab-pane>
                                     <el-tab-pane label="大会交通" name="3"></el-tab-pane>
@@ -19,6 +19,7 @@
                                 </el-tabs>
                             </div>
                         </template>
+                        <div id="item1" style="height: 30px;"></div>
                         <div class="guide_item">
                             <h2>大会签到</h2>
                             <div class="tip">
@@ -52,6 +53,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="item2" style="height: 30px;"></div>
                         <div class="guide_item">
                             <h2>大会场馆</h2>
                             <div class="tip">
@@ -68,6 +70,7 @@
                             </div>
                             <img src="https://img2023.gcsis.cn/2023/5/ddd7d65178194490ae1f576865602b50.jpg">
                         </div>
+                        <div id="item3" style="height: 30px;"></div>
                         <div class="guide_item">
                             <h2>大会交通</h2>
                             <div class="tip">
@@ -82,8 +85,8 @@
                                     <div style="text-align: left; margin-top: 20px;">出租车{{ item.taxi }}</div>
                                 </el-card>
                             </div>
-
                         </div>
+                        <div id="item4" style="height: 30px;"></div>
                         <div class="guide_item">
                             <h2>酒店住宿</h2>
                             <div class="tip">
@@ -94,6 +97,7 @@
                             <img
                                 src="https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/197a579ab6974165b5c975eefcb730c7.png">
                         </div>
+                        <div id="item5" style="height: 30px;"></div>
                         <div class="guide_item">
                             <h2 style="margin-bottom: 20px;">联系我们</h2>
                             <el-card :body-style="{ height: '100%', }">
@@ -142,6 +146,17 @@ const transport = ref([
         style: '#fef2f0',
     }
 ])
+const handleTabClick = (tab: any) => {
+    const targetId = `item${tab.props.name}`;
+    scrollToTarget(targetId);
+}
+const scrollToTarget = (targetId: any) => {
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+}
 </script>
 
 <style lang="scss" scoped>

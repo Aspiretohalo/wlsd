@@ -87,7 +87,6 @@
                             </div>
                         </div>
                     </el-card>
-                    <wangeditor></wangeditor>
                 </el-main>
                 <el-footer style="padding: 0;">
                     <Bottom></Bottom>
@@ -100,7 +99,6 @@
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
-import wangeditor from '../components/WangEditor.vue'
 import getActivityById from '../functions/getNewsById';
 // import getNewsDetail from '../functions/getNewsDetail';
 import { ref } from 'vue'

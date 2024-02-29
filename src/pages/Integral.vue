@@ -14,55 +14,42 @@
                         <el-card class="msg_card">
                             <div class="Integral">
                                 <img src="../assets/icon/积分.svg" alt="" width="32" height="32">
-                                <h2>100</h2>
-                                <el-button @click="centerDialogVisible = true" style="margin-left: 20px;"
-                                    round>查看明细</el-button>
+                                <h2>{{ user.integral }}</h2>
+                                <el-button @click="handleButtonClick" style="margin-left: 20px;" round>查看明细</el-button>
                                 <el-dialog v-model="centerDialogVisible" title="积分详情" width="500" align-center>
-                                    <div class="detail_item" v-for="o in 10" :key="o">
+                                    <div class="detail_item" v-for="item in formattedData" :key="item.id">
                                         <div class="item_msg">
                                             <h3 class="item_name">
-                                                完善资料
+                                                {{ item.integralName }}
                                             </h3>
                                             <div class="time">
-                                                2024.2.21
+                                                {{ item.integralTime }}
                                             </div>
                                         </div>
                                         <div class="integral_amount">
-                                            +100
+                                            +{{ item.integralAmount }}
                                         </div>
                                     </div>
                                 </el-dialog>
                             </div>
                             <el-menu :router="true" :default-active="defaultMenu" class="el-menu-vertical-demo">
                                 <el-menu-item index="/integral/integralDetails">
-                                    <el-icon>
-                                        <setting />
-                                    </el-icon>
                                     <span>积分详情</span>
                                 </el-menu-item>
                                 <el-menu-item index="/integral/integralGifts">
-                                    <el-icon>
-                                        <setting />
-                                    </el-icon>
                                     <span>积分兑换</span>
                                 </el-menu-item>
                                 <el-menu-item index="/integral/integralLottery">
-                                    <el-icon>
-                                        <setting />
-                                    </el-icon>
                                     <span>积分抽奖</span>
                                 </el-menu-item>
                                 <el-menu-item index="/integral/integralRules">
-                                    <el-icon>
-                                        <setting />
-                                    </el-icon>
                                     <span>积分规则</span>
                                 </el-menu-item>
                             </el-menu>
                         </el-card>
                         <div class="msg_right">
                             <el-card class="record">
-                                <router-view></router-view>
+                                <router-view @child="getNewUser"></router-view>
                             </el-card>
                         </div>
                     </div>
@@ -79,17 +66,65 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { useRoute } from 'vue-router'
-import { computed, reactive, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import getDrawRecord from '../functions/getDrawRecord';
+import getIntegralGifts from '../functions/getIntegralGifts';
+import getIntegralDetail from '../functions/getIntegralDetail';
 import { ref } from 'vue'
 
-const centerDialogVisible = ref(false)
+
 onMounted(async () => {
     await getDrawRecord((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
+    await getIntegralGifts()
+    await getIntegralDetail((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
 })
+
+const centerDialogVisible = ref(false)
+
 const route = useRoute();
 const defaultMenu = computed(() => { return route.path })
-const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const user: any = ref(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const IntegralDetail: any = ref(JSON.parse(sessionStorage.getItem("IntegralDetail") || "null") || "")
+const getNewUser = (value1: any, value2: any) => {
+    user.value = value1;
+    IntegralDetail.value = value2
+    formattedData.value = IntegralDetail.value.reverse().map((item: any) => {
+        const originalDate = new Date(item.integralTime);
+        const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+        return { ...item, integralTime: formattedTime };
+    })
+    console.log(formattedData.value);
+
+}
+// const formattedData: Ref<Array<{ integralTime: string, integralName: string, id: number, integralAmount: number }>> = ref([]);
+// 更新 formattedData
+const formattedData = ref(IntegralDetail.value.reverse().map((item: any) => {
+    const originalDate = new Date(item.integralTime);
+    const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+    return { ...item, integralTime: formattedTime };
+}))
+const handleButtonClick = () => {
+    centerDialogVisible.value = true;
+};
+
+
+// // 监听 IntegralDetail 数据变化
+// watch(() => sessionStorage.getItem('User'),
+//     (newVal, oldVal) => {
+//         console.log('Before change:', oldVal);
+//         console.log('After change:', newVal);
+
+//         // 更新 formattedData
+//         // formattedData.value = newVal.reverse().map((item: any) => {
+//         //     const originalDate = new Date(item.integralTime);
+//         //     const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+//         //     return { ...item, integralTime: formattedTime };
+//         // });
+//     }
+// );
 
 
 </script>

@@ -22,6 +22,7 @@
 import { reactive } from 'vue'
 import myAxios from '../plugins/myAxios';
 import getDrawRecord from '../functions/getDrawRecord';
+import addIntegralDetail from '../functions/addIntegralDetail';
 
 const lotteryList = reactive([
   { name: '定制背包', desc: '西湖论剑' },
@@ -58,7 +59,12 @@ function getStyle() {
     item.transform = `rotate(${deg})`
   })
 }
-function startClick() {
+import { defineEmits } from 'vue';
+const emit = defineEmits(['child'])
+const newData = (data1: any, data2: any, data3: any) => {
+  emit('child', data1, data2, data3)
+}
+const startClick = async () => {
   if (!state.isStart) {
     state.isStart = true
 
@@ -66,13 +72,19 @@ function startClick() {
     state.isStart = true
 
     const index = Math.floor(Math.random() * lotteryList.length)
-    console.log(index)
+    // console.log(index)
     state.degNum = state.circleNum * 360 + (index * 45) + 180
 
     const current = lotteryList[index]
     console.log(`恭喜您，获得了${current.name}${current.desc}`);
 
-    addNewRecord(`${current.name}${current.desc}`)
+    await addNewRecord(`${current.name}${current.desc}`)
+    await addIntegralDetail('幸运抽奖', -500)
+    newData(
+      JSON.parse(sessionStorage.getItem("User") || "null") || "",
+      JSON.parse(sessionStorage.getItem("IntegralDetail") || "null") || "",
+      JSON.parse(sessionStorage.getItem("DrawRecord") || "null") || ""
+    )
     // setTimeout(() => {
     //   alert(`恭喜您，获得了${current.name}${current.desc}`)
     // }, 4500)
@@ -95,7 +107,6 @@ const addNewRecord = async (RecordName: string) => {
         'Content-Type': 'application/json'
       }
     });
-    localStorage.setItem('token', response.data.data.jwt)
     console.log(response);
     await getDrawRecord((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId)
 
