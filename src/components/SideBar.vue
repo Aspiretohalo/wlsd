@@ -4,7 +4,7 @@
             <button class="sidebar-button" @click="sharePoster">分享海报</button>
         </div>
         <div class="sidebar">
-            <button class="sidebar-button" @click="playGame">大会闯关</button>
+            <button class="sidebar-button" @click="goToGames">大会闯关</button>
         </div>
         <div class="sidebar">
             <button class="sidebar-button" @click="visitMiniProgram">小程序访问</button>
@@ -72,7 +72,9 @@
 
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
 interface Option {
     id: number;
     text: string;
@@ -176,17 +178,14 @@ const nextQuestion = () => {
     }
 };
 
-
-
 const centerDialogVisible = ref(false);
 
 const sharePoster = () => {
     console.log('点击了“分享海报”按钮');
 };
 
-const playGame = () => {
-    console.log('点击了“大会闯关”按钮');
-    centerDialogVisible.value = true;
+const goToGames = () => {
+    router.push('/funGames')
 };
 
 const submitAnswer = () => {

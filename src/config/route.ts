@@ -20,7 +20,7 @@ import IntegralGifts from "../pages/integral/IntegralGifts.vue"
 import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
 import logindemo from "../pages/logindemo.vue"
-import gamedemo from "../pages/gamedemo.vue"
+import FunGames from "../pages/FunGames.vue"
 
 
 const routes = [
@@ -59,7 +59,7 @@ const routes = [
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
     { path: "/newsDetail/:newsId", component: NewsDetail },
     { path: "/logindemo", component: logindemo },
-    { path: "/gamedemo", component: gamedemo },
+    { path: "/funGames", component: FunGames },
 
 
     // {

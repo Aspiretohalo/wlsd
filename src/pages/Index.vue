@@ -5,7 +5,7 @@
                 <TopNav></TopNav>
             </el-header>
             <el-main class="bgc" style="padding: 0;width: 100vw;overflow: hidden;">
-                <!-- <SideBar></SideBar> -->
+                <SideBar></SideBar>
                 <IndexMain></IndexMain>
             </el-main>
             <el-footer style="padding: 0;">
@@ -19,7 +19,7 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import IndexMain from '../components/IndexMain.vue'
-// import SideBar from '../components/SideBar.vue'
+import SideBar from '../components/SideBar.vue'
 </script>
 
 <style lang="scss" scoped>
