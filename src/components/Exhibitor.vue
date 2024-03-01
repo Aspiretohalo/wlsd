@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-card class=" w-margin">
+        <el-card class="w-margin">
             <h2>展商风采</h2>
             <h5>Exhibitor Style</h5>
             <div class="Exhibitors">
