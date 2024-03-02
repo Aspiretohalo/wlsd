@@ -3,213 +3,50 @@
         <div class="common-layout background-container">
             <el-container style="padding: 0;">
                 <el-main class="main bgc">
-                    <h1 class="w-margin title">大会闯关</h1>
+                    <!-- <h1 class="w-margin title">大会闯关</h1> -->
                     <div class="content w-margin">
                         <img class="img-world pixelated" src="../assets/images/ditu.jpg" alt="">
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         <div class="pos" style="width: 100%; top: 12.5%; left: 8.2%;">
+=======
+                        <div class="pos" v-for="i in Question" :key="i.question.questionId" :style="i.question.position">
+>>>>>>> Stashed changes
                             <div>
-                                <div class="img_holder" @click="playGame">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
+                                <div class="img_holder" @click="playGame(i.question.questionId)">
+                                    <img class="lit" v-if="i.answered" src="../assets/images/jihe.gif" alt="">
+                                    <img class="lit" v-else src="../assets/images/guanqia.gif" alt="">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="pos" style="width: 100%; top: 71.7%; left: 10.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 59.5%; left: 19%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 42.8%; left: 10.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 71.8%; left: 30%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 92.5%; left: 49.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 76.5%; left: 60.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 68.2%; left: 76.9%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 22.5%; left: 43.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 13.2%; left: 57.5%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 10.0%; left: 78.0%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 18%; left: 65.7%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 31.1%; left: 57.4%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 35.1%; left: 71.6%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 54%; left: 70.8%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="pos" style="width: 100%; top: 11.5%; left: 87.1%;">
-                            <div>
-                                <div class="img_holder">
-                                    <img class="lit" src="../assets/images/guanqia.gif" alt="">
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
-
-                    <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%"
-                        style="height: 550px;border-radius: 20px;" align-center>
-                        <div class="question">
-                            <div class="left">
-                                <div style="margin-bottom: 30px;">
-                                    <h3 class="dgh">截至目前，您答对了{{ correctCount }}道题, 获得了{{ score }}积分。</h3>
-                                    <p class="dgtxt">{{ currentQuestion.question }}</p>
-                                    <el-radio-group v-model="currentQuestion.selectedOption" size="large">
-                                        <div class="radio-container">
-                                            <div class="radio-item" v-for="option in currentQuestion.options"
-                                                :key="option.id">
-                                                <el-radio-button :label="option.id"
-                                                    :disabled="currentQuestion.selectedOption !== null">
-                                                    {{ option.text }}
-                                                </el-radio-button>
-                                            </div>
-                                        </div>
-                                    </el-radio-group>
-                                </div>
-                                <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
-                                    @click="renderQuestion(index)">
-                                    {{ index + 1 }}
-                                </el-button>
-                            </div>
-
-                            <div class="right">
-                                <h2>答案解析</h2>
-                                <div v-if="currentQuestion.selectedOption !== null">
-                                    <p v-if="currentQuestion.selectedOption === currentQuestion.correctOptionId"
-                                        class="answer-correct" style="font-size: 15px; color:green;">回答正确！
-                                    </p>
-                                    <p v-else class="answer-incorrect" style="font-size: 15px; color:red;">回答错误！正确答案是：{{
-                                        currentQuestion.options.find(option => option.id ===
-                                            currentQuestion.correctOptionId)?.text }}</p>
-                                    <div class="itd">
-                                        <p>{{ currentQuestion.description }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <template #footer>
-                            <span class="dialog-footer">
-                                <el-button @click="centerDialogVisible = false">取消</el-button>
-                                <el-button type="primary" @click="nextQuestion"
-                                    v-if="currentQuestionIndex < questions.length - 1">下一题</el-button>
-                                <el-button type="primary" @click="submitAnswer" v-else>完成</el-button>
-                            </span>
-                        </template>
-
-
-                    </el-dialog>
-
                 </el-main>
             </el-container>
         </div>
+        <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%" style="height: 550px;border-radius: 20px;"
+            align-center :close-on-click-modal="false">
+            <div class="question">
+                <div class="left">
+                    <div style="margin-bottom: 30px;">
+                        <p class="dgtxt">{{ SingleQuestion.question.questionContent }}</p>
+                        <el-radio-group v-model="selectedOption" size="large">
+                            <div class="radio-container">
+                                <div class="radio-item" v-for="option in options" :key="option.id">
+                                    <el-radio-button :label="option.id" :disabled="selectedOption !== null">
+                                        {{ option.option }}
+                                    </el-radio-button>
+                                </div>
+                            </div>
+                        </el-radio-group>
+                    </div>
+                    <!-- <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
+                        @click="renderQuestion(index)">
+                        {{ index + 1 }}
+                    </el-button> -->
+                </div>
 
+<<<<<<< Updated upstream
 =======
                 <div class="pos" style="width: 100%; top: 37.1%; left: 12.5%;">
                     <div>
@@ -406,6 +243,11 @@
                 <div class="right">
                     <h2>答案解析</h2>
                     <div v-if="currentQuestion.selectedOption !== null">
+=======
+                <div class="right">
+                    <h2>答案解析</h2>
+                    <!-- <div v-if="currentQuestion.selectedOption !== null">
+>>>>>>> Stashed changes
                         <p v-if="currentQuestion.selectedOption === currentQuestion.correctOptionId" class="answer-correct"
                             style="font-size: 15px; color:green;">回答正确！
                         </p>
@@ -415,21 +257,35 @@
                         <div class="itd">
                             <p>{{ currentQuestion.description }}</p>
                         </div>
+<<<<<<< Updated upstream
                     </div>
+=======
+                    </div> -->
+>>>>>>> Stashed changes
                 </div>
 
             </div>
             <template #footer>
                 <span class="dialog-footer">
+<<<<<<< Updated upstream
                     <el-button @click="centerDialogVisible = false">取消</el-button>
                     <el-button type="primary" @click="nextQuestion"
                         v-if="currentQuestionIndex < questions.length - 1">下一题</el-button>
                     <el-button type="primary" @click="submitAnswer" v-else>完成</el-button>
+=======
+                    <!-- <el-button @click="centerDialogVisible = false">取消</el-button>
+                    <el-button type="primary" @click="nextQuestion"
+                        v-if="currentQuestionIndex < questions.length - 1">下一题</el-button>
+                    <el-button type="primary" @click="submitAnswer" v-else>完成</el-button> -->
+>>>>>>> Stashed changes
                 </span>
             </template>
 
 
         </el-dialog>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     </div>
 </template>
@@ -437,8 +293,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
+import getQuestionById from '../functions/getQuestionById';
 
+onMounted(() => {
+    setInterval(changeBackgroundColor, 3000); // 每 3 秒变换一次背景颜色
+});
 // 定义背景颜色数组
 const backgroundColors = ['#ff7e5f', '#ffac81', '#ffcc70', '#f3e9d2', '#a8e6cf'];
 
@@ -450,165 +310,102 @@ const changeBackgroundColor = () => {
     currentIndex.value = (currentIndex.value + 1) % backgroundColors.length;
     currentColor.value = backgroundColors[currentIndex.value];
 };
-
-onMounted(() => {
-    setInterval(changeBackgroundColor, 3000); // 每 3 秒变换一次背景颜色
-});
-
-
-
-//题目
-interface Option {
-    id: number;
-    text: string;
-}
-
-interface Question {
-    question: string;
-    description: string;
-    options: Option[];
-    selectedOption: number | null;
-    correctOptionId: number;
-}
-
-
-const questions: Question[] = [
+const user: any = ref(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const Question: any = ref(JSON.parse(sessionStorage.getItem("Question") || "null") || "")
+const SingleQuestion: any = ref([])
+const options: any = ref([
     {
-        question: '西湖论剑从那一哪年开始的？',
-        options: [
-            { id: 1, text: '1998' },
-            { id: 2, text: '2003' },
-            { id: 3, text: '2012' },
-            { id: 4, text: '2020' }
-        ],
-        selectedOption: null,
-        correctOptionId: 3,
-        description: '西湖论剑·网络安全大会（简称“西湖论剑”）是国内网络安全领域最具影响力的大会之一，自2012年创办至今，已成功举办11届，也是国内首个已举办十周年的网络安全大会。'
-
+        id: 1,
+        option: ''
+    }, {
+        id: 2,
+        option: ''
+    }, {
+        id: 3,
+        option: ''
+    }, {
+        id: 4,
+        option: ''
     },
-
-    {
-        question: '蔡徐坤的幸运数字是什么？',
-        options: [
-            { id: 1, text: '0' },
-            { id: 2, text: '2.5' },
-            { id: 3, text: '10' },
-            { id: 4, text: '630' }
-        ],
-        selectedOption: null,
-        correctOptionId: 2,
-        description: '基尼太没！'
-
-    },
-
-    {
-        question: '蔡徐坤最喜欢的是什么？',
-        options: [
-            { id: 1, text: '唱' },
-            { id: 2, text: '跳' },
-            { id: 3, text: 'rap' },
-            { id: 4, text: '篮球' }
-        ],
-        selectedOption: null,
-        correctOptionId: 4,
-        description: '基尼太没！'
-
-    },
-
-    {
-        question: '蔡徐坤的口头禅是什么',
-        options: [
-            { id: 1, text: '你干嘛嗨哟' },
-            { id: 2, text: '哇真的是你啊' },
-            { id: 3, text: '哎呦' },
-            { id: 4, text: 'ji！' }
-        ],
-        selectedOption: null,
-        correctOptionId: 1,
-        description: '基尼太没！'
-
-    },
-    {
-        question: '蔡徐坤最喜欢的是什么？',
-        options: [
-            { id: 1, text: '唱' },
-            { id: 2, text: '跳' },
-            { id: 3, text: 'rap' },
-            { id: 4, text: '篮球' }
-        ],
-        selectedOption: null,
-        correctOptionId: 4,
-        description: '基尼太没！'
-    },
-    // 添加更多题目...
-];
-
-const currentQuestionIndex = ref(0);
-const correctCount = ref(0);
-const score = ref(0);
-
-const currentQuestion = ref(questions[currentQuestionIndex.value]);
-
-const nextQuestion = () => {
-    if (currentQuestion.value.selectedOption !== null) {
-        currentQuestionIndex.value++;
-        if (currentQuestionIndex.value < questions.length) {
-            currentQuestion.value = questions[currentQuestionIndex.value];
-        }
-    } else {
-        // 在这里可以添加一些提示用户选择选项的逻辑
-        ElMessage.error('请先选择一个选项！')
-    }
-};
-
-
-
+])
 const centerDialogVisible = ref(false);
 
-const playGame = () => {
-    console.log('点击了“大会闯关”按钮');
+const playGame = async (questionId: number) => {
+    await getQuestionById(questionId, user.value.userId)
+    SingleQuestion.value = JSON.parse(sessionStorage.getItem("SingleQuestion") || "null") || ""
+    options.value[0].option = SingleQuestion.value.question.option1
+    options.value[1].option = SingleQuestion.value.question.option2
+    options.value[2].option = SingleQuestion.value.question.option3
+    options.value[3].option = SingleQuestion.value.question.option4
+
     centerDialogVisible.value = true;
+    console.log(selectedOption.value);
+
 };
 
-const submitAnswer = () => {
-    // 判断用户是否全部回答了题目
-    const answeredQuestions = questions.filter(question => question.selectedOption !== null);
+const selectedOption = ref(null)
 
-    if (answeredQuestions.length === questions.length) {
-        // 初始化积分和正确答题数量
-        correctCount.value = 0;
-        score.value = 0;
+// const currentQuestionIndex = ref(0);
+// const correctCount = ref(0);
+// const score = ref(0);
 
-        // 遍历所有题目，检查用户的选择是否正确，并计算积分和正确答题数量
-        for (let i = 0; i < questions.length; i++) {
-            if (questions[i].selectedOption === questions[i].correctOptionId) {
-                correctCount.value++;
-                score.value += 10; // 每答对一题加10积分
-            }
-        }
+// const currentQuestion = ref(questions[currentQuestionIndex.value]);
 
-        // 显示提交成功消息
-        const message = `提交成功！你答对了${correctCount.value}道题，获得了${score.value}积分`;
-        ElMessage({
-            message: message,
-            type: 'success'
-        });
-
-        centerDialogVisible.value = false;
-
-    } else {
-        // 显示错误消息
-        ElMessage.error('您还有题目未作答！请慎重考虑！');
-    }
-};
+// const nextQuestion = () => {
+//     if (currentQuestion.value.selectedOption !== null) {
+//         currentQuestionIndex.value++;
+//         if (currentQuestionIndex.value < questions.length) {
+//             currentQuestion.value = questions[currentQuestionIndex.value];
+//         }
+//     } else {
+//         // 在这里可以添加一些提示用户选择选项的逻辑
+//         ElMessage.error('请先选择一个选项！')
+//     }
+// };
 
 
 
-const renderQuestion = (index: number) => {
-    // 点击按钮时更新当前题目
-    currentQuestionIndex.value = index;
-    currentQuestion.value = questions[index];
-};
+
+
+// const submitAnswer = () => {
+//     // 判断用户是否全部回答了题目
+//     const answeredQuestions = questions.filter(question => question.selectedOption !== null);
+
+//     if (answeredQuestions.length === questions.length) {
+//         // 初始化积分和正确答题数量
+//         correctCount.value = 0;
+//         score.value = 0;
+
+//         // 遍历所有题目，检查用户的选择是否正确，并计算积分和正确答题数量
+//         for (let i = 0; i < questions.length; i++) {
+//             if (questions[i].selectedOption === questions[i].correctOptionId) {
+//                 correctCount.value++;
+//                 score.value += 10; // 每答对一题加10积分
+//             }
+//         }
+
+//         // 显示提交成功消息
+//         const message = `提交成功！你答对了${correctCount.value}道题，获得了${score.value}积分`;
+//         ElMessage({
+//             message: message,
+//             type: 'success'
+//         });
+
+//         centerDialogVisible.value = false;
+
+//     } else {
+//         // 显示错误消息
+//         ElMessage.error('您还有题目未作答！请慎重考虑！');
+//     }
+// };
+
+
+
+// const renderQuestion = (index: number) => {
+//     // 点击按钮时更新当前题目
+//     currentQuestionIndex.value = index;
+//     currentQuestion.value = questions[index];
+// };
 
 </script>
 
@@ -638,6 +435,7 @@ const renderQuestion = (index: number) => {
         .pos {
             transition: all .3s;
             position: absolute;
+            width: 100%;
         }
     }
 

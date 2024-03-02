@@ -77,7 +77,10 @@ import getAllMediaVideo from '../functions/getAllMediaVideo';
 import getAllMeetings from '../functions/getAllMeetings';
 import getAllActivitys from '../functions/getAllActivitys';
 import getAllQuestions from '../functions/getAllQuestions';
+<<<<<<< Updated upstream
 import getAllBlogs from '../functions/getAllBlogs';
+=======
+>>>>>>> Stashed changes
 import getAllNews from '../functions/getAllNews';
 import getDrawRecord from '../functions/getDrawRecord';
 import getIntegralGifts from '../functions/getIntegralGifts';

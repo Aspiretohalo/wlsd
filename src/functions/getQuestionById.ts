@@ -1,5 +1,9 @@
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 const getQuestionById = async (question_id: any, user_id: any) => {
     try {
         const response = await myAxios.get('/getQuestionById', {

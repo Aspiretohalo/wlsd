@@ -15,7 +15,10 @@ export default {
     SingleActivity: [],
     IntegralDetail: [],
     IntegralGifts: [],
+<<<<<<< Updated upstream
     Blog: [],
+=======
+>>>>>>> Stashed changes
     Question: [],
     SingleQuestion: [],
 }
