@@ -53,23 +53,23 @@
 
         <!-- 博客 -->
         <el-card class="rightcc">
-
             <el-input v-model="input1" class="search" size="large" placeholder="请输入关键字" :prefix-icon="Search" />
-
             <div class="bk-container">
                 <div v-infinite-scroll="load" class="infinite-list">
-                    <div v-for="i in count" :key="i" class="infinite-list-item">
+                    <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
                         <div class="bk-infor">
                             <el-avatar class="avatar"
                                 src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"> user </el-avatar>
                             <div class="intxt">
-                                <h3 style="margin-bottom: 10px;">小黑子 {{ i }}</h3>
-                                <el-text class="elintxt">2024-1-17 12:45</el-text>
+                                <h3 style="margin-bottom: 10px;">小黑子</h3>
+                                <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>
                             </div>
                         </div>
                         <div class="bk-content">
-                            <el-text class="contxt">我最喜欢唱跳rap打篮球了！#唱#跳#rap#篮球</el-text>
-                            <el-image class="bk-img" v-for="url in urls" :key="url" :src="url" :fit="fit" />
+                            <el-text class="contxt">{{ i.blog.content }}</el-text>
+                            <div class="imgs">
+                                <img class="bk-img" v-for="url in i.blogImg" :key="url.id" :src="url.imgUrl" />
+                            </div>
                         </div>
                         <div class="bk-communicate">
                             <el-button class="bkc" round @click="toggleComments">
@@ -78,39 +78,30 @@
                                     <el-text>5</el-text>
                                 </el-icon>
                             </el-button>
-                            <el-button class="bkc" round>
-                                <el-icon class="bk-ic">
-                                    <img src="../assets/icon/点赞.png" alt="" class="icon">
-                                    <el-text>50</el-text>
-                                </el-icon>
-                            </el-button>
-
+                            <!-- <div class="circle flex-h icon_item" >
+                                <div class="img-box">
+                                    <img v-if="SingleMeeting.thumbed == false" @click="handleSetThumb()"
+                                        src="../assets/icon/点赞.png" alt="" />
+                                    <img v-else @click="handleCancelThumb()" src="../assets/icon/点赞(红).svg" alt="" />
+                                </div>
+                                {{ SingleMeeting.thumbCount }}
+                            </div> -->
                         </div>
 
-                        <div class="bkcomment" v-if="showComments">
+                        <div v-for="reply in replyBlog(i.blog.id)" :key="reply.blog.id" class="infinite-list-item2">
+                            <div class="bk-infor2">
+                                <img class="avatar2"
+                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+                                <div class="intxt">
+                                    <div class="content">
+                                        <h3 style="margin-right: 20px;white-space: nowrap;">小黑子</h3>
+                                        <el-text class="elintxt">{{ reply.blog.replyTime }}</el-text>
 
-                            <div class="comdiv">
-                                <el-text class="comtxt">
-                                    哥哥真的帅！
-                                </el-text>
+                                    </div>
+                                    <div class="contxt">{{ reply.blog.content }}</div>
+
+                                </div>
                             </div>
-
-                            <div class="comdiv">
-                                <el-text class="comtxt">
-                                    真的是你啊~
-                                </el-text>
-                            </div>
-
-                            <div class="comdiv">
-                                <el-text class="comtxt">
-                                    厉害。
-                                </el-text>
-                            </div>
-
-                            <el-input class="comput" placeholder="请输入评论内容"></el-input>
-                            <el-button type="primary">发表评论</el-button>
-
-
                         </div>
                     </div>
                 </div>
@@ -125,10 +116,18 @@ import type { UploadProps, UploadUserFile } from 'element-plus'
 import { Upload } from '@element-plus/icons-vue'
 import type { DropdownInstance } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
+import { computed } from 'vue';
 
-
+const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
+const rootBlog = computed(() => {
+    return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0);
+})
+const replyBlog = computed(() => (id: number) => {
+    return Blog.value.filter((blog: any) => {
+        return blog.blog.replyLevel !== 0 && blog.blog.replyParentId === id;
+    });
+})
 const textarea1 = ref('')
-// const dropdownVisible = ref(false);
 
 const fileList = ref<UploadUserFile[]>([
     {
@@ -154,6 +153,8 @@ function showDropdown() {
 
 
 function showClick() {
+    console.log(Blog.value[0].blog.replyTime);
+
     if (!dropdown1.value) return
     dropdown1.value.handleOpen()
     textarea1.value += `# `;
@@ -193,13 +194,6 @@ const count = ref(0)
 const load = () => {
     count.value += 2
 }
-
-const urls = [
-    'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-    'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-]
-
-const fit = 'cover'
 
 const showComments = ref(true);
 
@@ -292,8 +286,34 @@ const toggleComments = () => {
 
 .infinite-list .infinite-list-item {
     border-bottom: 1px solid #cfcfcf;
-    height: 350px;
     margin: 10px;
+}
+
+.infinite-list .infinite-list-item2 {
+    margin: 10px;
+
+    .bk-infor2 {
+        padding-top: 10px;
+        width: 80%;
+        display: flex;
+        margin-top: 10px;
+        margin-left: 50px;
+
+        .avatar2 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .intxt {
+            width: 100%;
+
+            .content {
+                display: flex;
+                justify-content: flex-start;
+            }
+        }
+    }
 }
 
 .infinite-list .infinite-list-item+.list-item {
@@ -328,7 +348,7 @@ const toggleComments = () => {
 .bk-content {
     padding-top: 10px;
     width: 500px;
-    height: 200px;
+    //height: 200px;
     text-align: left;
 }
 
@@ -341,6 +361,29 @@ const toggleComments = () => {
     width: 50px;
     height: 50px;
     display: flex;
+    margin: 10px;
+
+    .circle {
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0px 0px 0px 0px rgba(223, 46, 58, 0.5);
+
+        .img-box {
+            width: 20px;
+            height: 20px;
+            margin: 5px;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -khtml-user-select: none;
+            user-select: none; // 防止快速点击图片被选中，可不加，为提高体验，博主加上了这几行代码。
+
+            & img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
 }
 
 .bk-img {

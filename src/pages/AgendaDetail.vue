@@ -36,7 +36,6 @@
                                                 alt="" />
                                         </div>
                                         {{ SingleMeeting.thumbCount }}
-
                                     </div>
                                     <el-button type="primary" round plain v-if="SingleMeeting.subscribed == false"
                                         @click="handleSetMeetingSubscription()">订阅+</el-button>

@@ -76,6 +76,8 @@ import getAllWonderfulPictures from '../functions/getAllWonderfulPictures';
 import getAllMediaVideo from '../functions/getAllMediaVideo';
 import getAllMeetings from '../functions/getAllMeetings';
 import getAllActivitys from '../functions/getAllActivitys';
+import getAllQuestions from '../functions/getAllQuestions';
+import getAllBlogs from '../functions/getAllBlogs';
 import getAllNews from '../functions/getAllNews';
 import getDrawRecord from '../functions/getDrawRecord';
 import getIntegralGifts from '../functions/getIntegralGifts';
@@ -89,8 +91,10 @@ onMounted(async () => {
     await getAllCommittee()
     await getAllWonderfulPictures()
     await getAllMediaVideo()
+    await getAllBlogs()
     await getAllMeetings(user.userId)
     await getAllActivitys(user.userId)
+    await getAllQuestions(user.userId)
     await getAllNews()
     await getDrawRecord(user.userId)
     await getIntegralGifts()

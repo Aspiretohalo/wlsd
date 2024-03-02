@@ -15,4 +15,7 @@ export default {
     SingleActivity: [],
     IntegralDetail: [],
     IntegralGifts: [],
+    Blog: [],
+    Question: [],
+    SingleQuestion: [],
 }
