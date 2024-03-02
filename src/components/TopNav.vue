@@ -2,7 +2,8 @@
     <div class="topNav">
         <div class="middle">
             <img class="logo" src="../assets/logo.png" @click="goToIndex()">
-            <el-menu class="el-menu-demo" :default-active="defaultMenu" mode="horizontal" :router="true" :ellipsis="false">
+            <el-menu class="el-menu-demo" :default-active="defaultMenu" mode="horizontal" :router="true"
+                :ellipsis="false">
                 <el-menu-item index="/">首页</el-menu-item>
                 <el-menu-item index="/conferenceAgenda">大会议程</el-menu-item>
                 <el-menu-item index="/aboutConference">关于大会</el-menu-item>
@@ -35,26 +36,31 @@
                     </div>
 
                     <van-cell title="个人主页" to="/user" is-link>
+
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/个人.svg">
                         </template>
                     </van-cell>
                     <van-cell title="报名活动" is-link>
+
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/旅行活动.svg">
                         </template>
                     </van-cell>
                     <van-cell title="订阅" is-link>
+
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/订阅.svg">
                         </template>
                     </van-cell>
                     <van-cell title="积分" to="/integral/integralDetails" is-link>
+
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/积分.svg">
                         </template>
                     </van-cell>
                     <van-cell title="退出登录" is-link @click="logout()">
+
                         <template #icon>
                             <img class="img_icon mr" src="../assets/icon/退出.svg">
                         </template>
@@ -77,10 +83,7 @@ import getAllMediaVideo from '../functions/getAllMediaVideo';
 import getAllMeetings from '../functions/getAllMeetings';
 import getAllActivitys from '../functions/getAllActivitys';
 import getAllQuestions from '../functions/getAllQuestions';
-<<<<<<< Updated upstream
 import getAllBlogs from '../functions/getAllBlogs';
-=======
->>>>>>> Stashed changes
 import getAllNews from '../functions/getAllNews';
 import getDrawRecord from '../functions/getDrawRecord';
 import getIntegralGifts from '../functions/getIntegralGifts';

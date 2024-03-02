@@ -5,13 +5,13 @@
         <el-card class="leftcc">
             <div class="upload">
                 <h2>主题分享</h2>
-                <el-input v-model="textarea1" :autosize="{ minRows: 2, maxRows: 4 }" type="textarea" class="custom-input"
-                    placeholder="有什么新鲜事想分享给大家？" />
+                <el-input v-model="textarea1" :autosize="{ minRows: 2, maxRows: 4 }" type="textarea"
+                    class="custom-input" placeholder="有什么新鲜事想分享给大家？" />
 
                 <div class="upload-container">
                     <el-upload v-model:file-list="fileList" class="upload-p"
-                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" :on-preview="handlePreview"
-                        :on-remove="handleRemove" list-type="picture">
+                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                        :on-preview="handlePreview" :on-remove="handleRemove" list-type="picture">
                         <el-button type="primary">上传图片视频</el-button>
                     </el-upload>
 
@@ -59,7 +59,8 @@
                     <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
                         <div class="bk-infor">
                             <el-avatar class="avatar"
-                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"> user </el-avatar>
+                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+                                user </el-avatar>
                             <div class="intxt">
                                 <h3 style="margin-bottom: 10px;">小黑子</h3>
                                 <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>

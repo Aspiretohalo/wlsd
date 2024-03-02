@@ -77,7 +77,7 @@ const handleLogin = async (user: { phoneNumber: string, verificationCode: string
     } catch (error) {
         ElMessage({
             showClose: true,
-            message: '账号或密码错误',
+            message: '账号或密码错误1',
             type: 'error',
         })
         console.error('账号或密码错误', error);
