@@ -58,11 +58,10 @@
                 <div v-infinite-scroll="load" class="infinite-list">
                     <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
                         <div class="bk-infor">
-                            <el-avatar class="avatar"
-                                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
-                                user </el-avatar>
+                            <el-avatar class="avatar" :src="i.user.userAvatar">
+                            </el-avatar>
                             <div class="intxt">
-                                <h3 style="margin-bottom: 10px;">小黑子</h3>
+                                <h3 style="margin-bottom: 10px;">{{ i.user.userName }}</h3>
                                 <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>
                             </div>
                         </div>
@@ -79,28 +78,46 @@
                                     <el-text>5</el-text>
                                 </el-icon>
                             </el-button>
-                            <!-- <div class="circle flex-h icon_item" >
-                                <div class="img-box">
-                                    <img v-if="SingleMeeting.thumbed == false" @click="handleSetThumb()"
+                            <div class="circle icon_item" :class="i.thumbed ? 'check' : ''">
+                                <div class="img-box" :class="i.thumbed ? 'img-box-check' : ''">
+                                    <img v-if="i.thumbed == false" @click="handleSetThumb(i.blog.id)"
                                         src="../assets/icon/点赞.png" alt="" />
-                                    <img v-else @click="handleCancelThumb()" src="../assets/icon/点赞(红).svg" alt="" />
+                                    <img v-else @click="handleCancelThumb(i.blog.id)" src="../assets/icon/点赞(红).svg"
+                                        alt="" />
                                 </div>
-                                {{ SingleMeeting.thumbCount }}
-                            </div> -->
+                                {{ i.thumbCount }}
+                            </div>
                         </div>
 
                         <div v-for="reply in replyBlog(i.blog.id)" :key="reply.blog.id" class="infinite-list-item2">
                             <div class="bk-infor2">
-                                <img class="avatar2"
-                                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+                                <img class="avatar2" :src="reply.user.userAvatar" />
                                 <div class="intxt">
                                     <div class="content">
-                                        <h3 style="margin-right: 20px;white-space: nowrap;">小黑子</h3>
+                                        <h3 style="margin-right: 20px;white-space: nowrap;">{{ reply.user.userName }}
+                                        </h3>
                                         <el-text class="elintxt">{{ reply.blog.replyTime }}</el-text>
 
                                     </div>
                                     <div class="contxt">{{ reply.blog.content }}</div>
-
+                                    <div class="bk-communicate">
+                                        <el-button class="bkc" round @click="toggleComments">
+                                            <el-icon class="bk-ic">
+                                                <img src="../assets/icon/评论.png" alt="" class="icon">
+                                                <el-text>5</el-text>
+                                            </el-icon>
+                                        </el-button>
+                                        <div class="circle icon_item" :class="reply.thumbed ? 'check' : ''">
+                                            <div class="img-box" :class="reply.thumbed ? 'img-box-check' : ''">
+                                                <img v-if="reply.thumbed == false"
+                                                    @click="handleSetThumb(reply.blog.id)" src="../assets/icon/点赞.png"
+                                                    alt="" />
+                                                <img v-else @click="handleCancelThumb(reply.blog.id)"
+                                                    src="../assets/icon/点赞(红).svg" alt="" />
+                                            </div>
+                                            {{ reply.thumbCount }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,6 +135,8 @@ import { Upload } from '@element-plus/icons-vue'
 import type { DropdownInstance } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import { computed } from 'vue';
+import setBlogThumb from '../functions/setBlogThumb';
+import cancelBlogThumb from '../functions/cancelBlogThumb';
 
 const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
 const rootBlog = computed(() => {
@@ -201,7 +220,15 @@ const showComments = ref(true);
 const toggleComments = () => {
     showComments.value = !showComments.value;
 };
+const handleSetThumb = async (id: number) => {
+    await setBlogThumb(id)
+    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+}
 
+const handleCancelThumb = async (id: number) => {
+    await cancelBlogThumb(id)
+    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+}
 </script>
 
 <style lang="scss" scoped>
@@ -363,28 +390,6 @@ const toggleComments = () => {
     height: 50px;
     display: flex;
     margin: 10px;
-
-    .circle {
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0px 0px 0px 0px rgba(223, 46, 58, 0.5);
-
-        .img-box {
-            width: 20px;
-            height: 20px;
-            margin: 5px;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            -khtml-user-select: none;
-            user-select: none; // 防止快速点击图片被选中，可不加，为提高体验，博主加上了这几行代码。
-
-            & img {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
 }
 
 .bk-img {
@@ -432,6 +437,79 @@ const toggleComments = () => {
         // margin-top: 20px;
         // padding-left: 20px;
         padding-right: 50px;
+    }
+}
+
+.circle {
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 0px rgba(223, 46, 58, 0.5);
+
+    .img-box {
+        width: 20px;
+        height: 20px;
+        margin: 5px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        -khtml-user-select: none;
+        user-select: none; // 防止快速点击图片被选中，可不加，为提高体验，博主加上了这几行代码。
+
+        & img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+.check {
+    -webkit-transition: box-shadow 0.5s;
+    -moz-transition: box-shadow 0.5s;
+    -o-transition: box-shadow 0.5s;
+    transition: box-shadow 0.5s;
+    box-shadow: 0px 0px 0px 1em rgba(226, 32, 44, 0);
+}
+
+.img-box-check {
+    animation: anm 0.5s;
+    -moz-animation: anm 0.5s;
+    -webkit-animation: anm 0.5s;
+    -o-animation: anm 0.5s;
+}
+
+@keyframes anm {
+    0% {
+        transform: scale(0);
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.3);
+        -webkit-transform: scale(1.3);
+        -moz-transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+    }
+}
+
+.btn {
+    display: flex;
+}
+
+.icon_item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+
+    .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 5px;
     }
 }
 </style>

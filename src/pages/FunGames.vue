@@ -19,35 +19,43 @@
             </el-container>
         </div>
 
-        <el-dialog v-model="centerDialogVisible" title="大会知识问答" width="60%" style="height: 550px;border-radius: 20px;"
-            align-center :close-on-click-modal="false">
+        <el-dialog v-model="centerDialogVisible" width="920"
+            style="height: 650px;border-radius: 20px;background-color: transparent;" align-center
+            :close-on-click-modal="false" :show-close="false">
             <div class="question">
-                <div class="left">
-                    <div style="margin-bottom: 30px;">
-                        <p class="dgtxt">{{ SingleQuestion.question.questionContent }}</p>
-                        <el-radio-group v-model="selectedOption" size="large">
-                            <div class="radio-container">
-                                <div class="radio-item" v-for="option in options" :key="option.id">
-                                    <el-radio-button :label="option.id" :disabled="selectedOption !== null">
-                                        {{ option.option }}
-                                    </el-radio-button>
-                                </div>
+                <img class="closeBtn" @click="centerDialogVisible = false" src="../assets/images/closeBtn.png"></img>
+                <div>
+                    <p class="dgtxt">{{ SingleQuestion.question.questionContent }}</p>
+                    <el-radio-group v-model="selectedOption" size="large">
+                        <div class="radio-container">
+                            <div class="radio-item" v-for="option in options" :key="option.id">
+                                <el-radio-button :label="option.id" :disabled="selectedOption !== null">
+                                    {{ mappedCorrectOption(option.id) }}. {{ option.option }}
+                                </el-radio-button>
                             </div>
-                        </el-radio-group>
+                        </div>
+                    </el-radio-group>
+                    <div class="answer">
+                        正确答案: {{ mappedCorrectOption(SingleQuestion.question.correctOptionId) }}
                     </div>
-                    <!-- <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
+                    <div class="analysis">
+                        {{ SingleQuestion.question.questionDescription }}
+                    </div>
+                </div>
+
+                <!-- <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
                         @click="renderQuestion(index)">
                         {{ index + 1 }}
                     </el-button> -->
-                </div>
             </div>
+
         </el-dialog>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 // import { ElMessage } from 'element-plus'
 import getQuestionById from '../functions/getQuestionById';
 
@@ -84,6 +92,16 @@ const options: any = ref([
     },
 ])
 const centerDialogVisible = ref(false);
+// 映射ABCD
+const mappedCorrectOption = computed(() => (correctOptionId: number) => {
+    const mapping: { [key: number]: string } = {
+        1: 'A',
+        2: 'B',
+        3: 'C',
+        4: 'D',
+    };
+    return mapping[correctOptionId] || 0;
+});
 
 const playGame = async (questionId: number) => {
     await getQuestionById(questionId, user.value.userId)
@@ -94,8 +112,6 @@ const playGame = async (questionId: number) => {
     options.value[3].option = SingleQuestion.value.question.option4
 
     centerDialogVisible.value = true;
-    console.log(selectedOption.value);
-
 };
 
 const selectedOption = ref(null)
@@ -228,39 +244,73 @@ const selectedOption = ref(null)
 .question {
     display: flex;
     justify-content: space-around;
+    background-image: url(../assets/images/question_box.png);
+    background-size: cover;
+    height: 600px;
+    width: 900px;
+    position: relative;
 
-    .left {
-        .dgh {
-            text-align: left;
-            margin-left: 50px;
-        }
-
-        .dgtxt {
-            // text-align: left;
-            color: #000;
-            margin-bottom: 20px;
-            font-size: 25px;
-        }
+    .closeBtn {
+        position: absolute;
+        right: 0;
+        top: 60px;
+        height: 60px;
+        cursor: pointer;
     }
 
-    .right {
-        width: 30%;
+    .closeBtn:hover {
+        height: 50px;
+        right: 5px;
+        transition: 0.3s;
+    }
 
-        .itd {
-            text-align: justify;
-            text-indent: 2em;
-        }
+    .dgh {
+        text-align: left;
+        margin-left: 50px;
+    }
+
+    .dgtxt {
+        color: #000;
+        margin: 20px auto;
+        padding-top: 180px;
+        font-size: 20px;
+        width: 650px;
+        text-align: justify;
+    }
+
+    .answer {
+        position: absolute;
+        left: 120px;
+        top: 440px;
+        font-size: 20px;
+        text-align: left;
+    }
+
+    .analysis {
+        position: absolute;
+        width: 700px;
+        left: 120px;
+        top: 480px;
+        font-size: 20px;
+        text-align: justify;
     }
 }
 
 .radio-container {
     display: flex;
-    flex-direction: column;
+    // flex-direction: column;
+    flex-wrap: wrap;
+
+    .radio-item {
+        flex: 0 0 50%;
+        /* Each item takes up 50% width (two items per row) */
+        box-sizing: border-box;
+        padding: 8px;
+
+    }
 }
 
-.radio-item {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+:deep(.el-radio-button__inner) {
+    background-color: rgba($color: #fff, $alpha: 0.5);
 }
 </style>
