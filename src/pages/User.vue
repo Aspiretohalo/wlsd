@@ -12,7 +12,8 @@
                     </div>
                     <div class="message w-margin">
                         <el-card class="msg_card">
-                            <el-button type="success" plain style="width: 100%;" @click="handleEdit()">编辑个人资料</el-button>
+                            <el-button type="success" plain style="width: 100%;"
+                                @click="handleEdit()">编辑个人资料</el-button>
                             <el-dialog v-model="dialogFormVisible" title="个人资料" width="35%">
                                 <el-form :model="form" label-width="80px">
                                     <el-form-item label="姓名">
@@ -91,7 +92,8 @@
                                     </div>
                                 </el-card>
                                 <el-card class="SignIn">
-                                    <span>每日签到</span><el-link class="integral_detail" @click="checkIntegral()">积分详情<el-icon>
+                                    <span>每日签到</span><el-link class="integral_detail"
+                                        @click="checkIntegral()">积分详情<el-icon>
                                             <ArrowRight />
                                         </el-icon></el-link>
                                     <div class="integral">
@@ -112,10 +114,10 @@
                                                 :value="item.value" />
                                         </el-select>
                                         <div class="subscription">
-                                            <div class="subscription_content" v-for="o in 5" :key="o">
-                                                <el-image
-                                                    style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
-                                                    :src="url" fit="cover" />
+                                            <div class="subscription_content" v-for="o in ActivityAndMeetingChoice"
+                                                :key="o">
+                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
+                                                    :src="url" />
                                                 <el-tag class="subscription_name">西湖论剑</el-tag>
                                             </div>
                                         </div>
@@ -154,6 +156,8 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const value = ref('全部')
+
+const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
 
 const options = [
     {

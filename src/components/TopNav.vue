@@ -88,6 +88,7 @@ import getAllNews from '../functions/getAllNews';
 import getDrawRecord from '../functions/getDrawRecord';
 import getIntegralGifts from '../functions/getIntegralGifts';
 import getIntegralDetail from '../functions/getIntegralDetail';
+import getActivityAndMeetingChoice from '../functions/getActivityAndMeetingChoice';
 
 import { onMounted } from 'vue'
 
@@ -105,6 +106,7 @@ onMounted(async () => {
     await getDrawRecord(user.userId)
     await getIntegralGifts()
     await getIntegralDetail(user.userId)
+    await getActivityAndMeetingChoice(user.userId)
 })
 const route = useRoute();
 const router = useRouter();

@@ -18,4 +18,5 @@ export default {
     Blog: [],
     Question: [],
     SingleQuestion: [],
+    ActivityAndMeetingChoice: [],
 }
