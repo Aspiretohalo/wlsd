@@ -89,6 +89,7 @@ import getDrawRecord from '../functions/getDrawRecord';
 import getIntegralGifts from '../functions/getIntegralGifts';
 import getIntegralDetail from '../functions/getIntegralDetail';
 import getActivityAndMeetingChoice from '../functions/getActivityAndMeetingChoice';
+import getThumbBlogShare from '../functions/getThumbBlogShare';
 
 import { onMounted } from 'vue'
 
@@ -107,6 +108,7 @@ onMounted(async () => {
     await getIntegralGifts()
     await getIntegralDetail(user.userId)
     await getActivityAndMeetingChoice(user.userId)
+    await getThumbBlogShare(user.userId)
 })
 const route = useRoute();
 const router = useRouter();

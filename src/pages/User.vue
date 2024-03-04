@@ -77,17 +77,17 @@
                                         <div><el-icon>
                                                 <img src="../assets/icon/thumb.svg" width="20px" alt="">
                                             </el-icon><span>点赞</span>
-                                            <div class="amount">12</div>
+                                            <div class="amount">{{ ThumbBlogShare.thumbCount }}</div>
                                         </div>
                                         <div><el-icon>
                                                 <ChatLineRound />
                                             </el-icon><span>评论</span>
-                                            <div class="amount">12</div>
+                                            <div class="amount">{{ ThumbBlogShare.blogCount }}</div>
                                         </div>
                                         <div><el-icon>
                                                 <img src="../assets/icon/share.svg" width="20px" alt="">
                                             </el-icon><span>分享</span>
-                                            <div class="amount">12</div>
+                                            <div class="amount">{{ ThumbBlogShare.shareCount }}</div>
                                         </div>
                                     </div>
                                 </el-card>
@@ -107,18 +107,28 @@
                             </div>
                             <el-card class="record">
                                 <el-tabs type="card" class="demo-tabs">
-                                    <el-tab-pane label="已订阅">
-                                        <el-select v-model="value" class="m-2" placeholder="Select" size="large"
-                                            style="width: 240px">
-                                            <el-option v-for="item in options" :key="item.value" :label="item.label"
-                                                :value="item.value" />
-                                        </el-select>
+                                    <el-tab-pane label="议程订阅">
                                         <div class="subscription">
-                                            <div class="subscription_content" v-for="o in ActivityAndMeetingChoice"
-                                                :key="o">
+                                            <el-empty description="暂无数据" style="margin: 0 auto;"
+                                                v-if="ActivityAndMeetingChoice.meeting.length == 0" />
+
+                                            <div class="subscription_content" v-else
+                                                v-for="o in ActivityAndMeetingChoice.meeting" :key="o.itemId">
                                                 <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
                                                     :src="url" />
-                                                <el-tag class="subscription_name">西湖论剑</el-tag>
+                                                <el-tag class="subscription_name">{{ o.itemType }}</el-tag>
+                                            </div>
+                                        </div>
+                                    </el-tab-pane>
+                                    <el-tab-pane label="活动报名">
+                                        <div class="subscription">
+                                            <el-empty description="暂无数据" style="margin: 0 auto;"
+                                                v-if="ActivityAndMeetingChoice.activity.length == 0" />
+                                            <div class="subscription_content" v-else
+                                                v-for="o in ActivityAndMeetingChoice.activity" :key="o.itemId">
+                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
+                                                    :src="url" />
+                                                <el-tag class="subscription_name">{{ o.itemTitle }}</el-tag>
                                             </div>
                                         </div>
                                     </el-tab-pane>
@@ -132,7 +142,6 @@
                                             </div>
                                         </div>
                                     </el-tab-pane>
-                                    <el-tab-pane label="评论">Role</el-tab-pane>
                                 </el-tabs>
                             </el-card>
                         </div>
@@ -158,6 +167,7 @@ const router = useRouter();
 const value = ref('全部')
 
 const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
+const ThumbBlogShare: any = reactive(JSON.parse(sessionStorage.getItem("ThumbBlogShare") || "null") || "")
 
 const options = [
     {
