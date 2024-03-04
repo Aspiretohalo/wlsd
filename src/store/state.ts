@@ -19,4 +19,5 @@ export default {
     Question: [],
     SingleQuestion: [],
     ActivityAndMeetingChoice: [],
+    ThumbBlogShare: [],
 }

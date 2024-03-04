@@ -107,7 +107,8 @@ const handleButtonClick = () => {
 }
 
 :deep(.el-card) {
-    --el-dialog-width: 35%
+    --el-dialog-width: 35%;
+    background-color: rgba($color: #fff, $alpha: 0.5);
 }
 
 :deep(.el-card) {
@@ -124,6 +125,7 @@ const handleButtonClick = () => {
 
 :deep(.el-menu) {
     border-right: 0px;
+    background-color: transparent;
 }
 
 .name {

@@ -243,6 +243,7 @@ const handleCancelThumb = async (id: number) => {
     display: inline-block;
     height: 800px;
     width: 32%;
+    background-color: rgba($color: #fff, $alpha: 0.5);
 }
 
 //发布样式
@@ -278,6 +279,7 @@ const handleCancelThumb = async (id: number) => {
     text-align: left;
     padding-left: 30px;
     width: 64%;
+    background-color: rgba($color: #fff, $alpha: 0.5);
 }
 
 

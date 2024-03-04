@@ -7,6 +7,7 @@ import router from './config/router'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import store from './store'
+import 'tcplayer.js/dist/tcplayer.min.css';
 
 const app = createApp(App)
 

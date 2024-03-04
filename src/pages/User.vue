@@ -114,8 +114,8 @@
 
                                             <div class="subscription_content" v-else
                                                 v-for="o in ActivityAndMeetingChoice.meeting" :key="o.itemId">
-                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
-                                                    :src="url" />
+                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px;border-radius: 10px;"
+                                                    :src="o.itemCover" />
                                                 <el-tag class="subscription_name">{{ o.itemType }}</el-tag>
                                             </div>
                                         </div>
@@ -126,8 +126,8 @@
                                                 v-if="ActivityAndMeetingChoice.activity.length == 0" />
                                             <div class="subscription_content" v-else
                                                 v-for="o in ActivityAndMeetingChoice.activity" :key="o.itemId">
-                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px"
-                                                    :src="url" />
+                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px; border-radius: 10px;"
+                                                    :src="o.itemCover" />
                                                 <el-tag class="subscription_name">{{ o.itemTitle }}</el-tag>
                                             </div>
                                         </div>
@@ -206,6 +206,7 @@ const checkIntegral = () => {
 :deep(.el-card) {
     --el-dialog-width: 35%;
     border-radius: 15px;
+    background-color: rgba($color: #fff, $alpha: 0.5);
 }
 
 :deep(.el-dialog__body) {

@@ -8,16 +8,14 @@
                 <el-main class="main bgc">
                     <div class="meeting">
                         <div class="video">
-                            <video id="my-video" class="video-js" controls preload="auto" width="850" height="480"
-                                data-setup="{}" style="display: block;">
-                                <!-- <source :src="SingleMeeting.meeting.itemAddress" type="video/mp4" /> -->
-                                <source
-                                    src="https://1317662942.vod-qcloud.com/f8184a12vodsh1317662942/7cc2c5121397757885725116416/aeZnEvn2SMAA.mp4"
-                                    type="video/mp4" />
+                            <video id="player-container-id" width="850" height="480" preload="auto" playsinline
+                                webkit-playsinline>
+
                                 <p class="vjs-no-js">
                                     To view this video please enable JavaScript, and consider upgrading to a
                                     web browser that
-                                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5
+                                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports
+                                        HTML5
                                         video</a>
                                 </p>
                             </video>
@@ -81,19 +79,43 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import Comment from '../components/Comment.vue';
+import TCPlayer from "tcplayer.js";
 import { ref } from 'vue'
 import setMeetingSubscription from '../functions/setMeetingSubscription';
 import setMeetingThumb from '../functions/setMeetingThumb';
 import cancelMeetingSubscription from '../functions/cancelMeetingSubscription';
 import cancelMeetingThumb from '../functions/cancelMeetingThumb';
 import addMeetingViews from '../functions/addViewsMeeting';
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted } from 'vue';
 onBeforeMount(async () => {
+    const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
+
     await addMeetingViews(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value.meeting.itemViews++
 })
-const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
 const MeetingDetail: any = ref(JSON.parse(sessionStorage.getItem("MeetingDetail") || "null") || "")
+onMounted(() => {
+    const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
+
+    console.log(SingleMeeting.value.meeting.itemAddress);
+
+    var player = TCPlayer('player-container-id', {
+        sources: [{
+            // src: 'path/to/video',
+        }],
+        licenseUrl: "https://license.vod2.myqcloud.com/license/v2/1317662942_1/v_cube.license",
+    });
+
+
+    player.src(SingleMeeting.value.meeting.itemAddress); // url 播放地址
+
+    onUnmounted(() => {
+        player.dispose();
+    });
+
+});
+const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
+
 
 const handleSetMeetingSubscription = async () => {
     await setMeetingSubscription(SingleMeeting.value.meeting.itemId)
