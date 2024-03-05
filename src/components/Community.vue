@@ -2,46 +2,31 @@
     <div class="ccmain w-margin">
         <!-- <h1>社区中心</h1> -->
         <!-- 左边栏目 -->
+
         <el-card class="leftcc">
-            <div class="upload">
-                <h2>主题分享</h2>
-                <el-input v-model="textarea1" :autosize="{ minRows: 2, maxRows: 4 }" type="textarea"
-                    class="custom-input" placeholder="有什么新鲜事想分享给大家？" />
-
-                <div class="upload-container">
-                    <el-upload v-model:file-list="fileList" class="upload-p"
-                        action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                        :on-preview="handlePreview" :on-remove="handleRemove" list-type="picture">
-                        <el-button type="primary">上传图片视频</el-button>
-                    </el-upload>
-
-                    <el-button type="primary" class="topic-button" @click="showClick">
-                        #话题
-                    </el-button>
-
-                    <el-button type="primary" class="upload-send">
-                        发布<el-icon class="el-icon--right">
-                            <Upload />
-                        </el-icon>
-                    </el-button>
+            <el-button plain @click="dialogFormVisible = true">
+                发布内容
+            </el-button>
+            <el-dialog v-model="dialogFormVisible" width="800">
+                <div style="border: 1px solid #ccc">
+                    <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
+                        :mode="mode" />
+                    <Editor style="height: 500px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
+                        :mode="mode" @onCreated="handleCreated" />
                 </div>
-                <el-dropdown ref="dropdown1">
-                    <span class="el-dropdown-link" @click="showDropdown"></span>
-                    <template #dropdown>
-                        <el-dropdown-menu>
-                            <el-dropdown-item @click="selectTopic('唱')">唱</el-dropdown-item>
-                            <el-dropdown-item @click="selectTopic('跳')">跳</el-dropdown-item>
-                            <el-dropdown-item @click="selectTopic('rap')">rap</el-dropdown-item>
-                            <el-dropdown-item @click="selectTopic('篮球')">篮球</el-dropdown-item>
-                            <el-dropdown-item @click="selectTopic('小黑子')">小黑子</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </template>
-                </el-dropdown>
+                <template #footer>
+                    <div class="dialog-footer">
+                        <el-button @click="dialogFormVisible = false">取消</el-button>
+                        <el-button type="primary" @click="handleSubmit(); dialogFormVisible = false">
+                            发布
+                        </el-button>
+                    </div>
+                </template>
+            </el-dialog>
 
-            </div>
             <div class="popularity-ranking">
                 <h2 class="popularity-h2">热点话题排行榜</h2>
-                <el-table :data="tableDataToShow" height="300" style="width: 100%;">
+                <el-table :data="tableDataToShow" height="300" style="width: 100%;background: transparent;">
                     <el-table-column prop="Ranking" label="排名" width="60" />
                     <el-table-column prop="topic" label="话题" width="150" />
                     <el-table-column prop="heat" label="热度" />
@@ -51,77 +36,27 @@
             </div>
         </el-card>
 
-        <!-- 博客 -->
         <el-card class="rightcc">
-            <el-input v-model="input1" class="search" size="large" placeholder="请输入关键字" :prefix-icon="Search" />
-            <div class="bk-container">
-                <div v-infinite-scroll="load" class="infinite-list">
-                    <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
-                        <div class="bk-infor">
-                            <el-avatar class="avatar" :src="i.user.userAvatar">
-                            </el-avatar>
-                            <div class="intxt">
-                                <h3 style="margin-bottom: 10px;">{{ i.user.userName }}</h3>
-                                <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>
-                            </div>
-                        </div>
-                        <div class="bk-content">
-                            <el-text class="contxt">{{ i.blog.content }}</el-text>
-                            <div class="imgs">
-                                <img class="bk-img" v-for="url in i.blogImg" :key="url.id" :src="url.imgUrl" />
-                            </div>
-                        </div>
-                        <div class="bk-communicate">
-                            <el-button class="bkc" round @click="toggleComments">
-                                <el-icon class="bk-ic">
-                                    <img src="../assets/icon/评论.png" alt="" class="icon">
-                                    <el-text>5</el-text>
-                                </el-icon>
-                            </el-button>
-                            <div class="circle icon_item" :class="i.thumbed ? 'check' : ''">
-                                <div class="img-box" :class="i.thumbed ? 'img-box-check' : ''">
-                                    <img v-if="i.thumbed == false" @click="handleSetThumb(i.blog.id)"
-                                        src="../assets/icon/点赞.png" alt="" />
-                                    <img v-else @click="handleCancelThumb(i.blog.id)" src="../assets/icon/点赞(红).svg"
-                                        alt="" />
-                                </div>
-                                {{ i.thumbCount }}
-                            </div>
-                        </div>
+            <div class="news" v-for=" item  in  8 " :key="item">
+                <div class="img">
+                    <!-- <img :src="item" alt="" width="250" height="150"> -->
+                </div>
+                <div class="news_content">
+                    <el-link :underline="false" @click="">
+                        <h3 class="news_title">
+                            {{ item }}
+                        </h3>
+                    </el-link>
+                    <div class="msg">
 
-                        <div v-for="reply in replyBlog(i.blog.id)" :key="reply.blog.id" class="infinite-list-item2">
-                            <div class="bk-infor2">
-                                <img class="avatar2" :src="reply.user.userAvatar" />
-                                <div class="intxt">
-                                    <div class="content">
-                                        <h3 style="margin-right: 20px;white-space: nowrap;">{{ reply.user.userName }}
-                                        </h3>
-                                        <el-text class="elintxt">{{ reply.blog.replyTime }}</el-text>
-
-                                    </div>
-                                    <div class="contxt">{{ reply.blog.content }}</div>
-                                    <div class="bk-communicate">
-                                        <el-button class="bkc" round @click="toggleComments">
-                                            <el-icon class="bk-ic">
-                                                <img src="../assets/icon/评论.png" alt="" class="icon">
-                                                <el-text>5</el-text>
-                                            </el-icon>
-                                        </el-button>
-                                        <div class="circle icon_item" :class="reply.thumbed ? 'check' : ''">
-                                            <div class="img-box" :class="reply.thumbed ? 'img-box-check' : ''">
-                                                <img v-if="reply.thumbed == false"
-                                                    @click="handleSetThumb(reply.blog.id)" src="../assets/icon/点赞.png"
-                                                    alt="" />
-                                                <img v-else @click="handleCancelThumb(reply.blog.id)"
-                                                    src="../assets/icon/点赞(红).svg" alt="" />
-                                            </div>
-                                            {{ reply.thumbCount }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="date">
+                            {{ item }}-{{ item }}
                         </div>
                     </div>
+                    <div class="description">
+                        {{ item }}
+                    </div>
+
                 </div>
             </div>
         </el-card>
@@ -130,60 +65,153 @@
 
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue';
-import type { UploadProps, UploadUserFile } from 'element-plus'
-import { Upload } from '@element-plus/icons-vue'
-import type { DropdownInstance } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
-import { computed } from 'vue';
-import setBlogThumb from '../functions/setBlogThumb';
-import cancelBlogThumb from '../functions/cancelBlogThumb';
+const dialogFormVisible = ref(false)
 
-const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
-const rootBlog = computed(() => {
-    return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0);
+// 富文本编辑器
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
+import { onBeforeUnmount, shallowRef, onMounted } from 'vue'
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { IEditorConfig } from '@wangeditor/editor'
+
+
+// 编辑器实例，必须用 shallowRef
+const editorRef = shallowRef()
+const mode = 'default'
+// 内容 HTML
+const valueHtml = ref('<p>hello</p>')
+
+// 模拟 ajax 异步获取内容
+onMounted(() => {
+    setTimeout(() => {
+        valueHtml.value = '<p></p>'
+    }, 1500)
 })
-const replyBlog = computed(() => (id: number) => {
-    return Blog.value.filter((blog: any) => {
-        return blog.blog.replyLevel !== 0 && blog.blog.replyParentId === id;
-    });
+import { SlateElement } from '@wangeditor/editor'
+
+type ImageElement = SlateElement & {
+    src: string
+    alt: string
+    url: string
+    href: string
+}
+type InsertFnType = (url: string, alt: string, href: string) => void
+const toolbarConfig = {}
+const editorConfig: Partial<IEditorConfig> = {  // TS 语法
+    MENU_CONF: {}
+}
+// 修改 uploadImage 菜单配置
+if (editorConfig.MENU_CONF && typeof editorConfig.MENU_CONF === 'object') {
+    editorConfig.MENU_CONF['uploadImage'] = {
+        server: 'http://localhost:8085/api/data/upload',
+        fieldName: "file",
+        // 单个文件的最大体积限制，默认为 2M
+        maxFileSize: 5 * 1024 * 1024, // 1M
+        // 上传的图片类型
+        allowedFileTypes: ["image/*"],
+        timeout: 30 * 1000, // 5 秒
+        // 上传之前触发
+        onBeforeUpload(file: File) { // TS 语法
+            console.log(file);
+
+            return file
+        },
+
+        // 上传进度的回调函数
+        onProgress(progress: number) {  // TS 语法
+            // progress 是 0-100 的数字
+            console.log('progress', progress)
+        },
+
+        // 单个文件上传成功之后
+        onSuccess(file: File, res: any) {  // TS 语法
+            console.log(`${file.name} 上传成功`, res)
+        },
+
+        // 单个文件上传失败
+        onFailed(file: File, res: any) {   // TS 语法
+            console.log(`${file.name} 上传失败`, res)
+        },
+
+        // 上传错误，或者触发 timeout 超时
+        onError(file: File, err: any, res: any) {  // TS 语法
+            console.log(`${file.name} 上传出错`, err, res)
+        },
+        // 自定义插入图片
+        customInsert(res: any, insertFn: InsertFnType) {  // TS 语法
+            // res 即服务端的返回结果
+
+            // 从 res 中找到 url alt href ，然后插入图片
+
+            insertFn(res.data.url, '', '')
+        },
+    }
+    // 插入图片
+    editorConfig.MENU_CONF['insertImage'] = {
+        onInsertedImage(imageNode: ImageElement | null) {  // TS 语法
+            if (imageNode == null) return
+
+            const { src, alt, url, href } = imageNode
+            console.log('inserted image', src, alt, url, href)
+        },
+        checkImage: customCheckImageFn, // 也支持 async 函数
+        parseImageSrc: customParseImageSrc, // 也支持 async 函数
+    }
+    // 编辑图片
+    editorConfig.MENU_CONF['editImage'] = {
+        onUpdatedImage(imageNode: ImageElement | null) {  // TS 语法
+            if (imageNode == null) return
+
+            const { src, alt, url } = imageNode
+            console.log('updated image', src, alt, url)
+        },
+        checkImage: customCheckImageFn, // 也支持 async 函数
+        parseImageSrc: customParseImageSrc, // 也支持 async 函数
+    }
+}
+// 自定义校验图片
+function customCheckImageFn(src: string, alt: string, url: string): boolean | undefined | string { // TS 语法
+    if (!src) {
+        return
+    }
+    if (src.indexOf('http') !== 0) {
+        return '图片网址必须以 http/https 开头'
+    }
+    return true
+
+    // 返回值有三种选择：
+    // 1. 返回 true ，说明检查通过，编辑器将正常插入图片
+    // 2. 返回一个字符串，说明检查未通过，编辑器会阻止插入。会 alert 出错误信息（即返回的字符串）
+    // 3. 返回 undefined（即没有任何返回），说明检查未通过，编辑器会阻止插入。但不会提示任何信息
+}
+
+// 转换图片链接
+function customParseImageSrc(src: string): string {  // TS 语法
+    if (src.indexOf('http') !== 0) {
+        return `http://${src}`
+    }
+    return src
+}
+
+// 组件销毁时，也及时销毁编辑器
+onBeforeUnmount(() => {
+    const editor = editorRef.value
+    if (editor == null) return
+    editor.destroy()
 })
-const textarea1 = ref('')
 
-const fileList = ref<UploadUserFile[]>([
-    {
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-    },
-])
-
-const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
-    console.log(uploadFile, uploadFiles)
-}
-
-const handlePreview: UploadProps['onPreview'] = (file) => {
-    console.log(file)
-}
-
-const dropdown1 = ref<DropdownInstance>()
-
-function showDropdown() {
-    if (!dropdown1.value) return;
-    dropdown1.value.handleOpen();
-}
-
-
-function showClick() {
-    console.log(Blog.value[0].blog.replyTime);
-
-    if (!dropdown1.value) return
-    dropdown1.value.handleOpen()
-    textarea1.value += `# `;
+const handleCreated = (editor: any) => {
+    editorRef.value = editor // 记录 editor 实例，重要！
+    console.log(editor.getMenuConfig('uploadImage'));
 
 }
 
-const selectTopic = (topic: any) => {
-    textarea1.value += `${topic} `;
-};
+const handleSubmit = () => {
+    console.log(123);
+    console.log(valueHtml.value);
+
+}
+
+
 
 // 排行榜
 const tableData = [
@@ -205,30 +233,6 @@ watchEffect(() => {
         tableDataToShow.value = [...tableData];
     }
 });//显示所有数据
-
-//搜索框
-const input1 = ref('')
-
-//博客
-const count = ref(0)
-const load = () => {
-    count.value += 2
-}
-
-const showComments = ref(true);
-
-const toggleComments = () => {
-    showComments.value = !showComments.value;
-};
-const handleSetThumb = async (id: number) => {
-    await setBlogThumb(id)
-    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
-}
-
-const handleCancelThumb = async (id: number) => {
-    await cancelBlogThumb(id)
-    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
-}
 </script>
 
 <style lang="scss" scoped>
@@ -237,281 +241,85 @@ const handleCancelThumb = async (id: number) => {
     justify-content: space-between;
 }
 
-
 .leftcc {
     margin-right: 20px;
     display: inline-block;
-    height: 800px;
-    width: 32%;
+    height: 550px;
+    width: 30%;
     background-color: rgba($color: #fff, $alpha: 0.5);
-}
 
-//发布样式
-.upload {
-    margin: 0 auto;
-    width: 200px;
-    height: 300px;
-}
+    //发布样式
+    .upload {
+        margin: 0 auto;
+    }
 
-.custom-input {
-    padding-top: 5px;
-    height: 46px;
-}
+    .custom-input {
+        padding-top: 5px;
+        height: 46px;
+    }
 
-.upload-container {
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 50px;
-}
+    .upload-container {
+        vertical-align: top;
+        padding-top: 50px;
+        width: 100%;
 
-.upload-p,
-.upload-send {
-    vertical-align: top;
-}
-
-
-.upload-p {
-    display: inline-block;
-    text-align: left;
-}
-
-.rightcc {
-    text-align: left;
-    padding-left: 30px;
-    width: 64%;
-    background-color: rgba($color: #fff, $alpha: 0.5);
-}
-
-
-//排行榜样式
-
-.popularity-h2 {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.popularity-bt {
-    margin-top: 10px;
-}
-
-//搜索框样式
-.search {
-    padding-top: 20px;
-    width: 300px;
-    height: 60px;
-}
-
-
-//博客样式
-.bk-container {
-    margin-left: 10px;
-    margin-top: 20px;
-}
-
-.infinite-list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.infinite-list .infinite-list-item {
-    border-bottom: 1px solid #cfcfcf;
-    margin: 10px;
-}
-
-.infinite-list .infinite-list-item2 {
-    margin: 10px;
-
-    .bk-infor2 {
-        padding-top: 10px;
-        width: 80%;
-        display: flex;
-        margin-top: 10px;
-        margin-left: 50px;
-
-        .avatar2 {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+        :deep(.el-upload-list__item) {
+            width: 30%;
+            height: 30%;
         }
 
-        .intxt {
-            width: 100%;
-
-            .content {
-                display: flex;
-                justify-content: flex-start;
-            }
-        }
-    }
-}
-
-.infinite-list .infinite-list-item+.list-item {
-    margin-top: 10px;
-}
-
-.avatar {
-    width: 70px;
-    height: 70px;
-}
-
-.bk-infor {
-    padding-top: 10px;
-    width: 300px;
-    height: 70px;
-    display: flex;
-    margin-top: 10px;
-    margin-left: 10px;
-
-}
-
-.bk-infor .intxt {
-    margin-top: 10px;
-    margin-left: 10px;
-    text-align: left;
-}
-
-.elintxt {
-    color: #000;
-}
-
-.bk-content {
-    padding-top: 10px;
-    width: 500px;
-    //height: 200px;
-    text-align: left;
-}
-
-.contxt {
-    color: #000;
-    font-size: 20px;
-}
-
-.bk-communicate {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    margin: 10px;
-}
-
-.bk-img {
-    width: 150px;
-    height: 150px;
-    padding-top: 10px;
-    padding-right: 10px;
-}
-
-.bkc {
-    width: 80px;
-    height: 50px;
-}
-
-.bk-ic {
-    font-size: 30px;
-
-    .icon {
-        width: 24px;
-        height: 24px;
-    }
-}
-
-//评论
-.bkcomment {
-    margin-top: 20px;
-    margin-left: 120px;
-    // background-color: green;
-    width: 440px;
-
-
-    .comdiv {
-        padding-top: 8px;
-        padding-left: 10px;
-        padding-bottom: 5px;
-    }
-
-    .comtxt {
-        font-size: 16px;
-        color: #000;
-    }
-
-    .comput {
-        width: 300px;
-        // margin-top: 20px;
-        // padding-left: 20px;
-        padding-right: 50px;
-    }
-}
-
-.circle {
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0px 0px 0px 0px rgba(223, 46, 58, 0.5);
-
-    .img-box {
-        width: 20px;
-        height: 20px;
-        margin: 5px;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        -khtml-user-select: none;
-        user-select: none; // 防止快速点击图片被选中，可不加，为提高体验，博主加上了这几行代码。
-
-        & img {
-            width: 100%;
+        :deep(.el-upload--picture-card) {
+            width: 30%;
             height: 100%;
         }
     }
-}
 
-.check {
-    -webkit-transition: box-shadow 0.5s;
-    -moz-transition: box-shadow 0.5s;
-    -o-transition: box-shadow 0.5s;
-    transition: box-shadow 0.5s;
-    box-shadow: 0px 0px 0px 1em rgba(226, 32, 44, 0);
-}
-
-.img-box-check {
-    animation: anm 0.5s;
-    -moz-animation: anm 0.5s;
-    -webkit-animation: anm 0.5s;
-    -o-animation: anm 0.5s;
-}
-
-@keyframes anm {
-    0% {
-        transform: scale(0);
-        -webkit-transform: scale(0);
-        -moz-transform: scale(0);
+    .upload-p,
+    .upload-send {
+        vertical-align: top;
     }
 
-    50% {
-        transform: scale(1.3);
-        -webkit-transform: scale(1.3);
-        -moz-transform: scale(1.3);
-    }
 
-    100% {
-        transform: scale(1);
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
+    .upload-p {
+        display: inline-block;
+        text-align: left;
     }
 }
 
-.btn {
-    display: flex;
-}
+.rightcc {
+    background-color: rgba($color: #fff, $alpha: 0.5);
+    width: 65%;
 
-.icon_item {
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
+    .news {
+        display: flex;
+        justify-content: flex-start;
+        border-bottom: 1px solid #ababab;
+        padding: 20px;
 
-    .icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 5px;
+        img {
+            border-radius: 5px;
+        }
+
+        .news_content {
+            padding-left: 20px;
+            text-align: left;
+            width: 920px;
+
+            .description {
+                font-size: 14px;
+                color: #6b6b6b;
+            }
+
+            .msg {
+                margin: 10px auto;
+                display: flex;
+                align-items: center;
+
+                .date {
+                    margin-left: 20px;
+                }
+            }
+        }
     }
 }
 </style>

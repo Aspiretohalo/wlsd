@@ -56,15 +56,6 @@
                             </el-card>
                         </div>
                     </div>
-                    <div class="recommendation">
-                        <h2>会议推荐</h2>
-                        <h5>Meeting recommendation</h5>
-                        <div class="recommendation_cards">
-                            <el-card class="card" v-for="i in 3" :key="i">
-                                {{ i }}
-                            </el-card>
-                        </div>
-                    </div>
                     <Comment></Comment>
                 </el-main>
                 <el-footer style="padding: 0;">
@@ -89,15 +80,12 @@ import addMeetingViews from '../functions/addViewsMeeting';
 import { onBeforeMount, onMounted, onUnmounted } from 'vue';
 onBeforeMount(async () => {
     const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
-
     await addMeetingViews(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value.meeting.itemViews++
 })
 const MeetingDetail: any = ref(JSON.parse(sessionStorage.getItem("MeetingDetail") || "null") || "")
 onMounted(() => {
     const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
-
-    console.log(SingleMeeting.value.meeting.itemAddress);
 
     var player = TCPlayer('player-container-id', {
         sources: [{
@@ -115,7 +103,6 @@ onMounted(() => {
 
 });
 const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
-
 
 const handleSetMeetingSubscription = async () => {
     await setMeetingSubscription(SingleMeeting.value.meeting.itemId)
