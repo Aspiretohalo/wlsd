@@ -3,6 +3,16 @@
         <div class="common-layout background-container">
             <el-container style="padding: 0;">
                 <el-main class="main bgc">
+
+                    <!-- 规则 排行 -->
+                    <div style=" float: left;margin-left: 20px; margin-top: 50px;">
+                        <div style="width: 160px; background-color: #fff; height: 450px;">
+                            排行榜
+                        </div>
+                        <el-button style="width: 60px; height: 60px; font-size: 18px;margin: 200px 50px 50px 50px;"
+                            @click="checkRule" type="primary">规则</el-button>
+                    </div>
+
                     <div class="content w-margin">
                         <img class="img-world pixelated" src="../assets/images/ditu.jpg" alt="">
                         <div class="pos" v-for="i in Question" :key="i.question.questionId"
@@ -18,6 +28,27 @@
                 </el-main>
             </el-container>
         </div>
+
+        <el-dialog v-model="ruleDialogVisible" title="闯关规则" style="height: 500px;border-radius: 30px;" width="500">
+            <p style="text-align: left; font-size: 16px; margin-left: 25px;">游戏介绍：</p>
+            <p style="text-align: left; margin-left: 70px;">1.每道题目仅有一个正确选项！</p>
+            <p style="text-align: left; margin-left: 70px;">2.大会闯关题目与西湖论剑历史有关！</p>
+            <p style="text-align: left; margin-left: 70px;">3.题目选择后无法更改，请慎重选择！</p>
+            <p style="text-align: left; font-size: 16px; margin-left: 25px;">规则讲解：</p>
+            <p style="text-align: left; margin-left: 70px;">1.每道题目仅有一次答题机会！</p>
+            <p style="text-align: left; margin-left: 70px;">2.每答对一道题，增加100积分，榜上高手会有额外奖励！</p>
+            <p style="text-align: left; margin-left: 70px;">3.挑战机会用完？分享活动海报和观看视频获取更多机会！</p>
+
+
+            <!-- <template #footer>
+                <div class="dialog-footer">
+                    <el-button @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">
+                        Confirm
+                    </el-button>
+                </div>
+            </template> -->
+        </el-dialog>
 
         <el-dialog v-model="centerDialogVisible" width="920"
             style="height: 650px;border-radius: 20px;background-color: transparent;" align-center
@@ -35,12 +66,26 @@
                             </div>
                         </div>
                     </el-radio-group>
-                    <div class="answer">
-                        正确答案: {{ mappedCorrectOption(SingleQuestion.question.correctOptionId) }}
+
+                    <div v-if="answer">
+                        <div class="answer">
+                            正确答案: {{ mappedCorrectOption(SingleQuestion.question.correctOptionId) }}
+                        </div>
+                        <div class="analysis">
+                            {{ SingleQuestion.question.questionDescription }}
+                        </div>
                     </div>
-                    <div class="analysis">
-                        {{ SingleQuestion.question.questionDescription }}
+
+                    <div v-else>
+                        <div class="answer">
+                            回答错误！
+                        </div>
+                        <div class="analysis">
+                            <el-button type="primary">分享活动</el-button>
+                            <el-button type="primary">观看视频</el-button>
+                        </div>
                     </div>
+
                 </div>
 
                 <!-- <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
@@ -55,15 +100,21 @@
 
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from "vue";
 // import { ElMessage } from 'element-plus'
-import getQuestionById from '../functions/getQuestionById';
+import getQuestionById from "../functions/getQuestionById";
 
 onMounted(() => {
     setInterval(changeBackgroundColor, 3000); // 每 3 秒变换一次背景颜色
 });
 // 定义背景颜色数组
-const backgroundColors = ['#ff7e5f', '#ffac81', '#ffcc70', '#f3e9d2', '#a8e6cf'];
+const backgroundColors = [
+    "#ff7e5f",
+    "#ffac81",
+    "#ffcc70",
+    "#f3e9d2",
+    "#a8e6cf",
+];
 
 const currentIndex = ref(0);
 // 当前背景颜色
@@ -73,48 +124,56 @@ const changeBackgroundColor = () => {
     currentIndex.value = (currentIndex.value + 1) % backgroundColors.length;
     currentColor.value = backgroundColors[currentIndex.value];
 };
-const user: any = ref(JSON.parse(sessionStorage.getItem("User") || "null") || "")
-const Question: any = ref(JSON.parse(sessionStorage.getItem("Question") || "null") || "")
-const SingleQuestion: any = ref([])
+const user: any = ref(
+    JSON.parse(sessionStorage.getItem("User") || "null") || ""
+);
+const Question: any = ref(
+    JSON.parse(sessionStorage.getItem("Question") || "null") || ""
+);
+const SingleQuestion: any = ref([]);
 const options: any = ref([
     {
         id: 1,
-        option: ''
-    }, {
-        id: 2,
-        option: ''
-    }, {
-        id: 3,
-        option: ''
-    }, {
-        id: 4,
-        option: ''
+        option: "",
     },
-])
+    {
+        id: 2,
+        option: "",
+    },
+    {
+        id: 3,
+        option: "",
+    },
+    {
+        id: 4,
+        option: "",
+    },
+]);
 const centerDialogVisible = ref(false);
 // 映射ABCD
 const mappedCorrectOption = computed(() => (correctOptionId: number) => {
     const mapping: { [key: number]: string } = {
-        1: 'A',
-        2: 'B',
-        3: 'C',
-        4: 'D',
+        1: "A",
+        2: "B",
+        3: "C",
+        4: "D",
     };
     return mapping[correctOptionId] || 0;
 });
 
 const playGame = async (questionId: number) => {
-    await getQuestionById(questionId, user.value.userId)
-    SingleQuestion.value = JSON.parse(sessionStorage.getItem("SingleQuestion") || "null") || ""
-    options.value[0].option = SingleQuestion.value.question.option1
-    options.value[1].option = SingleQuestion.value.question.option2
-    options.value[2].option = SingleQuestion.value.question.option3
-    options.value[3].option = SingleQuestion.value.question.option4
+    await getQuestionById(questionId, user.value.userId);
+    SingleQuestion.value =
+        JSON.parse(sessionStorage.getItem("SingleQuestion") || "null") || "";
+    options.value[0].option = SingleQuestion.value.question.option1;
+    options.value[1].option = SingleQuestion.value.question.option2;
+    options.value[2].option = SingleQuestion.value.question.option3;
+    options.value[3].option = SingleQuestion.value.question.option4;
 
     centerDialogVisible.value = true;
 };
 
-const selectedOption = ref(null)
+const selectedOption = ref(null);
 
 // const currentQuestionIndex = ref(0);
 // const correctCount = ref(0);
@@ -133,10 +192,6 @@ const selectedOption = ref(null)
 //         ElMessage.error('请先选择一个选项！')
 //     }
 // };
-
-
-
-
 
 // const submitAnswer = () => {
 //     // 判断用户是否全部回答了题目
@@ -170,14 +225,21 @@ const selectedOption = ref(null)
 //     }
 // };
 
-
-
 // const renderQuestion = (index: number) => {
 //     // 点击按钮时更新当前题目
 //     currentQuestionIndex.value = index;
 //     currentQuestion.value = questions[index];
 // };
 
+const answer = ref(false);
+
+const ruleDialogVisible = ref(false);
+
+
+const checkRule = async () => {
+
+    ruleDialogVisible.value = true;
+};
 </script>
 
 <style scoped lang="scss">
@@ -189,9 +251,9 @@ const selectedOption = ref(null)
     .content {
         position: relative;
         pointer-events: all;
-        box-shadow: 0 0 0 5px #fff, 0 0 0 15px #0000001a, 0 0 0 25px #0000000d, 0 0 0 35px #00000003;
+        box-shadow: 0 0 0 5px #fff, 0 0 0 15px #0000001a, 0 0 0 25px #0000000d,
+            0 0 0 35px #00000003;
         overflow: hidden;
-
 
         .img-world {
             margin: 0 auto;
@@ -204,12 +266,11 @@ const selectedOption = ref(null)
         }
 
         .pos {
-            transition: all .3s;
+            transition: all 0.3s;
             position: absolute;
             width: 100%;
         }
     }
-
 }
 
 .img_holder {
@@ -217,7 +278,7 @@ const selectedOption = ref(null)
     width: 46px;
     height: 46px;
     cursor: pointer;
-    transition: all .3s;
+    transition: all 0.3s;
     position: absolute;
 }
 
@@ -235,7 +296,6 @@ const selectedOption = ref(null)
 //     width: 100%;
 //     position: initial;
 // }
-
 
 .dialog-footer button:first-child {
     margin-right: 10px;
@@ -279,6 +339,7 @@ const selectedOption = ref(null)
     }
 
     .answer {
+        color: red;
         position: absolute;
         left: 120px;
         top: 440px;
@@ -306,7 +367,6 @@ const selectedOption = ref(null)
         /* Each item takes up 50% width (two items per row) */
         box-sizing: border-box;
         padding: 8px;
-
     }
 }
 
