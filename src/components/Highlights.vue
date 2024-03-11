@@ -4,15 +4,16 @@
             <h1>大会亮点</h1>
             <h3>Conference Highlights</h3>
             <el-row class="data">
-                <el-col :span="5" v-for="item in highlight_data" :key="item.title">
+                <!-- <el-col :span="5" v-for="item in highlight_data" :key="item.title">
                     <el-statistic :title="item.title" :value="item.data">
                         <template #suffix>
                             <el-icon style="vertical-align: -0.125em">
                                 <Plus />
                             </el-icon>
                         </template>
-                    </el-statistic>
-                </el-col>
+</el-statistic>
+</el-col> -->
+                <LineCombination></LineCombination>
             </el-row>
             <div class="Highlights">
                 <el-card class="Highlights_card" :body-style="{ backgroundColor: item.style, height: '100%' }"
@@ -27,7 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { Plus } from '@element-plus/icons-vue'
+// import { Plus } from '@element-plus/icons-vue'
+import LineCombination from './LineCombination.vue'
 import { ref } from 'vue';
 const highlight_data = ref([
     {

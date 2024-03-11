@@ -20,4 +20,7 @@ export default {
     SingleQuestion: [],
     ActivityAndMeetingChoice: [],
     ThumbBlogShare: [],
+    AllPost: [],
+    SinglePost: [],
+    HotTopic: [],
 }

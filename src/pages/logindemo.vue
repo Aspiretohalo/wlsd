@@ -46,10 +46,7 @@
                                 <el-button class="login_btn" type="primary" round
                                     @click="handleLogin(form)">登录/注册</el-button>
                             </el-form-item>
-
-
                         </el-form>
-
                         <!-- <el-checkbox v-model="isChecked">选项</el-checkbox> -->
                         <el-checkbox class="protocol">注册或登录即代表您同意《用户协议》和《隐私协议》</el-checkbox>
                     </el-card>

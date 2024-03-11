@@ -29,7 +29,9 @@
                     <div class="PastReview w-margin">
                         <h1>往期回顾</h1>
                         <h3>Past Review</h3>
-                        <el-carousel class="carousel" :autoplay="false" trigger="click" arrow="always" type="card">
+                        <OrientationSenseCard></OrientationSenseCard>
+                        <el-carousel class="carousel" :autoplay="false" indicator-position="none" trigger="click"
+                            arrow="always" type="card">
                             <el-carousel-item v-for="item in PastReview" :key="item.past_title">
                                 <div style="position: absolute; top: 5px;left: 10px;color: #fff;">{{ item.past_title }}
                                 </div>
@@ -55,6 +57,8 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import Highlights from '../components/Highlights.vue';
+import OrientationSenseCard from '../components/OrientationSenseCard.vue';
+
 import { ref } from 'vue';
 const goTo = (url: string) => {
     window.open(url)

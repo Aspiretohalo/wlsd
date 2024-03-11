@@ -14,7 +14,7 @@
                 <el-menu-item index="/news">媒体中心</el-menu-item>
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
                 <!-- <el-menu-item index="#">社区中心</el-menu-item> -->
-                <el-menu-item index="/communityCenter">社区中心</el-menu-item>
+                <el-menu-item index="/communityCenter">论剑堂</el-menu-item>
             </el-menu>
             <div class="login" v-if="token == null && route.path != '/login'">
                 <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;"
@@ -90,6 +90,8 @@ import getIntegralGifts from '../functions/getIntegralGifts';
 import getIntegralDetail from '../functions/getIntegralDetail';
 import getActivityAndMeetingChoice from '../functions/getActivityAndMeetingChoice';
 import getThumbBlogShare from '../functions/getThumbBlogShare';
+import getAllPosts from '../functions/getAllPosts';
+import getHotTopic from '../functions/getHotTopic';
 
 import { onMounted } from 'vue'
 
@@ -109,6 +111,8 @@ onMounted(async () => {
     await getIntegralDetail(user.userId)
     await getActivityAndMeetingChoice(user.userId)
     await getThumbBlogShare(user.userId)
+    await getAllPosts()
+    await getHotTopic()
 })
 const route = useRoute();
 const router = useRouter();

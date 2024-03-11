@@ -1,10 +1,11 @@
 <template>
     <div class="main">
-        <el-carousel :interval="5000" class="carousel" trigger="click">
+        <!-- <el-carousel :interval="5000" class="carousel" trigger="click">
             <el-carousel-item v-for="item in 4" :key="item" style="height: 650px;">
                 <img class="banner" src="../assets/banner/2024banner.png" alt="">
             </el-carousel-item>
-        </el-carousel>
+        </el-carousel> -->
+        <DisplayTextInSmoke></DisplayTextInSmoke>
         <div class="meetings">
             <Highlights></Highlights>
             <Committee></Committee>
@@ -86,6 +87,7 @@
 
 <script lang="ts" setup>
 import Highlights from './Highlights.vue';
+import DisplayTextInSmoke from './DisplayTextInSmoke.vue';
 import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
 // import Exhibitor from '../components/Exhibitor.vue';

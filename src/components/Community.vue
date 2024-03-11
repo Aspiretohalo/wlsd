@@ -1,12 +1,12 @@
 <template>
     <div class="ccmain w-margin">
-        <!-- <h1>社区中心</h1> -->
-        <!-- 左边栏目 -->
-
         <el-card class="leftcc">
-            <el-button plain @click="dialogFormVisible = true">
+            <el-button class="btn" plain @click="dialogFormVisible = true" style="width: 50%;margin: 20px auto;">
                 发布内容
             </el-button>
+            <!-- <TranslateBgButton @click="dialogFormVisible = true" style="width: 50%;margin-bottom: 20px;">
+
+            </TranslateBgButton> -->
             <el-dialog v-model="dialogFormVisible" width="800">
                 <div style="border: 1px solid #ccc">
                     <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
@@ -14,10 +14,73 @@
                     <Editor style="height: 500px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
                         :mode="mode" @onCreated="handleCreated" />
                 </div>
+                <div class="message">
+                    <el-form :model="form" label-width="auto" style="max-width: 600px;margin-top: 20px;">
+                        <el-form-item label="话题">
+                            <div class="flex gap-2">
+                                <el-tag style="margin-right: 10px;" v-for="tag in dynamicTags" :key="tag" closable
+                                    :disable-transitions="false" @close="handleClose(tag)">
+                                    {{ tag }}
+                                </el-tag>
+                                <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" class="w-20"
+                                    size="small" @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+                                <el-button v-else class="button-new-tag" size="small" @click="showInput">
+                                    +新增
+                                </el-button>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="标题">
+                            <el-input v-model="form.title" />
+                        </el-form-item>
+
+                        <el-form-item label="概要">
+                            <el-input v-model="form.post_description" type="textarea"
+                                placeholder="摘要：会在推荐、列表等场景外露，帮助读者快速了解内容" />
+                        </el-form-item>
+
+                        <el-form-item label="封面上传">
+                            <el-upload action="#" list-type="picture-card" :auto-upload="false">
+                                <el-icon>
+                                    <Plus />
+                                </el-icon>
+
+                                <template #file="{ file }">
+                                    <div>
+                                        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+                                        <span class="el-upload-list__item-actions">
+                                            <span class="el-upload-list__item-preview"
+                                                @click="handlePictureCardPreview(file)">
+                                                <el-icon><zoom-in /></el-icon>
+                                            </span>
+                                            <span v-if="!disabled" class="el-upload-list__item-delete"
+                                                @click="handleDownload(file)">
+                                                <el-icon>
+                                                    <Download />
+                                                </el-icon>
+                                            </span>
+                                            <span v-if="!disabled" class="el-upload-list__item-delete"
+                                                @click="handleRemove(file)">
+                                                <el-icon>
+                                                    <Delete />
+                                                </el-icon>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </template>
+                            </el-upload>
+
+                            <el-dialog v-model="dialogVisible">
+                                <img w-full :src="dialogImageUrl" alt="预览" />
+                            </el-dialog>
+                        </el-form-item>
+                    </el-form>
+                </div>
+
                 <template #footer>
                     <div class="dialog-footer">
-                        <el-button @click="dialogFormVisible = false">取消</el-button>
-                        <el-button type="primary" @click="handleSubmit(); dialogFormVisible = false">
+                        <el-button round plain @click="dialogFormVisible = false" size="large">取消</el-button>
+                        <el-button type="primary" round plain @click="handleSubmit(); dialogFormVisible = false"
+                            size="large">
                             发布
                         </el-button>
                     </div>
@@ -25,36 +88,34 @@
             </el-dialog>
 
             <div class="popularity-ranking">
-                <h2 class="popularity-h2">热点话题排行榜</h2>
-                <el-table :data="tableDataToShow" height="300" style="width: 100%;background: transparent;">
+                <h2 class="popularity-h2">热点话题榜</h2>
+                <el-table :data="tableData" height="300" style="width: 100%;background: transparent;">
                     <el-table-column prop="Ranking" label="排名" width="60" />
                     <el-table-column prop="topic" label="话题" width="150" />
                     <el-table-column prop="heat" label="热度" />
                 </el-table>
-                <el-button class="popularity-bt" v-if="!showAllTopics" @click="showAllTopics = true"
-                    type="primary">显示更多</el-button>
             </div>
         </el-card>
 
         <el-card class="rightcc">
-            <div class="news" v-for=" item  in  8 " :key="item">
+            <div class="news" v-for="item in formattedData " :key="item.id">
                 <div class="img">
-                    <!-- <img :src="item" alt="" width="250" height="150"> -->
+                    <img :src="item.postCover" alt="" width="250" height="150">
                 </div>
                 <div class="news_content">
-                    <el-link :underline="false" @click="">
+                    <el-link :underline="false" @click="goToPage(item.id)">
                         <h3 class="news_title">
-                            {{ item }}
+                            {{ item.title }}
                         </h3>
                     </el-link>
                     <div class="msg">
 
                         <div class="date">
-                            {{ item }}-{{ item }}
+                            {{ item.postTime }}
                         </div>
                     </div>
                     <div class="description">
-                        {{ item }}
+                        {{ item.postDescription }}
                     </div>
 
                 </div>
@@ -64,21 +125,97 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue';
+import { ref } from 'vue';
 const dialogFormVisible = ref(false)
+import { reactive } from 'vue'
+import getPostById from '../functions/getPostById';
+
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
+const AllPost: any = ref(JSON.parse(sessionStorage.getItem("AllPost") || "null") || "")
+
+const formattedData = ref(AllPost.value.reverse().map((item: any) => {
+    const originalDate = new Date(item.postTime);
+
+    // 时区设置为中国
+    const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+    return { ...item, postTime: formattedTime };
+}))
+const goToPage = async (id: Number) => {
+    await getPostById(id)
+    router.push('/postDetail/' + id)
+}
+
+// do not use same name with ref
+const form = reactive({
+    title: '',
+    post_description: '',
+
+})
+
+import { nextTick } from 'vue'
+import { ElInput } from 'element-plus'
+
+const inputValue = ref('')
+const dynamicTags = ref([] as string[])
+const inputVisible = ref(false)
+const InputRef = ref<InstanceType<typeof ElInput>>()
+
+const handleClose = (tag: string) => {
+    dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
+}
+
+const showInput = () => {
+    inputVisible.value = true
+    nextTick(() => {
+        InputRef.value!.input!.focus()
+    })
+}
+
+const handleInputConfirm = () => {
+    if (inputValue.value) {
+        dynamicTags.value.push(inputValue.value)
+    }
+    inputVisible.value = false
+    inputValue.value = ''
+}
+
+import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+
+import type { UploadFile } from 'element-plus'
+
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
+
+const handleRemove = (file: UploadFile) => {
+    console.log(file)
+}
+
+const handlePictureCardPreview = (file: UploadFile) => {
+    dialogImageUrl.value = file.url!
+    dialogVisible.value = true
+}
+
+const handleDownload = (file: UploadFile) => {
+    console.log(file)
+}
+
 
 // 富文本编辑器
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { onBeforeUnmount, shallowRef, onMounted } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { IEditorConfig } from '@wangeditor/editor'
-
+import { IToolbarConfig } from '@wangeditor/editor'
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
 const mode = 'default'
 // 内容 HTML
-const valueHtml = ref('<p>hello</p>')
+const valueHtml = ref('<p></p>')
 
 // 模拟 ajax 异步获取内容
 onMounted(() => {
@@ -95,12 +232,26 @@ type ImageElement = SlateElement & {
     href: string
 }
 type InsertFnType = (url: string, alt: string, href: string) => void
-const toolbarConfig = {}
+const toolbarConfig: Partial<IToolbarConfig> = {  // TS 语法
+    /* 工具栏配置 */
+}
+
+toolbarConfig.excludeKeys = [
+    'group-video',
+    'insertTable',
+    'todo',
+    'italic',
+]
 const editorConfig: Partial<IEditorConfig> = {  // TS 语法
     MENU_CONF: {}
 }
+
 // 修改 uploadImage 菜单配置
 if (editorConfig.MENU_CONF && typeof editorConfig.MENU_CONF === 'object') {
+    // 背景色
+    editorConfig.MENU_CONF['bgColor'] = {
+        colors: ['rgba(0, 0, 0, 0)']
+    }
     editorConfig.MENU_CONF['uploadImage'] = {
         server: 'http://localhost:8085/api/data/upload',
         fieldName: "file",
@@ -168,6 +319,7 @@ if (editorConfig.MENU_CONF && typeof editorConfig.MENU_CONF === 'object') {
         parseImageSrc: customParseImageSrc, // 也支持 async 函数
     }
 }
+
 // 自定义校验图片
 function customCheckImageFn(src: string, alt: string, url: string): boolean | undefined | string { // TS 语法
     if (!src) {
@@ -183,7 +335,6 @@ function customCheckImageFn(src: string, alt: string, url: string): boolean | un
     // 2. 返回一个字符串，说明检查未通过，编辑器会阻止插入。会 alert 出错误信息（即返回的字符串）
     // 3. 返回 undefined（即没有任何返回），说明检查未通过，编辑器会阻止插入。但不会提示任何信息
 }
-
 // 转换图片链接
 function customParseImageSrc(src: string): string {  // TS 语法
     if (src.indexOf('http') !== 0) {
@@ -191,7 +342,6 @@ function customParseImageSrc(src: string): string {  // TS 语法
     }
     return src
 }
-
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
     const editor = editorRef.value
@@ -204,35 +354,22 @@ const handleCreated = (editor: any) => {
     console.log(editor.getMenuConfig('uploadImage'));
 
 }
+import addNewPost from '../functions/addNewPost';
 
-const handleSubmit = () => {
-    console.log(123);
-    console.log(valueHtml.value);
-
+const handleSubmit = async () => {
+    await addNewPost(form.title, form.post_description, valueHtml.value, dynamicTags.value)
 }
 
-
-
 // 排行榜
-const tableData = [
-    { Ranking: '1', topic: '小黑子', heat: '2.5亿' },
-    { Ranking: '2', topic: '唱', heat: '1000万' },
-    { Ranking: '3', topic: '跳', heat: '500万' },
-    { Ranking: '4', topic: 'rap', heat: '401.5万' },
-    { Ranking: '5', topic: '篮球', heat: '2.5万' },
-    { Ranking: '6', topic: 'Tom', heat: '2.5万' },
+const HotTopic: any = ref(JSON.parse(sessionStorage.getItem("HotTopic") || "null") || "")
 
-];
+// 将数据处理成 el-table 需要的格式
+const tableData = HotTopic.value.map((item: any, index: any) => ({
+    Ranking: index + 1,
+    topic: Object.keys(item)[0],
+    heat: Object.values(item)[0]
+}));
 
-const showAllTopics = ref(false);
-
-const tableDataToShow = ref(tableData.slice(0, 10));//显示前10条数据
-
-watchEffect(() => {
-    if (showAllTopics.value) {
-        tableDataToShow.value = [...tableData];
-    }
-});//显示所有数据
 </script>
 
 <style lang="scss" scoped>
@@ -241,12 +378,39 @@ watchEffect(() => {
     justify-content: space-between;
 }
 
+:deep(.el-table tr) {
+    background: transparent;
+}
+
+:deep(.el-table th.el-table__cell) {
+    background: transparent;
+}
+
 .leftcc {
     margin-right: 20px;
     display: inline-block;
     height: 550px;
     width: 30%;
     background-color: rgba($color: #fff, $alpha: 0.5);
+
+    .btn {
+        border: 0;
+        border-radius: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        cursor: pointer;
+        color: #ffffff;
+        background: linear-gradient(to right, #c66cea 50%, rgb(78, 144, 254) 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0%;
+        transition: all 0.5s ease;
+
+        &:hover {
+            background-position: 0% 0%;
+        }
+    }
 
     //发布样式
     .upload {
@@ -288,7 +452,7 @@ watchEffect(() => {
 
 .rightcc {
     background-color: rgba($color: #fff, $alpha: 0.5);
-    width: 65%;
+    width: 68%;
 
     .news {
         display: flex;
@@ -314,10 +478,6 @@ watchEffect(() => {
                 margin: 10px auto;
                 display: flex;
                 align-items: center;
-
-                .date {
-                    margin-left: 20px;
-                }
             }
         }
     }

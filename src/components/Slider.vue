@@ -37,21 +37,8 @@
 </template>
 
 <script>
-// =========================================
-// 父组件需要提供的方法 名称
-// =========================================
-
-/**
- * 获取滑块图片方法
- */
 const GET_IMG_FUN = "getImg";
-/**
- * 校验滑块图片方法
- */
 const VALID_IMG_FUN = "validImg";
-/**
- * 滑块窗口关闭事件监听
- */
 const CLOST_EVENT_FUN = "close";
 
 export default {

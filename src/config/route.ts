@@ -11,6 +11,7 @@ import Results from "../pages/Results.vue";
 import WonderfulActivity from "../pages/WonderfulActivity.vue";
 import AgendaDetail from "../pages/AgendaDetail.vue"
 import NewsDetail from "../pages/NewsDetail.vue"
+import PostDetail from "../pages/PostDetail.vue"
 import User from "../pages/User.vue"
 import Integral from "../pages/Integral.vue"
 import Login from "../pages/Login.vue";
@@ -58,6 +59,7 @@ const routes = [
     { path: "/communityCenter", component: CommunityCenter },
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
     { path: "/newsDetail/:newsId", component: NewsDetail },
+    { path: "/postDetail/:id", component: PostDetail },
     { path: "/logindemo", component: logindemo },
     { path: "/funGames", component: FunGames },
 
