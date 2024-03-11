@@ -22,6 +22,8 @@ import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
 import logindemo from "../pages/logindemo.vue"
 import FunGames from "../pages/FunGames.vue"
+import WordGamedemo from "../pages/WordGamedemo.vue"
+
 
 
 const routes = [
@@ -62,7 +64,7 @@ const routes = [
     { path: "/postDetail/:id", component: PostDetail },
     { path: "/logindemo", component: logindemo },
     { path: "/funGames", component: FunGames },
-
+    { path: "/WordGamedemo", component: WordGamedemo },
 
     // {
     //     path: "/courseId/:courseId",
