@@ -38,7 +38,9 @@
                                 <img src="../assets/icon/微信.svg" width="36">
                                 <el-button @click="getWechatQRCode">微信扫码登录</el-button>
                                 <div v-if="qrCodeUrl">
-                                    <img :src="qrCodeUrl" alt="微信登录二维码" />
+                                    <!-- <img :src="qrCodeUrl" alt="微信登录二维码" /> -->
+                                    <qrcode-vue :value="qrCodeText"></qrcode-vue>
+
                                 </div>
                             </div>
 
@@ -67,6 +69,7 @@ import myAxios from '../plugins/myAxios';
 import { ElMessage } from 'element-plus'
 import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
+import QrcodeVue from 'vue-qrcode';
 
 // do not use same name with ref
 const form = reactive({
@@ -184,18 +187,28 @@ const timerHandler = () => {
 //微信登录请求
 import axios from 'axios';
 
-const qrCodeUrl = ref(null);
+const qrCodeUrl = ref(''); // 存储二维码URL
 
 const getWechatQRCode = async () => {
     try {
-        // 请求后端接口获取二维码 URL
-        const response = await axios.get('/api/wechat-login-qrcode');
-        qrCodeUrl.value = response.data.url; // 假设后端返回的数据中有 url 字段
+        const response = await axios.get('http://localhost:8080/getQRCode'); // 发送请求到后端
+
+        if (response && response.data) {
+            qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl)).data.qrCodeReturnUrl;
+            console.log(qrCodeUrl.value);
+            // generateQRCode((qrCodeUrl.value).toString); // 调用生成二维码的函数
+            // qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl))
+            // console.log(qrCodeUrl.value.data.qrCodeReturnUrl);
+
+
+        } else {
+            console.error('Error:', response.data.message);
+        }
     } catch (error) {
-        console.error('获取二维码失败:', error);
+        console.error('Error:', error);
     }
 };
-
+const qrCodeText = ref(qrCodeUrl);
 </script>
 
 <style lang="scss" scoped>

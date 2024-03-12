@@ -13,9 +13,11 @@
     "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^1.6.7",
     "element-plus": "^2.5.0",
+    "qrcode": "^1.5.3",
     "tcplayer.js": "^5.1.0",
     "vant": "^4.8.2",
     "vue": "^3.3.11",
+    "vue-qrcode": "^2.2.2",
     "vue-router": "^4.2.5",
     "vuex": "^4.1.0"
   },
