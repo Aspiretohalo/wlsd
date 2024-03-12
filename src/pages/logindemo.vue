@@ -185,13 +185,12 @@ const timerHandler = () => {
 
 
 //微信登录请求
-import axios from 'axios';
 
 const qrCodeUrl = ref(''); // 存储二维码URL
 
 const getWechatQRCode = async () => {
     try {
-        const response = await axios.get('http://localhost:8080/getQRCode'); // 发送请求到后端
+        const response = await myAxios.get('/getQRCode'); // 发送请求到后端
 
         if (response && response.data) {
             qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl)).data.qrCodeReturnUrl;
