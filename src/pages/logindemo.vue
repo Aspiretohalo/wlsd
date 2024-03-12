@@ -251,4 +251,4 @@ const qrCodeText = ref(qrCodeUrl);
         font-size: 12px;
     }
 }
-</style>../functions/Request../functions/getUserMsg
+</style>

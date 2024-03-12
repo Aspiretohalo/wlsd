@@ -15,20 +15,42 @@
                             <el-form-item>
                                 <el-input v-model="form.verificationCode" placeholder="验证码">
                                     <template #append>
-                                        <el-button>发送验证码</el-button>
+                                        <!-- <el-button @click="onShow">发送验证码</el-button> -->
+                                        <el-button v-if="!sms.disabled" @click="onShow">
+                                            <span>发送验证码</span>
+                                        </el-button>
+                                        <el-button v-else disabled>
+                                            <span>{{ sms.count }}秒后重新发送</span>
+                                        </el-button>
                                     </template>
                                 </el-input>
+
+                                <!-- span显示图形码验证码是否成功 -->
+                                <el-text v-if="captchaVerified" class="mx-1" type="success">图形验证码验证成功！</el-text>
                             </el-form-item>
+                            <div class="islider" v-if="show">
+                                <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
+                                <Slider @close="onClose" :log="true"></Slider>
+
+                            </div>
+
                             <div class="wxLogin">
-                                <span>其他方式登录</span>
-                                <img src="../assets/icon/微信.svg" width="36">
+                                <img class="wx_img" src="../assets/icon/微信.svg" @click="getWechatQRCode" width="36">
+                                <!-- <el-button @click="getWechatQRCode">微信扫码登录</el-button> -->
+                                <div v-if="qrCodeUrl">
+                                    <!-- <img :src="qrCodeUrl" alt="微信登录二维码" /> -->
+
+                                    <el-dialog v-model="centerDialogVisible" title="扫码登录" align-center width="300">
+                                        <qrcode-vue :value="qrCodeUrl"></qrcode-vue>
+                                    </el-dialog>
+                                </div>
                             </div>
                             <el-form-item>
                                 <el-button class="login_btn" type="primary" round
                                     @click="handleLogin(form)">登录/注册</el-button>
                             </el-form-item>
                         </el-form>
-                        <div class="protocol">注册或登录即代表您同意《用户协议》和《隐私协议》</div>
+                        <el-text class="protocol">注册或登录即代表您同意《用户协议》和《隐私协议》</el-text>
                     </el-card>
                 </el-main>
                 <el-footer style="padding: 0;">
@@ -47,6 +69,7 @@ import myAxios from '../plugins/myAxios';
 import { ElMessage } from 'element-plus'
 import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
+import QrcodeVue from 'vue-qrcode';
 
 // do not use same name with ref
 const form = reactive({
@@ -77,12 +100,109 @@ const handleLogin = async (user: { phoneNumber: string, verificationCode: string
     } catch (error) {
         ElMessage({
             showClose: true,
-            message: '账号或密码错误1',
+            message: '账号或密码错误',
             type: 'error',
         })
         console.error('账号或密码错误', error);
     }
 }
+
+//
+import { ref } from 'vue';
+import Slider from "../components/Slider.vue";
+
+const show = ref(false);
+// const loginForm = ref({});
+const onShow = () => {
+    show.value = true;
+
+    setTimeout(() => {
+        verifyCaptcha();
+    }, 5000);
+};
+
+const onClose = () => {
+    show.value = false;
+};
+
+// 获取滑动验证码
+// const getImg = (callback) => {
+//     sliderCaptcha().then((res) => {
+//         callback(res.data.data);
+//     }, error => {
+//         callback(error);
+//     });
+// };
+
+// 操作滑动后返回值，并传去后端验证
+// const validImg = (movePercent, id, callback) => {
+//     loginForm.value.code = movePercent; // 手动定位返回的值
+//     loginForm.value.key = id; // 后台返回的id，再传回去
+//     handleLogin(); // 登陆请求方法
+//     callback(false);
+//     show.value = true;
+// };
+
+// 定义一个响应式变量，表示滑动验证码是否验证成功
+const captchaVerified = ref(false);
+
+const verifyCaptcha = () => {
+
+    // 如果验证通过，将 captchaVerified 设置为 true
+    captchaVerified.value = true;
+
+    // 关闭图形验证码
+    onClose();
+
+    timerHandler();
+
+};
+
+
+//60s倒计时
+// 验证码计时器
+const sms = reactive({
+    disabled: false,
+    total: 60,
+    count: 0
+})
+// 计时器处理器
+const timerHandler = () => {
+    sms.count = sms.total
+    sms.disabled = true
+
+    let timer = setInterval(() => {
+        if (sms.count > 1 && sms.count <= sms.total) {
+            sms.count--
+        } else {
+            sms.disabled = false
+            clearInterval(timer)
+        }
+    }, 1000)
+}
+
+//微信登录请求
+
+const qrCodeUrl = ref(''); // 存储二维码URL
+
+const centerDialogVisible = ref(false)
+
+const getWechatQRCode = async () => {
+    try {
+        const response = await myAxios.get('/getQRCode'); // 发送请求到后端
+
+        if (response && response.data) {
+            qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl)).data.qrCodeReturnUrl;
+        } else {
+            console.error('Error:', response.data.message);
+        }
+        console.log(response);
+
+        centerDialogVisible.value = true
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 </script>
 
@@ -111,7 +231,8 @@ const handleLogin = async (user: { phoneNumber: string, verificationCode: string
             font-size: 16px;
         }
 
-        img {
+        .wx_img {
+            cursor: pointer;
             margin-left: 30px;
         }
     }
@@ -124,7 +245,11 @@ const handleLogin = async (user: { phoneNumber: string, verificationCode: string
 
     .protocol {
         margin-top: 40px;
-        font-size: 12px;
+        font-size: 14px;
     }
 }
-</style>../functions/Request../functions/getUserMsg
+
+:deep(.el-dialog--center .el-dialog__body) {
+    text-align: center;
+}
+</style>
