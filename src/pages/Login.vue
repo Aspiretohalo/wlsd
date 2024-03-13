@@ -28,7 +28,7 @@
                                 <!-- span显示图形码验证码是否成功 -->
                                 <el-text v-if="captchaVerified" class="mx-1" type="success">图形验证码验证成功！</el-text>
                             </el-form-item>
-                            <div class="islider" v-if="show">
+                            <div class="slider" v-if="show">
                                 <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
                                 <Slider @close="onClose" :log="true"></Slider>
 
@@ -36,12 +36,43 @@
 
                             <div class="wxLogin">
                                 <img class="wx_img" src="../assets/icon/微信.svg" @click="getWechatQRCode" width="36">
-                                <!-- <el-button @click="getWechatQRCode">微信扫码登录</el-button> -->
                                 <div v-if="qrCodeUrl">
-                                    <!-- <img :src="qrCodeUrl" alt="微信登录二维码" /> -->
-
                                     <el-dialog v-model="centerDialogVisible" title="扫码登录" align-center width="300">
                                         <qrcode-vue :value="qrCodeUrl"></qrcode-vue>
+                                    </el-dialog>
+                                    <el-dialog v-model="phoneDialogVisible" title="手机号绑定" align-center width="500"
+                                        style="padding: 30px">
+                                        <el-form :model="form">
+                                            <el-form-item>
+                                                <el-input v-model="form2.phoneNumber" placeholder="手机号" />
+                                            </el-form-item>
+                                            <el-form-item>
+                                                <el-input v-model="form2.verificationCode" placeholder="验证码">
+                                                    <template #append>
+                                                        <el-button v-if="!sms.disabled" @click="onShow2">
+                                                            <span>发送验证码</span>
+                                                        </el-button>
+                                                        <el-button v-else disabled>
+                                                            <span>{{ sms.count }}秒后重新发送</span>
+                                                        </el-button>
+                                                    </template>
+                                                </el-input>
+
+                                                <!-- span显示图形码验证码是否成功 -->
+                                                <el-text v-if="captchaVerified2" class="mx-1"
+                                                    type="success">图形验证码验证成功！</el-text>
+                                            </el-form-item>
+                                            <div class="slider" v-if="show2" style="position: fixed;top: 250px;">
+                                                <Slider @close="onClose" :log="true"></Slider>
+                                            </div>
+                                        </el-form>
+                                        <template #footer>
+                                            <div class="dialog-footer">
+                                                <el-button type="primary" @click="handlePhoneCombination">
+                                                    绑定
+                                                </el-button>
+                                            </div>
+                                        </template>
                                     </el-dialog>
                                 </div>
                             </div>
@@ -70,11 +101,20 @@ import { ElMessage } from 'element-plus'
 import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
 import QrcodeVue from 'vue-qrcode';
+import { ref } from 'vue';
+import Slider from "../components/Slider.vue";
 
 // do not use same name with ref
 const form = reactive({
     phoneNumber: '',
     verificationCode: '',
+})
+const form2 = reactive({
+    phoneNumber: '',
+    verificationCode: '',
+})
+const phoneData = reactive({
+    phone_number: '',
 })
 const handleLogin = async (user: { phoneNumber: string, verificationCode: string }) => {
     let obj = {
@@ -106,12 +146,83 @@ const handleLogin = async (user: { phoneNumber: string, verificationCode: string
         console.error('账号或密码错误', error);
     }
 }
+const sleep = (ms: number) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+};
 
-//
-import { ref } from 'vue';
-import Slider from "../components/Slider.vue";
+// 根据tempUserId登录凭证的值去找登录状态
+const checkLoginStatus = async () => {
+    try {
+        const response = await myAxios.get('/checkLoginStatus', {
+            params: {
+                tempUserId: tempUserId.value
+            },
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token'),
+            }
+        });
+        console.log(response);
+        if (response.data)
+            return true
+        else
+            return false
 
+    } catch (error) {
+        console.error('获取信息失败', error);
+    }
+}
+const phoneDialogVisible = ref(false)
+
+const start = async () => {
+    let i = 0;
+    while (i < 20) {
+        // 每隔一段时间轮询一次
+        await sleep(1000);
+
+        // 检查登录状态，如果登录成功则退出轮询,并在页面作出响应
+        const continuePolling = await checkLoginStatus();
+        console.log(continuePolling);
+
+        if (continuePolling) {
+            centerDialogVisible.value = false
+            phoneDialogVisible.value = true
+            break;
+        }
+
+        console.log(`第 ${++i} 次执行`);
+    }
+};
+
+const handlePhoneCombination = () => {
+    console.log(666);
+
+}
+//微信登录请求
+
+const qrCodeUrl = ref(''); // 存储二维码URL
+
+const centerDialogVisible = ref(false)
+const tempUserId = ref('')
+const getWechatQRCode = async () => {
+    try {
+        const response = await myAxios.get('/getQRCode'); // 发送请求到后端
+
+        if (response && response.data) {
+            qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl)).data.qrCodeReturnUrl;
+        } else {
+            console.error('Error:', response.data.message);
+        }
+        console.log(JSON.parse(response.data.qrCodeReturnUrl).data.tempUserId)
+        // 在这保存一份tempUserId登录凭证
+        tempUserId.value = JSON.parse(response.data.qrCodeReturnUrl).data.tempUserId
+        start();
+        centerDialogVisible.value = true
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 const show = ref(false);
+const show2 = ref(false);
 // const loginForm = ref({});
 const onShow = () => {
     show.value = true;
@@ -120,9 +231,16 @@ const onShow = () => {
         verifyCaptcha();
     }, 5000);
 };
+const onShow2 = () => {
+    show2.value = true;
 
+    setTimeout(() => {
+        verifyCaptcha();
+    }, 5000);
+};
 const onClose = () => {
     show.value = false;
+    show2.value = false;
 };
 
 // 获取滑动验证码
@@ -145,6 +263,7 @@ const onClose = () => {
 
 // 定义一个响应式变量，表示滑动验证码是否验证成功
 const captchaVerified = ref(false);
+const captchaVerified2 = ref(false);
 
 const verifyCaptcha = () => {
 
@@ -153,15 +272,18 @@ const verifyCaptcha = () => {
 
     // 关闭图形验证码
     onClose();
-
     timerHandler();
-
 };
 
 
 //60s倒计时
 // 验证码计时器
 const sms = reactive({
+    disabled: false,
+    total: 60,
+    count: 0
+})
+const sms2 = reactive({
     disabled: false,
     total: 60,
     count: 0
@@ -181,32 +303,19 @@ const timerHandler = () => {
     }, 1000)
 }
 
-//微信登录请求
 
-const qrCodeUrl = ref(''); // 存储二维码URL
-
-const centerDialogVisible = ref(false)
-
-const getWechatQRCode = async () => {
-    try {
-        const response = await myAxios.get('/getQRCode'); // 发送请求到后端
-
-        if (response && response.data) {
-            qrCodeUrl.value = (JSON.parse(response.data.qrCodeReturnUrl)).data.qrCodeReturnUrl;
-        } else {
-            console.error('Error:', response.data.message);
-        }
-        console.log(response);
-
-        centerDialogVisible.value = true
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
 
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-dialog) {
+    border-radius: 15px;
+}
+
+:deep(.el-form-item__label) {
+    font-size: 18px;
+}
+
 :deep(.el-card__body) {
     padding: 50px 40px;
 }
