@@ -31,9 +31,7 @@
                             <div class="slider" v-if="show">
                                 <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
                                 <Slider @close="onClose" :log="true"></Slider>
-
                             </div>
-
                             <div class="wxLogin">
                                 <img class="wx_img" src="../assets/icon/微信.svg" @click="getWechatQRCode" width="36">
                                 <div v-if="qrCodeUrl">
@@ -42,25 +40,25 @@
                                     </el-dialog>
                                     <el-dialog v-model="phoneDialogVisible" title="手机号绑定" align-center width="500"
                                         style="padding: 30px">
-                                        <el-form :model="form">
+                                        <el-form :model="form2">
                                             <el-form-item>
                                                 <el-input v-model="form2.phoneNumber" placeholder="手机号" />
                                             </el-form-item>
                                             <el-form-item>
                                                 <el-input v-model="form2.verificationCode" placeholder="验证码">
-                                                    <template #append>
+                                                    <!-- <template #append>
                                                         <el-button v-if="!sms.disabled" @click="onShow2">
                                                             <span>发送验证码</span>
                                                         </el-button>
                                                         <el-button v-else disabled>
                                                             <span>{{ sms.count }}秒后重新发送</span>
                                                         </el-button>
-                                                    </template>
+                                                    </template> -->
                                                 </el-input>
 
                                                 <!-- span显示图形码验证码是否成功 -->
-                                                <el-text v-if="captchaVerified2" class="mx-1"
-                                                    type="success">图形验证码验证成功！</el-text>
+                                                <!-- <el-text v-if="captchaVerified2" class="mx-1"
+                                                    type="success">图形验证码验证成功！</el-text> -->
                                             </el-form-item>
                                             <div class="slider" v-if="show2" style="position: fixed;top: 250px;">
                                                 <Slider @close="onClose" :log="true"></Slider>
@@ -68,7 +66,8 @@
                                         </el-form>
                                         <template #footer>
                                             <div class="dialog-footer">
-                                                <el-button type="primary" @click="handlePhoneCombination">
+                                                <el-button type="primary" plain round
+                                                    @click="handlePhoneCombination(form2, tempUserId); phoneDialogVisible = false">
                                                     绑定
                                                 </el-button>
                                             </div>
@@ -100,22 +99,25 @@ import myAxios from '../plugins/myAxios';
 import { ElMessage } from 'element-plus'
 import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
+import handlePhoneCombination from '../functions/handlePhoneCombination';
 import QrcodeVue from 'vue-qrcode';
 import { ref } from 'vue';
 import Slider from "../components/Slider.vue";
 
 // do not use same name with ref
-const form = reactive({
+interface RuleForm {
+    phoneNumber: string,
+    verificationCode: string,
+}
+const form = reactive<RuleForm>({
     phoneNumber: '',
     verificationCode: '',
 })
-const form2 = reactive({
+const form2 = reactive<RuleForm>({
     phoneNumber: '',
     verificationCode: '',
 })
-const phoneData = reactive({
-    phone_number: '',
-})
+
 const handleLogin = async (user: { phoneNumber: string, verificationCode: string }) => {
     let obj = {
         phoneNumber: user.phoneNumber,
@@ -162,10 +164,18 @@ const checkLoginStatus = async () => {
             }
         });
         console.log(response);
-        if (response.data)
-            return true
-        else
-            return false
+        // 登录成功但未绑定手机号
+        if (response.data.isLogin == 1 && response.data.hasPhoneNumber == 0)
+            return 0
+        else if (response.data.isLogin == 1 && response.data.hasPhoneNumber == 1) {
+            // 登录成功且已经绑定手机号
+            localStorage.setItem('token', response.data.token)
+            return 1
+        } else {
+            // 登录失败
+            return 2
+        }
+
 
     } catch (error) {
         console.error('获取信息失败', error);
@@ -183,9 +193,19 @@ const start = async () => {
         const continuePolling = await checkLoginStatus();
         console.log(continuePolling);
 
-        if (continuePolling) {
+        if (continuePolling == 0) {
             centerDialogVisible.value = false
             phoneDialogVisible.value = true
+            break;
+        } else if (continuePolling == 1) {
+            centerDialogVisible.value = false
+            ElMessage({
+                showClose: true,
+                message: '登录成功',
+                type: 'success',
+            })
+            await getUserMsg()
+            router.push('/')
             break;
         }
 
@@ -193,10 +213,6 @@ const start = async () => {
     }
 };
 
-const handlePhoneCombination = () => {
-    console.log(666);
-
-}
 //微信登录请求
 
 const qrCodeUrl = ref(''); // 存储二维码URL
@@ -223,7 +239,7 @@ const getWechatQRCode = async () => {
 };
 const show = ref(false);
 const show2 = ref(false);
-// const loginForm = ref({});
+
 const onShow = () => {
     show.value = true;
 
@@ -242,24 +258,6 @@ const onClose = () => {
     show.value = false;
     show2.value = false;
 };
-
-// 获取滑动验证码
-// const getImg = (callback) => {
-//     sliderCaptcha().then((res) => {
-//         callback(res.data.data);
-//     }, error => {
-//         callback(error);
-//     });
-// };
-
-// 操作滑动后返回值，并传去后端验证
-// const validImg = (movePercent, id, callback) => {
-//     loginForm.value.code = movePercent; // 手动定位返回的值
-//     loginForm.value.key = id; // 后台返回的id，再传回去
-//     handleLogin(); // 登陆请求方法
-//     callback(false);
-//     show.value = true;
-// };
 
 // 定义一个响应式变量，表示滑动验证码是否验证成功
 const captchaVerified = ref(false);
@@ -283,11 +281,7 @@ const sms = reactive({
     total: 60,
     count: 0
 })
-const sms2 = reactive({
-    disabled: false,
-    total: 60,
-    count: 0
-})
+
 // 计时器处理器
 const timerHandler = () => {
     sms.count = sms.total
@@ -302,9 +296,6 @@ const timerHandler = () => {
         }
     }, 1000)
 }
-
-
-
 </script>
 
 <style lang="scss" scoped>
