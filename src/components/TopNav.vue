@@ -94,6 +94,7 @@ import getAllPosts from '../functions/getAllPosts';
 import getHotTopic from '../functions/getHotTopic';
 import getAllMeetingsNotLogin from '../functions/notLogin/getAllMeetingsNotLogin';
 import getAllActivitysNotLogin from '../functions/notLogin/getAllActivitysNotLogin';
+import getAllBlogsNotLogin from '../functions/notLogin/getAllBlogsNotLogin';
 
 import { onMounted } from 'vue'
 
@@ -103,7 +104,6 @@ onMounted(async () => {
     await getAllCommittee()
     await getAllWonderfulPictures()
     await getAllMediaVideo()
-    await getAllBlogs()
     await getAllNews()
     await getIntegralGifts()
     await getAllPosts()
@@ -117,9 +117,11 @@ onMounted(async () => {
         await getActivityAndMeetingChoice(user.userId)
         await getThumbBlogShare(user.userId)
         await getDrawRecord(user.userId)
+        await getAllBlogs(user.userId)
     } else {
         await getAllMeetingsNotLogin()
         await getAllActivitysNotLogin()
+        await getAllBlogsNotLogin()
     }
 
 })

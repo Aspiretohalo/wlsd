@@ -84,13 +84,28 @@ import cancelBlogThumb from '../functions/cancelBlogThumb';
 
 const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
 const rootBlog = computed(() => {
-    return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0);
-})
+    return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0)
+        .map((item: any) => {
+            const originalDate = new Date(item.blog.replyTime);
+            // 时区设置为中国
+            const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+            item.blog.replyTime = formattedTime;
+
+            return item
+
+        });
+});
 const replyBlog = computed(() => (id: number) => {
-    return Blog.value.filter((blog: any) => {
-        return blog.blog.replyLevel !== 0 && blog.blog.replyParentId === id;
-    });
-})
+    return Blog.value
+        .filter((blog: any) => blog.blog.replyLevel !== 0 && blog.blog.replyParentId === id)
+        .map((item: any) => {
+            const originalDate = new Date(item.blog.replyTime);
+            const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+            item.blog.replyTime = formattedTime;
+
+            return item
+        });
+});
 
 //博客
 const count = ref(0)
@@ -98,16 +113,21 @@ const load = () => {
     count.value += 2
 }
 
-const showComments = ref(true);
+const token: any = ref(localStorage.getItem('token') || null)
+import { ElMessage } from 'element-plus'
 
-const toggleComments = () => {
-    showComments.value = !showComments.value;
-};
 const handleSetThumb = async (id: number) => {
-    await setBlogThumb(id)
-    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
-}
+    if (token.value != null) {
+        await setBlogThumb(id)
+        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
 
+}
 const handleCancelThumb = async (id: number) => {
     await cancelBlogThumb(id)
     Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
@@ -309,6 +329,7 @@ const handleCancelThumb = async (id: number) => {
         & img {
             width: 100%;
             height: 100%;
+            cursor: pointer;
         }
     }
 }

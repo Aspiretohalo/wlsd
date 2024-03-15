@@ -12,7 +12,7 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     <div class="container">
       <video muted autoPlay preload="true" x5-video-player-fullscreen="true" x5-playsinline="true" playsInline
         webkit-playsinline="true" ref="videoRef" loop>
-        <source src="../../public/有水印.mp4" />
+        <source src="../../public/background.mp4" />
       </video>
       <p ref="pRef">
         <span class="span1">西</span>
@@ -26,7 +26,15 @@ const pRef = ref<HTMLParagraphElement | null>(null);
         <span class="span1">全</span>
         <span class="span1">大</span>
         <span class="span1">会</span>
+      <div class="time">
+        2024.5.5-5.7
+      </div>
+      <div class="button">
+        <el-button class="btn" round plain>购票参会</el-button>
+        <el-button class="btn" round plain>预约直播</el-button>
+      </div>
       </p>
+
     </div>
   </div>
 </template>
@@ -40,6 +48,7 @@ const pRef = ref<HTMLParagraphElement | null>(null);
   justify-content: center;
   background-color: #000;
   position: relative;
+  top: -140px;
 
   &::before {
     content: "";
@@ -48,13 +57,6 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     left: 0;
     width: 100%;
     height: 100%;
-    // background-image: linear-gradient(to right,
-    //     #f00,
-    //     #f00,
-    //     #0f0,
-    //     #0ff,
-    //     #ff0,
-    //     #0ff);
     mix-blend-mode: color;
     pointer-events: none;
   }
@@ -65,6 +67,13 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     object-fit: cover;
   }
 
+  .time {
+    color: rgba($color: #fff, $alpha: 0.8);
+    font-weight: 400;
+    font-size: 40px;
+    margin-top: 30px;
+  }
+
   p {
     margin: 0;
     padding: 0;
@@ -73,7 +82,7 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     transform: translateY(-50%);
     width: 100%;
     text-align: center;
-    color: #000000;
+    color: rgba($color: #fff, $alpha: 0.8);
     font-size: 80px;
     font-weight: 500;
     letter-spacing: 0.2em;
@@ -83,49 +92,49 @@ const pRef = ref<HTMLParagraphElement | null>(null);
       display: inline-block;
 
       &:nth-child(1) {
-        animation-delay: 1s;
+        animation-delay: 0.5s;
       }
 
       &:nth-child(2) {
-        animation-delay: 1.5s;
+        animation-delay: 1.0s;
       }
 
       &:nth-child(3) {
-        animation-delay: 2s;
+        animation-delay: 1.5s;
       }
 
       &:nth-child(4) {
-        animation-delay: 2.5s;
+        animation-delay: 2s;
       }
 
       &:nth-child(5) {
-        animation-delay: 3s;
+        animation-delay: 2.5s;
         margin-left: 50px;
       }
 
       &:nth-child(6) {
-        animation-delay: 3.5s;
+        animation-delay: 3s;
         margin-left: 50px;
       }
 
       &:nth-child(7) {
-        animation-delay: 4s;
+        animation-delay: 3.5s;
       }
 
       &:nth-child(8) {
-        animation-delay: 4.5s;
+        animation-delay: 4s;
       }
 
       &:nth-child(9) {
-        animation-delay: 5s;
+        animation-delay: 4.5s;
       }
 
       &:nth-child(10) {
-        animation-delay: 5.5s;
+        animation-delay: 5s;
       }
 
       &:nth-child(11) {
-        animation-delay: 6s;
+        animation-delay: 5.5s;
       }
     }
 
@@ -168,13 +177,5 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     }
   }
 
-  .btn {
-    position: absolute;
-    width: 100px;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-  }
 }
 </style>

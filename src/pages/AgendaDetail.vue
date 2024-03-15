@@ -104,20 +104,35 @@ onMounted(() => {
 });
 const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
 
-const handleSetMeetingSubscription = async () => {
-    await setMeetingSubscription(SingleMeeting.value.meeting.itemId)
-    SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
-}
+const token: any = ref(localStorage.getItem('token') || null)
+import { ElMessage } from 'element-plus'
 
+const handleSetMeetingSubscription = async () => {
+    if (token.value != null) {
+        await setMeetingSubscription(SingleMeeting.value.meeting.itemId)
+        SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
+}
 const handleSetThumb = async () => {
-    await setMeetingThumb(SingleMeeting.value.meeting.itemId)
-    SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
+    if (token.value != null) {
+        await setMeetingThumb(SingleMeeting.value.meeting.itemId)
+        SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
 }
 const handleCancelMeetingSubscription = async () => {
     await cancelMeetingSubscription(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
 }
-
 const handleCancelThumb = async () => {
     await cancelMeetingThumb(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""

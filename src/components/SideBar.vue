@@ -1,5 +1,5 @@
 <template>
-    <div class="side">
+    <!-- <div class="side">
         <div class="sidebar">
             <button class="sidebar-button" @click="sharePoster">生成海报</button>
         </div>
@@ -14,7 +14,49 @@
                 <button class="sidebar-button">返回顶部</button>
             </el-backtop>
         </div>
-    </div>
+    </div> -->
+    <nav class="social">
+        <ul>
+            <li>
+                <div class="icon">
+                    <img src="../assets/sidebar_icon/海报.png" alt="">
+                </div>
+                <span>海报合成</span>
+            </li>
+            <li>
+                <div class="icon">
+                    <img src="../assets/sidebar_icon/游戏.png" alt="">
+                </div>
+                <span>趣味游戏</span>
+            </li>
+            <li>
+                <div class="icon">
+                    <img src="../assets/sidebar_icon/小程序.png" alt="">
+                </div>
+                <span>小程序访问</span>
+            </li>
+            <li>
+                <div class="icon">
+                    <img src="../assets/sidebar_icon/游戏.png" alt="">
+                </div>
+                <span>趣味游戏</span>
+            </li>
+        </ul>
+    </nav>
+    <el-backtop :right="10">
+        <div style="
+        height: 100%;
+        width: 100%;
+        background-color: var(--el-bg-color-overlay);
+        box-shadow: var(--el-box-shadow-lighter);
+        text-align: center;
+        border-radius: 50%;
+        line-height: 40px;
+        color: #1989fa;
+      ">
+            UP
+        </div>
+    </el-backtop>
 </template>
 
 <script setup lang="ts">
@@ -141,5 +183,77 @@ const visitMiniProgram = () => {
     display: flex;
     align-items: center;
     margin-top: 10px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.social {
+    position: fixed;
+    top: 300px;
+    right: -10px;
+}
+
+.social ul {
+    padding: 0px;
+    transform: translate(270px, 0);
+}
+
+.social ul li {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    background: rgba(200, 158, 172, 0.5);
+    width: 300px;
+    text-align: left;
+    padding: 10px;
+    border-radius: 30px 0 0 30px;
+    transition: all 1.5s;
+}
+
+.social ul li a {
+    margin-left: 10px;
+}
+
+.social ul li:hover {
+    transform: translate(-100px, 0);
+    background: #c44a73;
+    transition: all 1.5s;
+}
+
+.social ul li:hover a {
+    color: white;
+}
+
+.social ul li:hover img {
+    color: #c44a73;
+    transform: rotate(360deg);
+    transition: all 1.5s;
+}
+
+.social ul li img {
+    color: #000;
+    padding: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    transform: rotate(0deg);
+    text-align: center;
+    font-size: 20px;
+}
+
+@keyframes youtubeAnim {
+
+    0%,
+    100% {
+        color: #c9110f;
+    }
+
+    50% {
+        color: #ff0000;
+    }
 }
 </style>

@@ -4,9 +4,6 @@
             <el-button class="btn" plain @click="handleRelease()" style="width: 50%;margin: 20px auto;">
                 发布内容
             </el-button>
-            <!-- <TranslateBgButton @click="dialogFormVisible = true" style="width: 50%;margin-bottom: 20px;">
-
-            </TranslateBgButton> -->
             <el-dialog v-model="dialogFormVisible" width="800">
                 <div style="border: 1px solid #ccc">
                     <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"

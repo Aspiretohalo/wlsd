@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import SideBar from './components/SideBar.vue'
-import { onMounted, watch, ref } from 'vue';
+import { watchEffect, ref } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute()
 console.log(route);
@@ -20,12 +20,11 @@ const checkSider = () => {
   }
 };
 
-onMounted(() => {
-  checkSider(); // 初始加载时检查一次
-});
+// 初始加载时检查一次当前路由，以确定初始时是否应该展示侧边栏
+checkSider();
 
 // 监听路由变化，每次路由变化时检查侧边栏显示状态
-const unwatch = route.watch((to, from) => {
+watchEffect(() => {
   checkSider();
 });
 
