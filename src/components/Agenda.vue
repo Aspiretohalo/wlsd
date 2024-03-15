@@ -41,7 +41,8 @@
                                 @click="handleSetMeetingSubscription(item.meeting.itemId)">订阅+</el-button>
                             <el-button type="primary" round plain v-else
                                 @click="handleCancelMeetingSubscription(item.meeting.itemId)">已订阅</el-button>
-                            <el-button type="primary" round plain @click="goToAgenda(item.meeting.itemId)">观看回放</el-button>
+                            <el-button type="primary" round plain
+                                @click="goToAgenda(item.meeting.itemId)">观看回放</el-button>
                         </div>
                     </div>
                 </el-card>
@@ -50,7 +51,7 @@
     </div>
 </template>
 
-<script  lang="ts" setup>
+<script lang="ts" setup>
 import getMeetingById from '../functions/getMeetingById';
 import getMeetingDetail from '../functions/getMeetingDetail';
 import { reactive } from 'vue'
@@ -58,13 +59,19 @@ import { ref, computed } from 'vue'
 import setMeetingSubscription from '../functions/setMeetingSubscription';
 import cancelMeetingSubscription from '../functions/cancelMeetingSubscription';
 import { useRouter } from 'vue-router'
+import getMeetingByIdNotLogin from '../functions/notLogin/getMeetingByIdNotLogin';
 
 const router = useRouter();
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const token: any = ref(localStorage.getItem('token') || null)
 
 
 const goToAgenda = async (id: Number) => {
-    await getMeetingById(id, user.userId)
+    if (token.value != null) {
+        await getMeetingById(id, user.userId)
+    } else {
+        await getMeetingByIdNotLogin(id)
+    }
     await getMeetingDetail(id)
     router.push('/agendaDetail/' + id)
 }
@@ -95,10 +102,19 @@ const options = [
         label: '生态合作论坛',
     },
 ]
+import { ElMessage } from 'element-plus'
+
 const Meeting = ref(JSON.parse(sessionStorage.getItem("Meeting") || "null") || "")
 const handleSetMeetingSubscription = async (itemId: any) => {
-    await setMeetingSubscription(itemId)
-    Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
+    if (token.value != null) {
+        await setMeetingSubscription(itemId)
+        Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
 }
 const handleCancelMeetingSubscription = async (itemId: any) => {
     await cancelMeetingSubscription(itemId)
@@ -140,6 +156,10 @@ const changeTab = ((tab: any) => {
     .agenda {
         .agenda_item {
             background-color: rgba($color: #fff, $alpha: 0.3);
+        }
+
+        .agenda_item:hover {
+            background-color: rgba($color: #0055ff, $alpha: 0.3);
         }
 
         .agenda_item:last-child {

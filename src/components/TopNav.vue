@@ -92,6 +92,8 @@ import getActivityAndMeetingChoice from '../functions/getActivityAndMeetingChoic
 import getThumbBlogShare from '../functions/getThumbBlogShare';
 import getAllPosts from '../functions/getAllPosts';
 import getHotTopic from '../functions/getHotTopic';
+import getAllMeetingsNotLogin from '../functions/notLogin/getAllMeetingsNotLogin';
+import getAllActivitysNotLogin from '../functions/notLogin/getAllActivitysNotLogin';
 
 import { onMounted } from 'vue'
 
@@ -102,17 +104,24 @@ onMounted(async () => {
     await getAllWonderfulPictures()
     await getAllMediaVideo()
     await getAllBlogs()
-    await getAllMeetings(user.userId)
-    await getAllActivitys(user.userId)
-    await getAllQuestions(user.userId)
     await getAllNews()
-    await getDrawRecord(user.userId)
     await getIntegralGifts()
-    await getIntegralDetail(user.userId)
-    await getActivityAndMeetingChoice(user.userId)
-    await getThumbBlogShare(user.userId)
     await getAllPosts()
     await getHotTopic()
+
+    if (token.value != null) {
+        await getAllMeetings(user.userId)
+        await getAllActivitys(user.userId)
+        await getAllQuestions(user.userId)
+        await getIntegralDetail(user.userId)
+        await getActivityAndMeetingChoice(user.userId)
+        await getThumbBlogShare(user.userId)
+        await getDrawRecord(user.userId)
+    } else {
+        await getAllMeetingsNotLogin()
+        await getAllActivitysNotLogin()
+    }
+
 })
 const route = useRoute();
 const router = useRouter();

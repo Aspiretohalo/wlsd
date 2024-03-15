@@ -1,7 +1,7 @@
 <template>
     <div class="ccmain w-margin">
         <el-card class="leftcc">
-            <el-button class="btn" plain @click="dialogFormVisible = true" style="width: 50%;margin: 20px auto;">
+            <el-button class="btn" plain @click="handleRelease()" style="width: 50%;margin: 20px auto;">
                 发布内容
             </el-button>
             <!-- <TranslateBgButton @click="dialogFormVisible = true" style="width: 50%;margin-bottom: 20px;">
@@ -154,7 +154,20 @@ const form = reactive({
     post_description: '',
 
 })
+import { ElMessage } from 'element-plus'
+const token: any = ref(localStorage.getItem('token') || null)
 
+const handleRelease = () => {
+    if (token.value != null) {
+        dialogFormVisible.value = true
+
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
+}
 import { nextTick } from 'vue'
 import { ElInput } from 'element-plus'
 

@@ -12,7 +12,7 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     <div class="container">
       <video muted autoPlay preload="true" x5-video-player-fullscreen="true" x5-playsinline="true" playsInline
         webkit-playsinline="true" ref="videoRef" loop>
-        <source src="../../public/有水印3.mp4" />
+        <source src="../../public/有水印.mp4" />
       </video>
       <p ref="pRef">
         <span class="span1">西</span>

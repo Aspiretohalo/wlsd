@@ -40,7 +40,8 @@
                                 </div>
                                 <div class="position">
                                     <div style="font-size: 20px; margin-top: 5px;">3.签到流程</div>
-                                    <div style="font-size: 16px; color: #555;margin-top: 5px;">通过大会【短信】签到，领取大会胸卡</div>
+                                    <div style="font-size: 16px; color: #555;margin-top: 5px;">通过大会【短信】签到，领取大会胸卡
+                                    </div>
                                 </div>
                                 <div class="position">
                                     <div style="font-size: 20px; margin-top: 5px;">4.嘉宾领取大会胸卡须知:</div>
@@ -132,6 +133,7 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { ref } from 'vue';
+
 const activeTab = '1'
 const transport = ref([
     {
@@ -200,6 +202,10 @@ const scrollToTarget = (targetId: any) => {
 
 :deep(.el-card__body) {
     background-color: rgba($color: #fff, $alpha: 0.3);
+}
+
+:deep(.el-card__header) {
+    height: 80px;
 }
 
 .box {
