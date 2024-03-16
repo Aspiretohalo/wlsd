@@ -12,6 +12,8 @@
                             <el-form-item>
                                 <el-input v-model="form.phoneNumber" placeholder="手机号" />
                             </el-form-item>
+                            <div id="captcha-div"></div>
+
                             <el-form-item>
                                 <el-input v-model="form.verificationCode" placeholder="验证码">
                                     <template #append>
@@ -24,14 +26,14 @@
                                         </el-button>
                                     </template>
                                 </el-input>
-
                                 <!-- span显示图形码验证码是否成功 -->
                                 <el-text v-if="captchaVerified" class="mx-1" type="success">图形验证码验证成功！</el-text>
                             </el-form-item>
-                            <div class="slider" v-if="show">
-                                <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
-                                <Slider @close="onClose" :log="true"></Slider>
-                            </div>
+                            <!-- <div class="slider" v-if="show"> -->
+                            <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
+                            <!-- <Slider @close="onClose" :log="true"></Slider>
+                            </div> -->
+
                             <div class="wxLogin">
                                 <img class="wx_img" src="../assets/icon/微信.svg" @click="getWechatQRCode" width="36">
                                 <div v-if="qrCodeUrl">
@@ -101,8 +103,8 @@ import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
 import handlePhoneCombination from '../functions/handlePhoneCombination';
 import QrcodeVue from 'vue-qrcode';
-import { ref } from 'vue';
-import Slider from "../components/Slider.vue";
+import { ref, onMounted } from 'vue';
+// import Slider from "../components/Slider.vue";
 
 // do not use same name with ref
 interface RuleForm {
@@ -237,16 +239,21 @@ const getWechatQRCode = async () => {
         console.error('Error:', error);
     }
 };
+
+
+
 const show = ref(false);
 const show2 = ref(false);
 
-const onShow = () => {
-    show.value = true;
 
-    setTimeout(() => {
-        verifyCaptcha();
-    }, 5000);
-};
+
+// const onShow = () => {
+//     show.value = true;
+
+//     setTimeout(() => {
+//         verifyCaptcha();
+//     }, 5000);
+// };
 const onShow2 = () => {
     show2.value = true;
 
@@ -296,6 +303,36 @@ const timerHandler = () => {
         }
     }, 1000)
 }
+
+
+
+//图形验证码逻辑
+
+import "../assets/captcha/tac.css"; // 验证码css
+import "../assets/captcha/jquery.min.js"; // 验证码js
+import "../assets/captcha/tac.min.js"; // 验证码js
+
+const onShow = () => {
+
+    // 样式配置
+    const config = {
+        requestCaptchaDataUrl: "http://localhost:8085/api/captcha/gen/random",
+        validCaptchaUrl: "http://localhost:8085/api/captcha/check",
+        bindEl: "#captcha-div",
+        // 验证成功回调函数
+        validSuccess: (res: any, c: any, tac: any) => {
+            // login();
+            console.log(res);
+            captchaVerified.value = true;
+            timerHandler();
+            // 调用短信方法
+            tac.destroyWindow();
+        }
+    };
+    new window.TAC(config).init();
+};
+
+
 </script>
 
 <style lang="scss" scoped>
