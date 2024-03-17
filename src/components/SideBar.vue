@@ -1,35 +1,19 @@
 <template>
-    <!-- <div class="side">
-        <div class="sidebar">
-            <button class="sidebar-button" @click="sharePoster">生成海报</button>
-        </div>
-        <div class="sidebar">
-            <button class="sidebar-button" @click="goToGames">趣味游戏</button>
-        </div>
-        <div class="sidebar">
-            <button class="sidebar-button" @click="visitMiniProgram">小程序访问</button>
-        </div>
-        <div class="sidebar">
-            <el-backtop visibility-height="0">
-                <button class="sidebar-button">返回顶部</button>
-            </el-backtop>
-        </div>
-    </div> -->
     <nav class="social">
         <ul>
-            <li>
+            <li @click="sharePoster">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/海报.png" alt="">
                 </div>
                 <span>海报合成</span>
             </li>
-            <li>
+            <li @click="goToGames">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/游戏.png" alt="">
                 </div>
                 <span>趣味游戏</span>
             </li>
-            <li>
+            <li @click="visitMiniProgram">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/小程序.png" alt="">
                 </div>
@@ -81,7 +65,7 @@ const sharePoster = () => {
 
 const goToGames = () => {
     if (token.value != null) {
-        router.push('/funGames')
+        router.push('/ctf')
     } else {
         ElMessage({
             message: '请先登录',
@@ -194,6 +178,7 @@ a {
     position: fixed;
     top: 300px;
     right: -10px;
+    cursor: pointer;
 }
 
 .social ul {
@@ -211,10 +196,6 @@ a {
     padding: 10px;
     border-radius: 30px 0 0 30px;
     transition: all 1.5s;
-}
-
-.social ul li a {
-    margin-left: 10px;
 }
 
 .social ul li:hover {

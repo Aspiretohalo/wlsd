@@ -1,16 +1,20 @@
 <template>
     <div>
+
         <div class="common-layout background-container">
             <el-container style="padding: 0;">
                 <el-main class="main bgc">
 
                     <!-- 规则 排行 -->
-                    <div style=" float: left;margin-left: 20px; margin-top: 50px;">
-                        <div style="width: 160px; background-color: #fff; height: 450px;">
+                    <div style=" float: left;margin-left: 50px; margin-top: 150px;">
+                        <el-button style="font-size: 18px;" @click="goBack" type="primary" plain
+                            size="large">返回</el-button>
+                        <el-button style=" font-size: 18px;" @click="checkRule" type="primary"
+                            size="large">规则</el-button>
+                        <div style="width: 160px;margin-top: 20px; background-color: #fff; height: 450px;">
                             排行榜
                         </div>
-                        <el-button style="width: 60px; height: 60px; font-size: 18px;margin: 200px 50px 50px 50px;"
-                            @click="checkRule" type="primary">规则</el-button>
+
                     </div>
 
                     <div class="content w-margin">
@@ -38,16 +42,6 @@
             <p style="text-align: left; margin-left: 70px;">1.每道题目仅有一次答题机会！</p>
             <p style="text-align: left; margin-left: 70px;">2.每答对一道题，增加100积分，榜上高手会有额外奖励！</p>
             <p style="text-align: left; margin-left: 70px;">3.挑战机会用完？分享活动海报和观看视频获取更多机会！</p>
-
-
-            <!-- <template #footer>
-                <div class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Cancel</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">
-                        Confirm
-                    </el-button>
-                </div>
-            </template> -->
         </el-dialog>
 
         <el-dialog v-model="centerDialogVisible" width="920"
@@ -103,7 +97,11 @@
 import { ref, onMounted, computed } from "vue";
 // import { ElMessage } from 'element-plus'
 import getQuestionById from "../functions/getQuestionById";
-
+import { useRouter } from 'vue-router'
+const router = useRouter();
+const goBack = () => {
+    router.back()
+}
 onMounted(() => {
     setInterval(changeBackgroundColor, 3000); // 每 3 秒变换一次背景颜色
 });

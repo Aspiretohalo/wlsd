@@ -1,7 +1,6 @@
 <template>
   <router-view></router-view>
   <SideBar v-if="showSider"></SideBar>
-
 </template>
 
 <script lang="ts" setup>

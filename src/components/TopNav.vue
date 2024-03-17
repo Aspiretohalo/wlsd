@@ -13,7 +13,6 @@
                 <el-menu-item index="/results">成果发布</el-menu-item>
                 <el-menu-item index="/news">媒体中心</el-menu-item>
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
-                <!-- <el-menu-item index="#">社区中心</el-menu-item> -->
                 <el-menu-item index="/communityCenter">论剑堂</el-menu-item>
             </el-menu>
             <div class="login" v-if="token == null && route.path != '/login'">

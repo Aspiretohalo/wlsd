@@ -15,7 +15,7 @@ const pRef = ref<HTMLParagraphElement | null>(null);
         <source src="../../public/background.mp4" />
       </video>
       <p ref="pRef">
-        <span class="span1">西</span>
+        <!-- <span class="span1">西</span>
         <span class="span1">湖</span>
         <span class="span1">论</span>
         <span class="span1">剑</span>
@@ -25,13 +25,14 @@ const pRef = ref<HTMLParagraphElement | null>(null);
         <span class="span1">安</span>
         <span class="span1">全</span>
         <span class="span1">大</span>
-        <span class="span1">会</span>
-      <div class="time">
+        <span class="span1">会</span> -->
+      <div class="name animate__animated animate__fadeIn">西湖论剑·数字安全大会</div>
+      <div class="time animate__animated animate__fadeIn">
         2024.5.5-5.7
       </div>
       <div class="button">
-        <el-button class="btn" round plain>购票参会</el-button>
-        <el-button class="btn" round plain>预约直播</el-button>
+        <el-button class="btn" round plain size="large" style="font-size: 18px;">购票参会</el-button>
+        <el-button class="btn" round plain size="large" style="font-size: 18px;">预约直播</el-button>
       </div>
       </p>
 
@@ -49,6 +50,14 @@ const pRef = ref<HTMLParagraphElement | null>(null);
   background-color: #000;
   position: relative;
   top: -140px;
+
+  .name {
+    animation-duration: 3s;
+  }
+
+  .time {
+    animation-duration: 3s;
+  }
 
   &::before {
     content: "";

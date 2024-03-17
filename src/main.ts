@@ -8,6 +8,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import store from './store'
 import 'tcplayer.js/dist/tcplayer.min.css';
+import 'animate.css';
 
 const app = createApp(App)
 

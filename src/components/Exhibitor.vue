@@ -4,7 +4,7 @@
             <h2>展商风采</h2>
             <h5>Exhibitor Style</h5>
             <div class="Exhibitors">
-                <div class="img" v-for="src in srcList">
+                <div class="img" @click="goToPage" v-for="src in srcList">
                     <img :src="src" alt="" width="100px">
                 </div>
             </div>
@@ -13,7 +13,13 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router'
+const router = useRouter();
+const goToPage = () => {
+    router.push('/exhibitDetail')
+}
 const srcList = [
+    "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/bce6aa664cd44e76af59ba89e4d4f04d.png",
     'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/d79ec14ff65b4af19b8439659668fd19.png',
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/d86aad180ee14acb95d1df723414aec2.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/8077d0d14baa4eb9ad78181285b0ee09.png",
@@ -24,7 +30,6 @@ const srcList = [
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/a39af7377bbb4860809ab761137bc8ea.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/c39a007819cc484e964e9dbcb8e155c2.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/ae832a31047749299bd504e6070d487a.png",
-    "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/abd5aa01910e49f1babbc28f7430b5cd.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/8dadce3bcf53474b8141421cbc60f360.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/94df6244d6b04a91b3e8545844bce830.png",
     "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/8d55bacac63a499c9a50c19a996d4cfd.png",
@@ -43,6 +48,10 @@ const srcList = [
 
     .img {
         width: 200px;
+
+        img {
+            cursor: pointer;
+        }
     }
 }
 </style>

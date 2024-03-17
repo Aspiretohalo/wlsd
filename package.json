@@ -11,8 +11,10 @@
   "dependencies": {
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
+    "animate.css": "^4.1.1",
     "axios": "^1.6.7",
     "element-plus": "^2.5.0",
+    "js-cookie": "^3.0.5",
     "qrcode": "^1.5.3",
     "tcplayer.js": "^5.1.0",
     "vant": "^4.8.2",
@@ -22,6 +24,7 @@
     "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.11.14",
     "@vitejs/plugin-vue": "^4.5.2",
     "sass": "^1.69.7",

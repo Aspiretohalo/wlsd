@@ -22,8 +22,14 @@ import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
 import logindemo from "../pages/logindemo.vue"
 import FunGames from "../pages/FunGames.vue"
-import WordGamedemo from "../pages/WordGamedemo.vue"
-
+import WordGame from "../pages/WordGame.vue"
+import ExhibitDetail from "../pages/ExhibitDetail.vue"
+import ActivityDetail from '../pages/ActivityDetail.vue'
+import Ctf from '../pages/ctf/Ctf.vue'
+import Robert from '../pages/ctf/Robert.vue'
+import FirstGame from '../pages/ctf/FirstGame.vue'
+import SecondGame from '../pages/ctf/SecondGame.vue'
+import ThirdGame from '../pages/ctf/ThirdGame.vue'
 
 
 const routes = [
@@ -33,12 +39,15 @@ const routes = [
     { path: "/aboutConference", component: AboutConference },
     { path: "/attendanceGuide", component: AttendanceGuide },
     { path: "/exhibitorStyle", component: ExhibitorStyle },
+    { path: "/exhibitDetail", component: ExhibitDetail },
     { path: "/expertCommittee", component: ExpertCommittee },
     { path: "/news", component: News },
     { path: "/pictures", component: Pictures },
     { path: "/mediaVideo", component: MediaVideo },
     { path: "/results", component: Results },
     { path: "/wonderfulActivity", component: WonderfulActivity },
+    { path: "/activityDetail/:itemId", component: ActivityDetail },
+    { path: "/ctf", component: Ctf },
     { path: "/user", component: User },
     {
         path: "/integral", component: Integral,
@@ -64,18 +73,12 @@ const routes = [
     { path: "/postDetail/:id", component: PostDetail },
     { path: "/logindemo", component: logindemo },
     { path: "/funGames", component: FunGames },
-    { path: "/WordGamedemo", component: WordGamedemo },
+    { path: "/wordGame", component: WordGame },
 
-    // {
-    //     path: "/courseId/:courseId",
-    //     component: CourseDetails,
-    //     children: [
-    //         {
-    //             path: "notice",
-    //             component: Notice,
-    //         },
-    //     ],
-    // },
+    { path: "/robert", component: Robert },
+    { path: "/firstgame", component: FirstGame },
+    { path: "/secondgame", component: SecondGame },
+    { path: "/thirdgame", component: ThirdGame },
 
 ];
 

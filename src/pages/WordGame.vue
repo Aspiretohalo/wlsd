@@ -1,5 +1,7 @@
 <template>
     <div>
+        <el-button @click="goBack" style="position: absolute;left:250px;top: 50px;font-size: 18px;" type="primary" plain
+            size="large">返回</el-button>
         <div class="common-layout">
             <el-container style="padding: 0;">
                 <el-main class="main bgc">
@@ -75,8 +77,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-// import from '';
-
+import { useRouter } from 'vue-router'
+const router = useRouter();
+const goBack = () => {
+    router.back()
+}
 //按钮显示与否
 const buttonsVisible = ref(true);
 
