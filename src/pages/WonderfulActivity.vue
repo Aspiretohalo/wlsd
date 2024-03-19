@@ -6,17 +6,19 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 50px;margin-bottom: 0;display: flex;justify-content: start;">
+                    <h1 class="w-margin"
+                        style="margin-top: 50px;margin-bottom: 0;display: flex;justify-content: start;">
                         热门活动</h1>
                     <el-carousel height="500px" :interval="1000000" arrow="always" indicator-position="none">
                         <el-carousel-item v-for="item in  formattedData " :key="item.activity.itemId">
                             <div class="activity w-margin">
-                                <img style="border-radius: 15px;" width="800" height="500" :src="item.activity.itemCover" />
+                                <img style="border-radius: 15px;" width="800" height="500"
+                                    :src="item.activity.itemCover" />
                                 <el-card class="card" :body-style="{
-                                    height: '320px', display: 'flex', flexDirection: 'column',
-                                    justifyContent: 'space-between'
+                        height: '320px', display: 'flex', flexDirection: 'column',
+                        justifyContent: 'space-between'
 
-                                }">
+                    }">
                                     <div>
                                         <h2>{{ item.activity.itemTitle }}</h2>
                                         <div class="description">
@@ -33,7 +35,8 @@
                                             {{ item.activity.beginTime }}-{{ item.activity.finishTime }}
                                         </div>
                                         <div class="btn">
-                                            <el-button plain round type="primary">查看详情</el-button>
+                                            <el-button plain round type="primary"
+                                                @click="goToActivityPage(item.activity.itemId)">查看详情</el-button>
                                         </div>
                                     </div>
 
@@ -42,7 +45,8 @@
                         </el-carousel-item>
                     </el-carousel>
 
-                    <h1 class="w-margin" style="margin-top: 80px;margin-bottom: 0;display: flex;justify-content: start;">
+                    <h1 class="w-margin"
+                        style="margin-top: 80px;margin-bottom: 0;display: flex;justify-content: start;">
                         活动总览</h1>
                     <el-card class="all_activities w-margin">
                         <!-- <div class="select">
@@ -102,16 +106,16 @@ import Bottom from '../components/Bottom.vue'
 import getActivityById from '../functions/getNewsById';
 // import getNewsDetail from '../functions/getNewsDetail';
 import { ref } from 'vue'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 // const activeTab = ref('1')
 
-// const router = useRouter();
+const router = useRouter();
 
 const Activity = ref(JSON.parse(sessionStorage.getItem("Activity") || "null") || "")
 const goToActivityPage = async (itemId: Number) => {
     await getActivityById(itemId)
     // await getNewsDetail(newsId)
-    // router.push('/newsDetail/' + itemId)
+    router.push('/activityDetail/' + itemId)
 }
 console.log(Activity.value);
 

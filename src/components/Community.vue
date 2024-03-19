@@ -13,6 +13,13 @@
                 </div>
                 <div class="message">
                     <el-form :model="form" label-width="auto" style="max-width: 600px;margin-top: 20px;">
+                        <el-form-item label="标题">
+                            <el-input v-model="form.title" />
+                        </el-form-item>
+                        <el-form-item label="概要">
+                            <el-input v-model="form.post_description" type="textarea"
+                                placeholder="摘要：会在推荐、列表等场景外露，帮助读者快速了解内容" />
+                        </el-form-item>
                         <el-form-item label="话题">
                             <div class="flex gap-2">
                                 <el-tag style="margin-right: 10px;" v-for="tag in dynamicTags" :key="tag" closable
@@ -26,15 +33,6 @@
                                 </el-button>
                             </div>
                         </el-form-item>
-                        <el-form-item label="标题">
-                            <el-input v-model="form.title" />
-                        </el-form-item>
-
-                        <el-form-item label="概要">
-                            <el-input v-model="form.post_description" type="textarea"
-                                placeholder="摘要：会在推荐、列表等场景外露，帮助读者快速了解内容" />
-                        </el-form-item>
-
                         <el-form-item label="封面上传">
                             <el-upload action="#" list-type="picture-card" :auto-upload="false">
                                 <el-icon>

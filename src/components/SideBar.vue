@@ -1,11 +1,21 @@
 <template>
     <nav class="social">
+        <el-dialog v-model="centerDialogVisible" width="350" align-center :close-on-click-modal="false">
+            <div class="poster">
+                <img src="../assets/poster/1.png" height="500">
+            </div>
+            <div class="btns">
+                <el-button round type="primary" plain>添加元素</el-button>
+                <el-button round type="primary" plain>分享海报</el-button>
+            </div>
+        </el-dialog>
         <ul>
             <li @click="sharePoster">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/海报.png" alt="">
                 </div>
                 <span>海报合成</span>
+
             </li>
             <li @click="goToGames">
                 <div class="icon">
@@ -47,6 +57,7 @@
 
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
+const centerDialogVisible = ref(false)
 import { useRouter } from 'vue-router'
 const token: any = ref(localStorage.getItem('token') || null)
 
@@ -54,7 +65,7 @@ const router = useRouter();
 
 const sharePoster = () => {
     if (token.value != null) {
-        console.log('点击了“分享海报”按钮');
+        centerDialogVisible.value = true
     } else {
         ElMessage({
             message: '请先登录',
@@ -179,6 +190,10 @@ a {
     top: 300px;
     right: -10px;
     cursor: pointer;
+
+    .btns {
+        margin-top: 20px;
+    }
 }
 
 .social ul {
