@@ -7,10 +7,10 @@
         <div class="nav w-margin">
             <el-tabs v-model="activeTab" type="card" class="demo-tabs" @tab-change="changeTab(activeTab)">
                 <el-tab-pane label="全部" name="1"></el-tab-pane>
-                <el-tab-pane label="5月5日" name="2023/5/5"></el-tab-pane>
-                <el-tab-pane label="5月6日" name="2023/5/6"></el-tab-pane>
-                <el-tab-pane label="5月7日" name="2023/5/7"></el-tab-pane>
-                <el-tab-pane label="5月8日" name="2023/5/8"></el-tab-pane>
+                <el-tab-pane label="5月5日" name="2024/5/5"></el-tab-pane>
+                <el-tab-pane label="5月6日" name="2024/5/6"></el-tab-pane>
+                <el-tab-pane label="5月7日" name="2024/5/7"></el-tab-pane>
+                <el-tab-pane label="5月8日" name="2024/5/8"></el-tab-pane>
             </el-tabs>
             <el-select v-model="value" class="m-2" placeholder="论坛类型" size="large" style="width: 150px;">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
@@ -23,7 +23,7 @@
                     style="margin-bottom: 25px;">
                     <div class="meeting">
                         <div class="time">
-                            <img src="../assets/icon/时间.png">
+                            <img src="../assets/icon/时间.png" style="width: 26px;">
                             {{ item.meeting.itemDate + ' ' + item.meeting.itemTime }}
                         </div>
                         <div class="content">
@@ -39,6 +39,10 @@
                         <div class="review">
                             <el-button type="primary" round plain v-if="item.subscribed == false"
                                 @click="handleSetMeetingSubscription(item.meeting.itemId)">订阅+</el-button>
+                            <!-- <img src="../assets/button/订阅.png" v-if="item.subscribed == false"
+                                @click="handleSetMeetingSubscription(item.meeting.itemId)">
+                            <img src="../assets/button/已订阅.png" v-else
+                                @click="handleCancelMeetingSubscription(item.meeting.itemId)"> -->
                             <el-button type="primary" round plain v-else
                                 @click="handleCancelMeetingSubscription(item.meeting.itemId)">已订阅</el-button>
                             <el-button type="primary" round plain
@@ -121,14 +125,10 @@ const handleCancelMeetingSubscription = async (itemId: any) => {
     Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
 }
 const filteredMeetings = computed(() => {
-    // console.log(activeTab);
     if (activeTab.value == '1') {
         return Meeting.value;
     }
     return Meeting.value.filter((m: any) => {
-        // console.log(m.meeting.itemDate);  // 打印每个 meeting 的 itemDate
-        // console.log(activeTab.value);
-        // console.log(m.meeting.itemDate == activeTab.value);
 
         return m.meeting.itemDate == activeTab.value;
     });
@@ -156,10 +156,13 @@ const changeTab = ((tab: any) => {
     .agenda {
         .agenda_item {
             background-color: rgba($color: #fff, $alpha: 0.3);
+            background-image: linear-gradient(45deg, rgba(62, 226, 255, 0), rgba(0, 107, 255, .1));
+            padding: 0 30px;
         }
 
         .agenda_item:hover {
-            background-color: rgba($color: #0055ff, $alpha: 0.3);
+            background: linear-gradient(90deg, #0377e7, #70c1ff);
+            padding: 20px 30px;
         }
 
         .agenda_item:last-child {
@@ -175,6 +178,7 @@ const changeTab = ((tab: any) => {
                 margin-right: 20px;
                 display: flex;
                 align-items: center;
+                font-size: 22px;
             }
 
             img {
@@ -182,9 +186,12 @@ const changeTab = ((tab: any) => {
             }
 
             .content {
+                margin-left: 35px;
+
                 .type {
                     font-weight: normal;
                     font-size: 16px;
+                    margin-left: 20px;
                 }
 
                 .location {
@@ -195,6 +202,17 @@ const changeTab = ((tab: any) => {
 
             .review {
                 margin-left: auto;
+
+                img {
+                    margin-right: 20px;
+                    width: 100px;
+                    cursor: pointer;
+                    transition: opacity .2s ease-in-out;
+                }
+
+                img:hover {
+                    opacity: 0.8;
+                }
             }
         }
     }

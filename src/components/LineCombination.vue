@@ -116,7 +116,7 @@ onUnmounted(() => {
       <div class="whiteBox">
         <div class="whiteBoxPoint" />
         <p class="name">主题演讲</p>
-        <p class="value">500</p>
+        <p class="value">500+</p>
       </div>
       <div class="blackBox">
         <div class="blackBoxPoint" />
@@ -124,7 +124,7 @@ onUnmounted(() => {
       <div class="whiteBox">
         <div class="whiteBoxPoint" />
         <p class="name">合作伙伴</p>
-        <p class="value">550</p>
+        <p class="value">550+</p>
       </div>
       <div class="blackBox">
         <div class="blackBoxPoint" />
@@ -132,7 +132,7 @@ onUnmounted(() => {
       <div class="whiteBox">
         <div class="whiteBoxPoint" />
         <p class="name">与会嘉宾</p>
-        <p class="value">10000</p>
+        <p class="value">10000+</p>
       </div>
       <div class="blackBox">
         <div class="blackBoxPoint" />
@@ -140,7 +140,7 @@ onUnmounted(() => {
       <div class="whiteBox">
         <div class="whiteBoxPoint" />
         <p class="name">行业从业者</p>
-        <p class="value">10万</p>
+        <p class="value">10万+</p>
       </div>
       <div class="blackBox">
         <div class="blackBoxPoint" />
@@ -148,7 +148,7 @@ onUnmounted(() => {
       <div class="whiteBox">
         <div class="whiteBoxPoint" />
         <p class="name">直播观看</p>
-        <p class="value">2500万</p>
+        <p class="value">2500万+</p>
       </div>
       <div class="blackBox">
         <div class="blackBoxPoint" />

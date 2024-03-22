@@ -23,8 +23,8 @@
             <div class="user" v-else-if="token != null && route.path != '/login'">
                 <el-popover placement="bottom-end" :width="300" trigger="click">
                     <template #reference>
-                        <el-link type="info" :underline="false">
-                            <el-icon size="16">
+                        <el-link type="info" :underline="false" style="font-size: 18px;">
+                            <el-icon size="18">
                                 <User />
                             </el-icon>
                             个人中心</el-link>
@@ -149,6 +149,10 @@ const goToRegister = () => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-menu--horizontal>.el-menu-item) {
+    font-size: 16px;
+}
+
 .img_icon {
     width: 20px;
 }

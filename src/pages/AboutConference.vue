@@ -6,11 +6,11 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">关于大会</h1>
-                    <div class="about w-margin">
+                    <h1 class="w-margin"
+                        style="margin-top: 30px;margin-bottom: 0;display: flex;justify-content: start;">关于大会</h1>
+                    <div class="about w-margin" style="margin-top: 40px;">
                         <div class="image ">
-                            <video src="https://img2023.gcsis.cn/2023/3/dd8d928e6e734c9592cb5833597564c6.mp4" muted
-                                type="video/mp4" autoplay width="1200"></video>
+                            <video src="../assets/大会介绍.mp4" muted type="video/mp4" autoplay width="1200"></video>
                         </div>
                         <div class="text">
                             <h1>大会介绍</h1>
@@ -129,7 +129,9 @@ h3 {
         margin-top: 100px;
 
         .text {
-
+            background: url('../assets/meeting_about/bg.png');
+            background-repeat: no-repeat;
+            background-size: cover;
 
             p {
                 padding: 0 150px;

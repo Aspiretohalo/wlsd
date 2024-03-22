@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="Conference_Highlights w-margin">
-            <h1>大会亮点</h1>
+            <h1> 大会亮点</h1>
             <h3>Conference Highlights</h3>
             <el-row class="data">
                 <!-- <el-col :span="5" v-for="item in highlight_data" :key="item.title">
@@ -31,24 +31,24 @@
 // import { Plus } from '@element-plus/icons-vue'
 import LineCombination from './LineCombination.vue'
 import { ref } from 'vue';
-const highlight_data = ref([
-    {
-        title: '主题演讲',
-        data: '500',
-    }, {
-        title: '合作伙伴',
-        data: '550',
-    }, {
-        title: '与会嘉宾',
-        data: '10000',
-    }, {
-        title: '行业从业者',
-        data: '10万',
-    }, {
-        title: '直播观看',
-        data: '2500万',
-    },
-])
+// const highlight_data = ref([
+//     {
+//         title: '主题演讲',
+//         data: '500',
+//     }, {
+//         title: '合作伙伴',
+//         data: '550',
+//     }, {
+//         title: '与会嘉宾',
+//         data: '10000',
+//     }, {
+//         title: '行业从业者',
+//         data: '10万',
+//     }, {
+//         title: '直播观看',
+//         data: '2500万',
+//     },
+// ])
 const Highlights = ref([
     {
         HighlightsTitle: '议题更前沿',
@@ -67,18 +67,11 @@ const Highlights = ref([
 </script>
 
 <style lang="scss" scoped>
-h1 {
-    margin-top: 100px;
-}
-
 h3 {
     margin: 20px auto;
 }
 
 .Conference_Highlights {
-
-
-
     .data {
         margin-top: 50px;
     }

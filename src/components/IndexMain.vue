@@ -7,8 +7,6 @@
         </el-carousel> -->
         <DisplayTextInSmoke></DisplayTextInSmoke>
         <div class="meetings">
-            <Highlights></Highlights>
-            <Committee></Committee>
             <div class="agenda w-margin">
                 <h1>大会总览</h1>
                 <h3>Conference Overview</h3>
@@ -80,6 +78,9 @@
                     </div>
                 </div>
             </div>
+            <Highlights></Highlights>
+            <Committee></Committee>
+
             <!-- <Exhibitor></Exhibitor> -->
         </div>
     </div>
@@ -181,7 +182,6 @@ const goToAgendaPage = () => {
 
     .overview_main {
         margin-top: 40px;
-
         cursor: pointer;
 
         .img_main {
@@ -189,6 +189,11 @@ const goToAgendaPage = () => {
             object-fit: cover;
             height: 150px;
             border-radius: 10px;
+            transition: opacity .2s ease-in-out;
+        }
+
+        .img_main:hover {
+            opacity: 0.7;
         }
 
         .words {
@@ -218,6 +223,11 @@ const goToAgendaPage = () => {
                 width: 100%;
                 object-fit: cover;
                 height: 150px;
+                transition: opacity .2s ease-in-out;
+            }
+
+            img:hover {
+                opacity: 0.7;
             }
 
             .words {

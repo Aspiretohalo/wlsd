@@ -26,7 +26,7 @@ h5 {
 }
 
 .bgc {
-  background: #a0cfff;
+  /* background: #a0cfff; */
   /* background-image: url(assets/background.png); */
   /* background:
     radial-gradient(circle at 50% 0,
@@ -50,6 +50,7 @@ h5 {
       rgba(179,
         207,
         242, 0) 70.71%) beige; */
+  background: url(assets/bg.png);
   background-repeat: no-repeat;
   background-size: cover;
 }

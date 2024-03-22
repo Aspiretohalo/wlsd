@@ -5,7 +5,7 @@
                 <el-header style="height: 80px;padding: 0;">
                     <TopNav></TopNav>
                 </el-header>
-                <el-main class="main bgc">
+                <el-main class="main bgc agenda_bg">
                     <div class="meeting">
                         <div class="video">
                             <video id="player-container-id" width="850" height="480" preload="auto" playsinline
@@ -226,6 +226,12 @@ const handleCancelThumb = async () => {
 
 :deep(.el-card) {
     border-radius: 15px;
+}
+
+.agenda_bg {
+    // background: url(../assets/agenda/bg3.png);
+    // background-repeat: no-repeat;
+    // background-size: contain;
 }
 
 .meeting {

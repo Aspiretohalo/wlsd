@@ -188,8 +188,7 @@ a {
 .social {
     position: fixed;
     top: 300px;
-    right: -10px;
-    cursor: pointer;
+    right: -255px;
 
     .btns {
         margin-top: 20px;
@@ -198,7 +197,7 @@ a {
 
 .social ul {
     padding: 0px;
-    transform: translate(270px, 0);
+    transform: translate(20px, 0);
 }
 
 .social ul li {
@@ -211,6 +210,7 @@ a {
     padding: 10px;
     border-radius: 30px 0 0 30px;
     transition: all 1.5s;
+    cursor: pointer;
 }
 
 .social ul li:hover {

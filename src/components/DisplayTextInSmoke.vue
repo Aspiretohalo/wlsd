@@ -1,10 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-
+import { ElMessage } from 'element-plus'
 const videoRef = ref<HTMLVideoElement | null>(null);
 const pRef = ref<HTMLParagraphElement | null>(null);
 
-
+const isReserved = ref(false)
+const handleReserve = () => {
+  setTimeout(() => {
+    ElMessage({
+      message: '订阅成功，届时将会提醒您！',
+      type: 'success',
+    })
+    isReserved.value = true
+  }, 300);
+}
+const cancelReserve = () => {
+  setTimeout(() => {
+    ElMessage({
+      message: '已取消订阅，将不会提醒',
+      type: 'info',
+    })
+    isReserved.value = false
+  }, 300);
+}
 </script>
 
 <template>
@@ -12,27 +30,20 @@ const pRef = ref<HTMLParagraphElement | null>(null);
     <div class="container">
       <video muted autoPlay preload="true" x5-video-player-fullscreen="true" x5-playsinline="true" playsInline
         webkit-playsinline="true" ref="videoRef" loop>
-        <source src="../../public/background.mp4" />
+        <source src="../../public/background02.mp4" />
       </video>
       <p ref="pRef">
-        <!-- <span class="span1">西</span>
-        <span class="span1">湖</span>
-        <span class="span1">论</span>
-        <span class="span1">剑</span>
-        <span class="span1">·</span>
-        <span class="span1">数</span>
-        <span class="span1">字</span>
-        <span class="span1">安</span>
-        <span class="span1">全</span>
-        <span class="span1">大</span>
-        <span class="span1">会</span> -->
-      <div class="name animate__animated animate__fadeIn">西湖论剑·数字安全大会</div>
+      <div class="name animate__animated animate__fadeIn">
+        <img src="../assets/banner_msg/西湖论剑标题.png">
+      </div>
       <div class="time animate__animated animate__fadeIn">
-        2024.5.5-5.7
+        <img src="../assets/banner_msg/大会时间地点.png" style="height: 40px;">
       </div>
       <div class="button">
-        <el-button class="btn" round plain size="large" style="font-size: 18px;">购票参会</el-button>
-        <el-button class="btn" round plain size="large" style="font-size: 18px;">预约直播</el-button>
+        <img src="https://mpics.bdstatic.com/qm/202403/pic_0kRYvT_1709891815.png">
+        <img src="https://mpics.bdstatic.com/qm/202403/pic_EJUmzQ_1709891831.png" v-if="!isReserved"
+          @click="handleReserve">
+        <img src="https://mpics.bdstatic.com/qm/202403/pic_JGUBIj_1709891846.png" v-else @click="cancelReserve">
       </div>
       </p>
 
@@ -51,12 +62,33 @@ const pRef = ref<HTMLParagraphElement | null>(null);
   position: relative;
   top: -140px;
 
+  .button {
+    img {
+      width: 200px;
+      margin-right: 20px;
+      cursor: pointer;
+      transition: opacity .2s ease-in-out;
+    }
+
+    img:hover {
+      opacity: 0.8;
+    }
+  }
+
   .name {
     animation-duration: 3s;
+
+    img {
+      opacity: 0.9;
+    }
   }
 
   .time {
     animation-duration: 3s;
+
+    img {
+      opacity: 0.9;
+    }
   }
 
   &::before {
@@ -84,7 +116,6 @@ const pRef = ref<HTMLParagraphElement | null>(null);
   }
 
   p {
-    margin: 0;
     padding: 0;
     position: absolute;
     top: 50%;
