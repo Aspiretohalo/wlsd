@@ -164,25 +164,10 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
-const value = ref('全部')
 
 const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
 const ThumbBlogShare: any = reactive(JSON.parse(sessionStorage.getItem("ThumbBlogShare") || "null") || "")
 
-const options = [
-    {
-        value: '全部',
-        label: '全部',
-    },
-    {
-        value: '议程订阅',
-        label: '议程订阅',
-    },
-    {
-        value: '活动订阅',
-        label: '活动订阅',
-    },
-]
 const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const dialogFormVisible = ref(false)
 

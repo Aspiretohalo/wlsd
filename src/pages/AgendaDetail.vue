@@ -228,12 +228,6 @@ const handleCancelThumb = async () => {
     border-radius: 15px;
 }
 
-.agenda_bg {
-    // background: url(../assets/agenda/bg3.png);
-    // background-repeat: no-repeat;
-    // background-size: contain;
-}
-
 .meeting {
     margin: 80px auto;
     width: 1200px;

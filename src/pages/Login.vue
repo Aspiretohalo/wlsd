@@ -29,10 +29,6 @@
                                 <!-- span显示图形码验证码是否成功 -->
                                 <el-text v-if="captchaVerified" class="mx-1" type="success">图形验证码验证成功！</el-text>
                             </el-form-item>
-                            <!-- <div class="slider" v-if="show"> -->
-                            <!-- <Slider @getImg="getImg" @validImg="validImg" @close="onClose" :log="true"></Slider> -->
-                            <!-- <Slider @close="onClose" :log="true"></Slider>
-                            </div> -->
 
                             <div class="wxLogin">
                                 <img class="wx_img" src="../assets/icon/微信.svg" @click="getWechatQRCode" width="36">
@@ -48,19 +44,15 @@
                                             </el-form-item>
                                             <el-form-item>
                                                 <el-input v-model="form2.verificationCode" placeholder="验证码">
-                                                    <!-- <template #append>
-                                                        <el-button v-if="!sms.disabled" @click="onShow2">
+                                                    <template #append>
+                                                        <el-button v-if="!sms.disabled" @click="onShow">
                                                             <span>发送验证码</span>
                                                         </el-button>
                                                         <el-button v-else disabled>
                                                             <span>{{ sms.count }}秒后重新发送</span>
                                                         </el-button>
-                                                    </template> -->
+                                                    </template>
                                                 </el-input>
-
-                                                <!-- span显示图形码验证码是否成功 -->
-                                                <!-- <el-text v-if="captchaVerified2" class="mx-1"
-                                                    type="success">图形验证码验证成功！</el-text> -->
                                             </el-form-item>
                                             <div class="slider" v-if="show2" style="position: fixed;top: 250px;">
                                                 <Slider @close="onClose" :log="true"></Slider>
@@ -103,7 +95,7 @@ import router from '../config/router';
 import getUserMsg from '../functions/getUserMsg';
 import handlePhoneCombination from '../functions/handlePhoneCombination';
 import QrcodeVue from 'vue-qrcode';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 // import Slider from "../components/Slider.vue";
 
 // do not use same name with ref
@@ -241,26 +233,9 @@ const getWechatQRCode = async () => {
 };
 
 
-
 const show = ref(false);
 const show2 = ref(false);
 
-
-
-// const onShow = () => {
-//     show.value = true;
-
-//     setTimeout(() => {
-//         verifyCaptcha();
-//     }, 5000);
-// };
-const onShow2 = () => {
-    show2.value = true;
-
-    setTimeout(() => {
-        verifyCaptcha();
-    }, 5000);
-};
 const onClose = () => {
     show.value = false;
     show2.value = false;
@@ -268,18 +243,6 @@ const onClose = () => {
 
 // 定义一个响应式变量，表示滑动验证码是否验证成功
 const captchaVerified = ref(false);
-const captchaVerified2 = ref(false);
-
-const verifyCaptcha = () => {
-
-    // 如果验证通过，将 captchaVerified 设置为 true
-    captchaVerified.value = true;
-
-    // 关闭图形验证码
-    onClose();
-    timerHandler();
-};
-
 
 //60s倒计时
 // 验证码计时器
@@ -322,6 +285,8 @@ const onShow = () => {
         // 验证成功回调函数
         validSuccess: (res: any, c: any, tac: any) => {
             // login();
+
+            console.log(c);
             console.log(res);
             captchaVerified.value = true;
             timerHandler();
@@ -330,6 +295,7 @@ const onShow = () => {
         }
     };
     new window.TAC(config).init();
+
 };
 
 

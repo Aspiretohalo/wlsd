@@ -92,11 +92,11 @@ const hideButtons = () => {
 
 
 
-// 定义回复内容接口
-interface PtjobResponse {
-    response_id: number;
-    response_text: string;
-}
+// // 定义回复内容接口
+// interface PtjobResponse {
+//     response_id: number;
+//     response_text: string;
+// }
 
 // 定义选择内容接口
 interface PtjobOption {
@@ -112,11 +112,11 @@ const options: PtjobOption[] = [
     // 其他选择内容数据...
 ];
 
-const responses: PtjobResponse[] = [
-    { response_id: 1, response_text: '亲😀~ 想不想动动手指就赚大钱！' },
-    { response_id: 2, response_text: '亲~我公司新上线产品急需提高销量，邀请您兼职刷单！' },
-    // 其他回复内容数据...
-];
+// const responses: PtjobResponse[] = [
+//     { response_id: 1, response_text: '亲😀~ 想不想动动手指就赚大钱！' },
+//     { response_id: 2, response_text: '亲~我公司新上线产品急需提高销量，邀请您兼职刷单！' },
+//     // 其他回复内容数据...
+// ];
 
 // 状态
 const show = ref(false);
