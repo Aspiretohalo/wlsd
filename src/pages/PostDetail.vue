@@ -9,7 +9,7 @@
                     <h2 class="title">{{ SinglePost.title }}</h2>
                     <div class="msg">
                         <div class="date">
-                            {{ SinglePost.postTime }}
+                            {{ formattedData.postTime }}
                         </div>
                     </div>
                 </div>
@@ -28,9 +28,16 @@
 <script setup lang="ts">
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 const SinglePost: any = ref(JSON.parse(sessionStorage.getItem("SinglePost") || "null") || "")
-console.log(SinglePost.value);
+const formattedData = computed(() => {
+    if (!SinglePost.value || !SinglePost.value.postTime) return null;
+
+    const originalDate = new Date(SinglePost.value.postTime);
+    const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+    return { ...SinglePost.value, postTime: formattedTime };
+});
 
 </script>
 

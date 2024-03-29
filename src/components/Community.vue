@@ -84,7 +84,7 @@
 
             <div class="popularity-ranking">
                 <h2 class="popularity-h2">热点话题榜</h2>
-                <el-table :data="tableData" height="300" style="width: 100%;background: transparent;">
+                <el-table :data="tableData" height="400" style="width: 100%;background: transparent;">
                     <el-table-column prop="Ranking" label="排名" width="60" />
                     <el-table-column prop="topic" label="话题" width="150" />
                     <el-table-column prop="heat" label="热度" />
@@ -104,12 +104,14 @@
                         </h3>
                     </el-link>
                     <div class="msg">
-
                         <div class="date">
                             {{ item.postTime }}
                         </div>
                     </div>
                     <div class="description">
+                        <span class="topic" v-for="tag in item.postType.split(',')" :key="tag">
+                            #{{ tag.trim() }}
+                        </span>
                         {{ item.postDescription }}
                     </div>
 
@@ -117,6 +119,7 @@
             </div>
         </el-card>
     </div>
+
 </template>
 
 <script lang="ts" setup>
@@ -330,6 +333,7 @@ if (editorConfig.MENU_CONF && typeof editorConfig.MENU_CONF === 'object') {
 
 // 自定义校验图片
 function customCheckImageFn(src: string, alt: string, url: string): boolean | undefined | string { // TS 语法
+    console.log('updated image', src, alt, url)
     if (!src) {
         return
     }
@@ -480,6 +484,12 @@ const tableData = HotTopic.value.map((item: any, index: any) => ({
             .description {
                 font-size: 14px;
                 color: #6b6b6b;
+
+                .topic {
+                    font-size: 15px;
+                    font-weight: 700;
+                    color: #000;
+                }
             }
 
             .msg {

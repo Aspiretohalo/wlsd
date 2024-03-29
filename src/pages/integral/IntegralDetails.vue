@@ -103,8 +103,6 @@ const handleFinish = async (task: any) => {
         .left {
             display: flex;
             justify-content: flex-start;
-
-
         }
     }
 }

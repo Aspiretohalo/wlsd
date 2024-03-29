@@ -39,8 +39,11 @@
                                         @click="handleSetMeetingSubscription()">订阅+</el-button>
                                     <el-button type="primary" round plain v-else
                                         @click="handleCancelMeetingSubscription()">已订阅</el-button>
-                                    <el-button round>PPT下载</el-button>
-                                    <el-button round>AI视频总结</el-button>
+                                    <el-button round @click="goTo()">PPT下载</el-button>
+                                    <el-button round @click="dialogSummaryVisible = true">AI视频总结</el-button>
+                                    <el-dialog v-model="dialogSummaryVisible" title="AI视频总结" width="500">
+                                        <Summary></Summary>
+                                    </el-dialog>
                                 </div>
                             </div>
                         </div>
@@ -70,6 +73,7 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import Comment from '../components/Comment.vue';
+import Summary from '../components/Summary.vue';
 import TCPlayer from "tcplayer.js";
 import { ref } from 'vue'
 import setMeetingSubscription from '../functions/setMeetingSubscription';
@@ -78,6 +82,10 @@ import cancelMeetingSubscription from '../functions/cancelMeetingSubscription';
 import cancelMeetingThumb from '../functions/cancelMeetingThumb';
 import addMeetingViews from '../functions/addViewsMeeting';
 import { onBeforeMount, onMounted, onUnmounted } from 'vue';
+const goTo = () => {
+    window.open('https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91%C2%B7%E6%95%B0%E5%AD%97%E5%AE%89%E5%85%A8%E5%A4%A7%E4%BC%9A.pptx')
+}
+const dialogSummaryVisible = ref(false)
 onBeforeMount(async () => {
     const SingleMeeting: any = ref(JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || "")
     await addMeetingViews(SingleMeeting.value.meeting.itemId)

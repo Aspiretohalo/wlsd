@@ -20,11 +20,11 @@ import IntegralDetails from "../pages/integral/IntegralDetails.vue"
 import IntegralGifts from "../pages/integral/IntegralGifts.vue"
 import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
-import logindemo from "../pages/logindemo.vue"
 import FunGames from "../pages/FunGames.vue"
-import WordGame from "../pages/WordGame.vue"
+// import WordGame from "../pages/WordGame.vue"
 import ExhibitDetail from "../pages/ExhibitDetail.vue"
 import ActivityDetail from '../pages/ActivityDetail.vue'
+import ActivityParticipation from '../pages/ActivityParticipation.vue'
 import Ctf from '../pages/ctf/Ctf.vue'
 import Robert from '../pages/ctf/Robert.vue'
 import FirstGame from '../pages/ctf/FirstGame.vue'
@@ -47,6 +47,8 @@ const routes = [
     { path: "/results", component: Results },
     { path: "/wonderfulActivity", component: WonderfulActivity },
     { path: "/activityDetail/:itemId", component: ActivityDetail },
+    { path: "/activityParticipation/:itemId", component: ActivityParticipation },
+
     { path: "/ctf", component: Ctf },
     { path: "/user", component: User },
     {
@@ -71,9 +73,8 @@ const routes = [
     { path: "/agendaDetail/:agendaId", component: AgendaDetail },
     { path: "/newsDetail/:newsId", component: NewsDetail },
     { path: "/postDetail/:id", component: PostDetail },
-    { path: "/logindemo", component: logindemo },
     { path: "/funGames", component: FunGames },
-    { path: "/wordGame", component: WordGame },
+    // { path: "/wordGame", component: WordGame },
 
     { path: "/robert", component: Robert },
     { path: "/firstgame", component: FirstGame },

@@ -7,9 +7,9 @@
                 </el-header>
                 <el-main class="main bgc">
                     <h1 class="w-margin"
-                        style="margin-top: 50px;margin-bottom: 0;display: flex;justify-content: start;">
+                        style="margin-top: 20px;margin-bottom: 0;display: flex;justify-content: start;">
                         热门活动</h1>
-                    <el-carousel height="500px" :interval="1000000" arrow="always" indicator-position="none">
+                    <el-carousel height="600px" :interval="1000000" arrow="always" indicator-position="none">
                         <el-carousel-item v-for="item in  formattedData " :key="item.activity.itemId">
                             <div class="activity w-margin">
                                 <img style="border-radius: 15px;" width="800" height="500"
@@ -103,21 +103,24 @@
 <script lang="ts" setup>
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
-import getActivityById from '../functions/getNewsById';
-// import getNewsDetail from '../functions/getNewsDetail';
+import getActivityById from '../functions/getActivityById';
+import getActivityByIdNotLogin from '../functions/notLogin/getActivityByIdNotLogin';
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-// const activeTab = ref('1')
 
 const router = useRouter();
+const token: any = ref(localStorage.getItem('token') || null)
 
 const Activity = ref(JSON.parse(sessionStorage.getItem("Activity") || "null") || "")
 const goToActivityPage = async (itemId: Number) => {
-    await getActivityById(itemId)
-    // await getNewsDetail(newsId)
+    if (token.value != null) {
+        await getActivityById(itemId)
+
+    } else {
+        await getActivityByIdNotLogin(itemId)
+    }
     router.push('/activityDetail/' + itemId)
 }
-console.log(Activity.value);
 
 const formattedData = Activity.value.map((item: any) => {
     const originalDate = new Date(item.activity.beginTime);

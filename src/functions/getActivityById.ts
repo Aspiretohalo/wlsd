@@ -1,11 +1,13 @@
 import myAxios from "../plugins/myAxios";
 import state from "../store/state";
-const getActivityById = async (item_id: any, user_id: any) => {
+import { reactive } from 'vue'
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const getActivityById = async (item_id: any) => {
     try {
         const response = await myAxios.get('/getActivityById', {
             params: {
                 item_id: item_id,
-                user_id: user_id
+                user_id: user.userId
             },
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),

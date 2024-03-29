@@ -58,7 +58,6 @@ const goToNewsPage = async (newsId: Number) => {
     await getNewsById(newsId)
     await getNewsDetail(newsId)
     router.push('/newsDetail/' + newsId)
-
 }
 </script>
 

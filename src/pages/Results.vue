@@ -18,15 +18,15 @@
                                 </div>
                                 <div class="paper">
                                     <h3>{{ item.title }}</h3>
-                                    <p>{{ item.content }}</p>
-                                    <el-button round size="small">立即下载</el-button>
+                                    <p style="text-indent: 2em;">{{ item.content }}</p>
+                                    <el-button round size="small" @click="goTo">立即下载</el-button>
                                 </div>
                             </div>
                             <div class="papers" v-for="item in WhitePaper2" :key="item.title">
                                 <div class="paper">
                                     <h3>{{ item.title }}</h3>
-                                    <p>{{ item.content }}</p>
-                                    <el-button round size="small">立即下载</el-button>
+                                    <p style="text-indent: 2em;">{{ item.content }}</p>
+                                    <el-button round size="small" @click="goTo">立即下载</el-button>
                                 </div>
                                 <div class="img">
                                     <img :src="item.img" style="height: 200px;">
@@ -38,8 +38,8 @@
                                 </div>
                                 <div class="paper">
                                     <h3>{{ item.title }}</h3>
-                                    <p>{{ item.content }}</p>
-                                    <el-button round size="small">立即下载</el-button>
+                                    <p style="text-indent: 2em;">{{ item.content }}</p>
+                                    <el-button round size="small" @click="goTo">立即下载</el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -53,7 +53,9 @@
                                 :key="item.style">
                                 <img :src="item.img" style="height: 180px;width: 90%;">
                                 <h2>{{ item.title }}</h2>
-                                <div style="padding: 0 20px; text-align: justify;font-size: 12px;color: #666;">{{
+                                <div
+                                    style="padding: 0 20px; text-align: justify;text-indent: 2em;font-size: 12px;color: #666;">
+                                    {{
                             item.description }}</div>
                             </el-card>
                         </div>
@@ -69,7 +71,7 @@
 
                                 <div class="text">
                                     <h3>数据安全与隐私计算</h3>
-                                    <p style="text-align:justify;text-indent: 2rem;">本书首先介绍了业内多个具备代表性的数据安全理论及实践框架，从数
+                                    <p style="text-align:justify;text-indent: 2em;">本书首先介绍了业内多个具备代表性的数据安全理论及实践框架，从数
                                         据常见风险出发，引出数据安全保护最佳实践，然后介绍了数字经济时代数据要素市场的基本信息，基于构建数据要素市场、促进数据合规安全流通，释放数据价值等场景中的实践，抽象并总结了一套数据要素可信、安全、合
                                         规流通的体系架构，包括数据安全保护技术与保护数据价值释放的隐私计算 技术，最后针对政务、金融、电力能源、公安行业等重点行业，分析了数据
                                         安全与数据孤岛现象的根本原因，介绍了数据安全实践案例，以及如何通过 部署数据要素流通体系架构，打破“数据壁垒”，促进多方数据融合计算的实践案例。
@@ -93,11 +95,13 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { ref } from 'vue';
-
+const goTo = () => {
+    window.open('https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/%E8%A5%BF%E6%B9%96%E8%AE%BA%E5%89%91%C2%B7%E6%95%B0%E5%AD%97%E5%AE%89%E5%85%A8%E5%A4%A7%E4%BC%9A.pptx')
+}
 const Product = ref([
     {
         title: '下一代防火墙',
-        description: '明御防火墙（DAS-TGFW）秉持“持续边界安全态势改善”的理念，以用户为核心，以边界、应用、威胁、权限为防护对象，构建了以资产为视角的可持续智能安全运营防护体系。是集传统防火墙、入侵防御、防病毒、上网行为管控、VPN、威胁情报等安全模块于一身，同时可联合态势感知、EDR等产品进行一体化建设的智能安全网关。',
+        description: '明御防火墙（DAS-TGFW）秉持“持续边界安全态势改善”的理念，以用户为核心，以边界、应用、威胁、权限为防护对象，构建了以资产为视角的可持续智能安全运营防护体系。',
         style: '#f0f0fb',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/bf77ef3740464bd38b383633d30831a6.jpg'
     }, {
@@ -105,6 +109,11 @@ const Product = ref([
         description: '提供体系化、常态化的安全托管服务，协助构建7*24小时全天候、全方位的安全运营体系， 实现安全风险从发现到响应处置的闭环，持续不断提高网络安全水平。',
         style: '#f0f0fb',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/500e36be359f492ab623b7998263ccc2.jpg'
+    }, {
+        title: '安恒信息数据安全',
+        description: '全球知名市场研究机构IDC发布《IDC Perspective中国数据安全市场研究》报告认为：安恒信息数据安全解决方案是国内首家覆盖数据全生命周期关联的网络、终端、应用、数据库和接口的综合解决方案，解决数据静态和流动状态中数据泄露、数据篡改、数据滥用和隐私泄露风险。',
+        style: '#f0f0fb',
+        img: 'https://www.dbappsecurity.com.cn/Upload/image/20210517/20210517220626_0138.jpg'
     }
 ])
 const WhitePaper1 = ref([
@@ -124,7 +133,7 @@ const WhitePaper2 = ref([
 ])
 const WhitePaper3 = ref([
     {
-        title: '安恒信息2024年行业解决方案蓝皮书（全6本）',
+        title: '安恒信息2024年行业解决方案蓝皮书',
         content: '数字安全是未来数字化发展的重要组成部分，立足数字安全建设。备预不虞，为国常道，安恒信息结合多年网络安全、数据安全经验以及对行业发展趋势的理解和把握，安恒信息首次发布六大行业解决方案蓝皮书，全面介绍网信、公安、运营商、金融、教育、交通六大行业中的解决方案最佳实践，为产业数字化发展指明了方向，全面加速推动经济社会全面发展。',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/0bfbde79d1774b43bab8f03d1c75e44c.png'
     }
@@ -178,7 +187,7 @@ const WhitePaper3 = ref([
         display: flex;
         // flex-direction: column;
         justify-content: center;
-        align-items: flex-start;
+        align-items: center;
 
         .text {
             width: 500px;

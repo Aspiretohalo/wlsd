@@ -2,12 +2,15 @@
     <nav class="social">
         <el-dialog v-model="centerDialogVisible" width="350" align-center :close-on-click-modal="false">
             <div class="poster">
-                <img src="../assets/poster/1.png" height="500">
+                <img src="../assets/poster/1.png">
             </div>
             <div class="btns">
                 <el-button round type="primary" plain>添加元素</el-button>
                 <el-button round type="primary" plain>分享海报</el-button>
             </div>
+        </el-dialog>
+        <el-dialog v-model="dialogVisible" title="小程序码" width="200" align-center>
+            <img src="../assets/小程序码.jpg" style="width: 80%;">
         </el-dialog>
         <ul>
             <li @click="sharePoster">
@@ -28,7 +31,9 @@
                     <img src="../assets/sidebar_icon/小程序.png" alt="">
                 </div>
                 <span>小程序访问</span>
+
             </li>
+
             <li>
                 <div class="icon">
                     <img src="../assets/sidebar_icon/游戏.png" alt="">
@@ -84,8 +89,9 @@ const goToGames = () => {
         })
     }
 };
-
+const dialogVisible = ref(false)
 const visitMiniProgram = () => {
+    dialogVisible.value = true
     console.log('点击了“小程序访问”按钮');
 };
 

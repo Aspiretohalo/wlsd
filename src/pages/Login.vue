@@ -223,6 +223,7 @@ const getWechatQRCode = async () => {
             console.error('Error:', response.data.message);
         }
         console.log(JSON.parse(response.data.qrCodeReturnUrl).data.tempUserId)
+        console.log(JSON.parse(response.data.qrCodeReturnUrl).data)
         // 在这保存一份tempUserId登录凭证
         tempUserId.value = JSON.parse(response.data.qrCodeReturnUrl).data.tempUserId
         start();
@@ -267,10 +268,7 @@ const timerHandler = () => {
     }, 1000)
 }
 
-
-
 //图形验证码逻辑
-
 import "../assets/captcha/tac.css"; // 验证码css
 import "../assets/captcha/jquery.min.js"; // 验证码js
 import "../assets/captcha/tac.min.js"; // 验证码js

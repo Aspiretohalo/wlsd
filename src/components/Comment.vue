@@ -1,8 +1,25 @@
 <template>
     <div class="box w-margin">
         <el-card class="leftcc">
+            <el-button type="primary" @click="dialogCommentVisible = true;" plain round
+                style="margin: 20px;">发表评论</el-button>
             <div class="bk-container">
                 <div v-infinite-scroll="load" class="infinite-list">
+                    <el-dialog v-model="dialogCommentVisible" title="发表评论" center width="500" align-center>
+                        <el-form :model="comment" style="max-width: 450px">
+                            <el-form-item>
+                                <el-input v-model="comment.words" :rows="2" type="textarea" />
+                            </el-form-item>
+                        </el-form>
+                        <template #footer>
+                            <div class="dialog-footer">
+                                <el-button @click="dialogCommentVisible = false">取消</el-button>
+                                <el-button type="primary" @click="handleComment; dialogCommentVisible = false">
+                                    确认
+                                </el-button>
+                            </div>
+                        </template>
+                    </el-dialog>
                     <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
                         <div class="bk-infor">
                             <el-avatar class="avatar" :src="i.user.userAvatar">
@@ -14,16 +31,31 @@
                         </div>
                         <div class="bk-content">
                             <el-text class="contxt">{{ i.blog.content }}</el-text>
-                            <div class="imgs">
+                            <!-- <div class="imgs">
                                 <img class="bk-img" v-for="url in i.blogImg" :key="url.id" :src="url.imgUrl" />
-                            </div>
+                            </div> -->
                         </div>
+                        <el-dialog v-model="dialogReplyVisible" title="回复" center width="500" align-center>
+                            <el-form :model="reply" style="max-width: 450px">
+                                <el-form-item>
+                                    <el-input v-model="reply.words" :rows="2" type="textarea" />
+                                </el-form-item>
+                            </el-form>
+                            <template #footer>
+                                <div class="dialog-footer">
+                                    <el-button @click="dialogCommentVisible = false">取消</el-button>
+                                    <el-button type="primary"
+                                        @click=" handleReply(i.blog.id); dialogReplyVisible = false">
+                                        确认
+                                    </el-button>
+                                </div>
+                            </template>
+                        </el-dialog>
                         <div class="bk-communicate">
                             <div class="circle icon_item">
-                                <el-icon class="bk-ic">
-                                    <img src="../assets/icon/评论.png" alt="" class="icon">
-                                    <el-text>5</el-text>
-                                </el-icon>
+                                <div class="replyBtn" @click="dialogReplyVisible = true;">
+                                    回复
+                                </div>
                             </div>
                             <div class="circle icon_item" :class="i.thumbed ? 'check' : ''">
                                 <div class="img-box" :class="i.thumbed ? 'img-box-check' : ''">
@@ -49,6 +81,12 @@
                                     </div>
                                     <div class="contxt">{{ reply.blog.content }}</div>
                                     <div class="bk-communicate">
+                                        <div class="circle icon_item">
+                                            <div class="replyBtn"
+                                                @click="dialogReplyVisible = true; handleReply(i.blog.id)">
+                                                回复
+                                            </div>
+                                        </div>
                                         <div class="circle icon_item" :class="reply.thumbed ? 'check' : ''">
                                             <div class="img-box" :class="reply.thumbed ? 'img-box-check' : ''">
                                                 <img v-if="reply.thumbed == false"
@@ -78,10 +116,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, reactive } from 'vue';
 import setBlogThumb from '../functions/setBlogThumb';
 import cancelBlogThumb from '../functions/cancelBlogThumb';
+import setBlogComment from '../functions/setBlogComment';
+import setBlogReply from '../functions/setBlogReply';
 
+const dialogCommentVisible = ref(false)
+const dialogReplyVisible = ref(false)
+const comment = reactive({
+    words: ''
+})
+const reply = reactive({
+    words: ''
+})
 const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
 const rootBlog = computed(() => {
     return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0)
@@ -116,6 +164,29 @@ const load = () => {
 const token: any = ref(localStorage.getItem('token') || null)
 import { ElMessage } from 'element-plus'
 
+const handleReply = async (id: number) => {
+    if (token.value != null) {
+        await setBlogReply(id, reply.words)
+        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
+}
+const handleComment = async () => {
+    if (token.value != null) {
+        await setBlogComment(comment.words)
+        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
+
+}
 const handleSetThumb = async (id: number) => {
     if (token.value != null) {
         await setBlogThumb(id)
@@ -246,7 +317,9 @@ const handleCancelThumb = async (id: number) => {
 
 .bk-content {
     padding-top: 10px;
-    width: 500px;
+    padding-right: 30px;
+    padding-left: 10px;
+    // width: 500px;
     //height: 200px;
     text-align: left;
 }
@@ -310,6 +383,15 @@ const handleCancelThumb = async (id: number) => {
         // padding-left: 20px;
         padding-right: 50px;
     }
+}
+
+.replyBtn {
+    width: 50px;
+    cursor: pointer;
+}
+
+.replyBtn:hover {
+    color: #409EFF;
 }
 
 .circle {

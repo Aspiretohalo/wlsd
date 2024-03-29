@@ -8,30 +8,26 @@
         </div>
         <div class="card-container">
             <el-row class="row-bg" justify="space-around" style="margin-top: 50px;">
-                <el-col :span="6">
-                    <div class="card card1" @click="gotogame(4)">
+                <el-col :span="8">
+                    <div class="card card0" @click="gotogame(4)">
                     </div>
                 </el-col>
-                <el-col :span="6">
-                    <div class="card card1" @click="gotogame(5)">
-                    </div>
-                </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <div class="card card1" @click="gotogame(1)">
                     </div>
                 </el-col>
-            </el-row>
-            <el-row class="row-bg" justify="space-around" style="margin-top: 50px;">
-                <el-col :span="6">
+                <el-col :span="8">
                     <div class="card card2" @click="gotogame(2)">
                     </div>
                 </el-col>
-                <el-col :span="6">
+            </el-row>
+            <el-row class="row-bg" justify="start" style="margin-top: 50px;">
+
+                <el-col :span="8">
                     <div class="card card3" @click="gotogame(3)">
                     </div>
                 </el-col>
-                <el-col :span="6">
-                </el-col>
+
             </el-row>
         </div>
     </div>
@@ -49,8 +45,6 @@ const gotogame = (gameid: number) => {
         router.push('/thirdgame');
     } else if (gameid == 4) {
         router.push('/funGames');
-    } else if (gameid == 5) {
-        router.push('/wordGame');
     }
 }
 const goToIndex = () => {
@@ -117,6 +111,11 @@ const goToIndex = () => {
     cursor: pointer;
     font-family: cursive;
     margin-right: 4rem;
+}
+
+.card0 {
+    background-image: url('../../assets/images2/封面.png');
+    /* 替换 'your-image-url.jpg' 为你的图片链接 */
 }
 
 .card1 {

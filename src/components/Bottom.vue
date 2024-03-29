@@ -3,11 +3,12 @@
         <div class="middle">
             <img class="logo" src="../assets/logo.png" @click="goToIndex()">
             <div class="title">
-                <div class="title-item" @click="goToPages(item.titleRouter)" v-for="item in title" :key="item.titleName">
+                <div class="title-item" @click="goToPages(item.titleRouter)" v-for="item in title"
+                    :key="item.titleName">
                     {{ item.titleName }}
                 </div>
             </div>
-            <img class="ewm" src="../assets/ewm.png">
+            <img class="ewm" src="../assets/小程序码.jpg">
         </div>
     </div>
 </template>

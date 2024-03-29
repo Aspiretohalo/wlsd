@@ -15,7 +15,7 @@ const setBlogThumb = async (item_id: any) => {
                 'Content-Type': 'application/json'
             }
         });
-        await getAllBlogs()
+        await getAllBlogs(user.userId)
         console.log(response);
 
     } catch (error) {

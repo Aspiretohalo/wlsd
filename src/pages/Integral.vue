@@ -106,6 +106,8 @@ const handleButtonClick = () => {
     text-align: left;
 }
 
+
+
 :deep(.el-card) {
     --el-dialog-width: 35%;
     background-color: rgba($color: #fff, $alpha: 0.5);

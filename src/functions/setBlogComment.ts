@@ -4,11 +4,13 @@ import { reactive } from 'vue'
 
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
-const cancelBlogThumb = async (item_id: any) => {
+const setBlogComment = async (content: string) => {
     try {
-        const response = await myAxios.post('/cancelBlogThumb', {
-            id: item_id,
-            userId: user.userId
+        const response = await myAxios.post('/setBlogComment', {
+            content: content,
+            userId: user.userId,
+            replyParentId: 0,
+            replyLevel: 0,
         }, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -22,4 +24,4 @@ const cancelBlogThumb = async (item_id: any) => {
         console.error('获取信息失败', error);
     }
 };
-export default cancelBlogThumb;
+export default setBlogComment;

@@ -6,7 +6,7 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <div class="name w-margin">
+                    <div class="name">
                         <el-avatar :size="64" :src="form.userAvatar" />
                         <span style="margin-left: 20px;">{{ form.userName }}</span>
                     </div>
@@ -205,7 +205,8 @@ const checkIntegral = () => {
 .name {
     display: flex;
     justify-content: flex-start;
-    margin-top: 30px;
+    margin: 0 auto;
+    width: 1200px;
 
     span {
         font-size: 48px;
