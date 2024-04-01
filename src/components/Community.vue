@@ -95,24 +95,31 @@
         <el-card class="rightcc">
             <div class="news" v-for="item in formattedData " :key="item.id">
                 <div class="img">
-                    <img :src="item.postCover" alt="" width="250" height="150">
+                    <img :src="item.post.postCover" alt="" width="250" height="150">
                 </div>
                 <div class="news_content">
-                    <el-link :underline="false" @click="goToPage(item.id)">
+                    <el-link :underline="false" @click="goToPage(item.post.id)">
                         <h3 class="news_title">
-                            {{ item.title }}
+                            {{ item.post.title }}
                         </h3>
                     </el-link>
                     <div class="msg">
+                        <div class="user">
+                            <img :src="item.user.userAvatar"
+                                style="width: 30px;height: 30px; border-radius: 50%;margin-right: 8px;" />
+                        </div>
+                        <div class="name" style="margin-right: 10px;">
+                            {{ item.user.userName }}
+                        </div>
                         <div class="date">
-                            {{ item.postTime }}
+                            {{ item.post.postTime }}
                         </div>
                     </div>
                     <div class="description">
-                        <span class="topic" v-for="tag in item.postType.split(',')" :key="tag">
+                        <span class="topic" v-for="tag in item.post.postType.split(',')" :key="tag">
                             #{{ tag.trim() }}
                         </span>
-                        {{ item.postDescription }}
+                        {{ item.post.postDescription }}
                     </div>
 
                 </div>
@@ -127,24 +134,33 @@ import { ref } from 'vue';
 const dialogFormVisible = ref(false)
 import { reactive } from 'vue'
 import getPostById from '../functions/getPostById';
+import getPostByIdNotLogin from '../functions/notLogin/getPostByIdNotLogin';
 
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const AllPost: any = ref(JSON.parse(sessionStorage.getItem("AllPost") || "null") || "")
 
-const formattedData = ref(AllPost.value.reverse().map((item: any) => {
-    const originalDate = new Date(item.postTime);
+const token: any = ref(localStorage.getItem('token') || null)
+
+const goToPage = async (id: Number) => {
+    if (token.value != null) {
+        await getPostById(id)
+    } else {
+        await getPostByIdNotLogin(id)
+    }
+    router.push('/postDetail/' + id)
+
+}
+
+const formattedData = AllPost.value.map((item: any) => {
+    const originalDate = new Date(item.post.postTime);
 
     // 时区设置为中国
     const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
 
-    return { ...item, postTime: formattedTime };
-}))
-const goToPage = async (id: Number) => {
-    await getPostById(id)
-    router.push('/postDetail/' + id)
-}
+    return { ...item, post: { ...item.post, postTime: formattedTime } };
+});
 
 // do not use same name with ref
 const form = reactive({
@@ -153,7 +169,6 @@ const form = reactive({
 
 })
 import { ElMessage } from 'element-plus'
-const token: any = ref(localStorage.getItem('token') || null)
 
 const handleRelease = () => {
     if (token.value != null) {

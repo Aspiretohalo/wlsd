@@ -1,10 +1,12 @@
 <template>
   <router-view></router-view>
   <SideBar v-if="showSider"></SideBar>
+  <AIAsistant v-if="showSider"></AIAsistant>
 </template>
 
 <script lang="ts" setup>
 import SideBar from './components/SideBar.vue'
+import AIAsistant from './components/AIAsistant.vue'
 import { watchEffect, ref } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute()

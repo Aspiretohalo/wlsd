@@ -6,7 +6,7 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <!-- 博客 -->
+                    <!-- 评论 -->
                     <el-card class="rightcc">
 
                         <div class="bk-container">
@@ -109,7 +109,7 @@ const load = () => {
     count.value += 2
 }
 
-const showComments = ref(true);
+// const showComments = ref(true);
 
 // const toggleComments = () => {
 //     showComments.value = !showComments.value;

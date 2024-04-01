@@ -177,7 +177,6 @@ const goToAgendaPage = () => {
     height: 650px;
 }
 
-
 .agenda {
 
     .overview_main {

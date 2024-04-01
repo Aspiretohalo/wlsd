@@ -1,8 +1,8 @@
 <template>
-    <nav class="social">
-        <el-dialog v-model="centerDialogVisible" width="350" align-center :close-on-click-modal="false">
+    <nav class="social animate__animated animate__bounceInRight" v-show="showContent">
+        <el-dialog v-model="centerDialogVisible" width="300" :close-on-click-modal="false">
             <div class="poster">
-                <img src="../assets/poster/1.png">
+                <img src="../assets/poster/1.png" style="width: 95%;">
             </div>
             <div class="btns">
                 <el-button round type="primary" plain>添加元素</el-button>
@@ -18,13 +18,18 @@
                     <img src="../assets/sidebar_icon/海报.png" alt="">
                 </div>
                 <span>海报合成</span>
-
             </li>
             <li @click="goToGames">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/游戏.png" alt="">
                 </div>
                 <span>趣味游戏</span>
+            </li>
+            <li>
+                <div class="icon">
+                    <img src="../assets/sidebar_icon/金币.png" alt="">
+                </div>
+                <span>积分福利</span>
             </li>
             <li @click="visitMiniProgram">
                 <div class="icon">
@@ -34,12 +39,7 @@
 
             </li>
 
-            <li>
-                <div class="icon">
-                    <img src="../assets/sidebar_icon/游戏.png" alt="">
-                </div>
-                <span>趣味游戏</span>
-            </li>
+
         </ul>
     </nav>
     <el-backtop :right="10">
@@ -60,13 +60,14 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { ElMessage } from 'element-plus'
 const centerDialogVisible = ref(false)
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const token: any = ref(localStorage.getItem('token') || null)
 
 const router = useRouter();
+const route = useRoute();
 
 const sharePoster = () => {
     if (token.value != null) {
@@ -95,6 +96,29 @@ const visitMiniProgram = () => {
     console.log('点击了“小程序访问”按钮');
 };
 
+const showContent = ref(true);
+
+// 监听页面滚动事件
+const handleScroll = () => {
+    const scrollY = window.scrollY;
+
+    // 判断页面滚动位置，当滚动到一定位置后显示内容
+    if (scrollY <= 700 && route.path == '/') { // 这里500是滚动到的位置，根据实际情况调整
+        showContent.value = false;
+    } else {
+        showContent.value = true;
+    }
+};
+
+// 监听页面滚动事件
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+// 移除滚动事件监听器
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <style scoped lang="scss">
@@ -245,6 +269,10 @@ a {
     transform: rotate(0deg);
     text-align: center;
     font-size: 20px;
+    animation: bounce;
+    /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 0.1s;
+    /* don't forget to set a duration! */
 }
 
 @keyframes youtubeAnim {

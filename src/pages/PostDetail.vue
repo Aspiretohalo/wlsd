@@ -6,14 +6,14 @@
             </el-header>
             <el-main class="main bgc">
                 <div class="banner">
-                    <h2 class="title">{{ SinglePost.title }}</h2>
+                    <h2 class="title">{{ SinglePost.post.title }}</h2>
                     <div class="msg">
                         <div class="date">
-                            {{ formattedData.postTime }}
+                            {{ formattedData.post.postTime }}
                         </div>
                     </div>
                 </div>
-                <div v-html="SinglePost.content" style="width: 1000px; margin:50px auto;">
+                <div v-html="SinglePost.post.content" style="width: 1000px; margin:50px auto;">
 
                 </div>
 
@@ -31,12 +31,13 @@ import Bottom from '../components/Bottom.vue'
 import { ref, computed } from 'vue'
 const SinglePost: any = ref(JSON.parse(sessionStorage.getItem("SinglePost") || "null") || "")
 const formattedData = computed(() => {
-    if (!SinglePost.value || !SinglePost.value.postTime) return null;
+    if (!SinglePost.value.post || !SinglePost.value.post.postTime) return null;
+    console.log(SinglePost.value);
 
-    const originalDate = new Date(SinglePost.value.postTime);
+    const originalDate = new Date(SinglePost.value.post.postTime);
     const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
 
-    return { ...SinglePost.value, postTime: formattedTime };
+    return { ...SinglePost.value.post, postTime: formattedTime };
 });
 
 </script>
