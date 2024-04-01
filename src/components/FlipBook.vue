@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import paper1 from "../assets/images2/html/paper1.png";
 import paper2 from "../assets/images2/html/paper2.png";
 import paper3 from "../assets/images2/html/paper3.png";
@@ -27,9 +27,9 @@ const classNameArr = [
 ];
 let leftPageIndex = 0;
 let isFlipping = false;
+let autoFlipInterval: NodeJS.Timeout | null = null;
 
 const pagesRef = ref<HTMLDivElement | null>(null);
-
 
 const goPreviousPage = () => {
   if (leftPageIndex <= -1 || isFlipping) return;
@@ -132,6 +132,11 @@ const updatePaperClass = () => {
   isFlipping = false;
 };
 
+const autoFlip = () => {
+  if (autoFlipInterval) clearInterval(autoFlipInterval);
+  autoFlipInterval = setInterval(goNextPage, 5000); // 每5秒翻一页
+};
+
 onMounted(() => {
   const styleSheet = document.styleSheets[0];
   styleSheet.insertRule(`@keyframes flip-to-left {
@@ -153,7 +158,12 @@ onMounted(() => {
 
   isFlipping = true;
   updatePaperClass();
-})
+  autoFlip();
+});
+
+onUnmounted(() => {
+  if (autoFlipInterval) clearInterval(autoFlipInterval);
+});
 
 const PastReview = ref([[{
   past_title: '2023  数字安全@数字中国',
