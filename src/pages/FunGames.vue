@@ -11,8 +11,15 @@
                             size="large">返回</el-button>
                         <el-button style=" font-size: 18px;" @click="checkRule" type="primary"
                             size="large">规则</el-button>
-                        <div style="width: 160px;margin-top: 20px; background-color: #fff; height: 450px;">
+                        <h3 style="margin-top: 20px;">
                             排行榜
+                        </h3>
+                        <div style="width: 180px;margin-top: 20px; background-color: #fff; height: 450px;">
+                            <el-table :data="rankData" height="450" style="width: 100%;background: transparent;">
+                                <el-table-column prop="Ranking" label="排名" width="60" />
+                                <el-table-column prop="province" label="省份" width="60" />
+                                <el-table-column prop="score" label="分数" width="70" />
+                            </el-table>
                         </div>
 
                     </div>
@@ -238,6 +245,16 @@ const checkRule = async () => {
 
     ruleDialogVisible.value = true;
 };
+
+//排行榜假数据
+const rankData = ref([
+    { Ranking: 1, province: '北京', score: 98 },
+    { Ranking: 2, province: '上海', score: 95 },
+    { Ranking: 3, province: '广东', score: 92 },
+    { Ranking: 4, province: '浙江', score: 90 },
+    { Ranking: 5, province: '江苏', score: 89 },
+]);
+
 </script>
 
 <style scoped lang="scss">

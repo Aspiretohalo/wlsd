@@ -107,6 +107,8 @@ const goToAgenda = async (id: Number) => {
 const goToAgendaPage = () => {
     router.push('/conferenceAgenda')
 }
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -262,5 +264,27 @@ const goToAgendaPage = () => {
             }
         }
     }
+}
+
+.overview {
+    // height: 100px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transition: -webkit-transform 1.2s;
+    -moz-transition: -moz-transform 1.2s;
+    -ms-transition: -ms-transform 1.2s;
+    -o-transition: -o-transform 1.2s;
+    transition: transform 1.2s;
+}
+
+.overview:hover {
+    -webkit-transform: translateZ(-50px) rotateX(95deg);
+    -moz-transform: translateZ(-50px) rotateX(95deg);
+    -ms-transform: translateZ(-50px) rotateX(95deg);
+    -o-transform: translateZ(-50px) rotateX(95deg);
+    transform: translateZ(-50px) rotateX(95deg);
 }
 </style>

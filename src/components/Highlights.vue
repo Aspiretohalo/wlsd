@@ -98,4 +98,8 @@ h3 {
         }
     }
 }
+
+.Highlights_card:hover {
+    transform: translateY(-40px);
+}
 </style>
