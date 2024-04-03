@@ -68,13 +68,43 @@
                                         <el-avatar class="avatar" :src="i.user.userAvatar">
                                         </el-avatar>
                                         <div class="intxt">
-                                            <h3 style="margin-bottom: 10px;">{{ i.user.userName }}</h3>
-                                            <el-text class="elintxt">{{ i.postComment.replyTime }}</el-text>
+                                            <h3>{{ i.user.userName }}</h3>
+                                            <el-popover placement="top" trigger="hover" :popper-style="{
+                        background: `url(${getVIPGrade(i.user.experience)?.img})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '85px'
+                    }" width="200">
+                                                <template #reference>
+                                                    <img :src="getMedalImg(i.user.medal)?.img"
+                                                        style="width: 30px;margin-left: 10px;cursor: pointer;">
+                                                </template>
+                                                <template #default>
+                                                    <div class="demo-rich-conent"
+                                                        style="display: flex;align-items: center;justify-content: space-around;margin-top: 25px;">
+                                                        <img :src="getMedalImg(i.user.medal)?.img"
+                                                            style="width: 30px;" />
+                                                        <div v-if="i.user.experience < 30000"
+                                                            style="text-align: center;margin-left: 50px;margin-top: 10px;">
+                                                            {{
+                        getMedalImg(i.user.medal)?.title }} </div>
+                                                        <div v-else
+                                                            style="text-align: center;margin-left: 50px;margin-top: 10px;color: #fff;">
+                                                            {{
+                        getMedalImg(i.user.medal)?.title }} </div>
+                                                    </div>
+                                                </template>
+                                            </el-popover>
+                                            <img v-if="i.user.certification == 1" style="width: 60px;margin-left: 10px;"
+                                                src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
                                         </div>
+                                        <el-text class="elintxt">{{ i.postComment.replyTime }}</el-text>
+
                                     </div>
                                     <div class="bk-content">
                                         <el-text class="contxt">{{ i.postComment.content }}</el-text>
                                     </div>
+
                                     <!-- <el-dialog v-model="dialogReplyVisible" title="回复" center width="500" align-center>
                                         <el-form :model="reply" style="max-width: 450px">
                                             <el-form-item>
@@ -108,6 +138,7 @@
                                             </div>
                                             {{ i.thumbCount }}
                                         </div>
+
                                     </div>
 
                                     <div v-for="reply in replyPostComment(i.postComment.id)" :key="reply.postComment.id"
@@ -116,10 +147,36 @@
                                             <img class="avatar2" :src="reply.user.userAvatar" />
                                             <div class="intxt">
                                                 <div class="content">
-                                                    <h3 style="margin-right: 20px;white-space: nowrap;">{{
-                        reply.user.userName
-                    }}
+                                                    <h3 style="margin-right: 20px;white-space: nowrap;">
+                                                        {{ reply.user.userName }}
                                                     </h3>
+                                                    <el-popover placement="top" trigger="hover" :popper-style="{
+                        background: `url(${getVIPGrade(reply.user.experience)?.img})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '85px'
+                    }" width="200">
+                                                        <template #reference>
+                                                            <img :src="getMedalImg(reply.user.medal)?.img"
+                                                                style="width: 30px;margin-left: 10px;cursor: pointer;">
+                                                        </template>
+                                                        <template #default>
+                                                            <div class="demo-rich-conent"
+                                                                style="display: flex;align-items: center;justify-content: space-around;margin-top: 25px;">
+                                                                <img :src="getMedalImg(reply.user.medal)?.img"
+                                                                    style="width: 30px;" />
+                                                                <div v-if="reply.user.experience < 30000"
+                                                                    style="text-align: center;margin-left: 50px;margin-top: 10px;">
+                                                                    {{ getMedalImg(reply.user.medal)?.title }} </div>
+                                                                <div v-else
+                                                                    style="text-align: center;margin-left: 50px;margin-top: 10px;color: #fff;">
+                                                                    {{ getMedalImg(reply.user.medal)?.title }} </div>
+                                                            </div>
+                                                        </template>
+                                                    </el-popover>
+                                                    <img v-if="reply.user.certification == 1"
+                                                        style="width: 60px;margin-left: 10px;"
+                                                        src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
                                                     <el-text class="elintxt">{{ reply.postComment.replyTime }}</el-text>
 
                                                 </div>
@@ -170,7 +227,8 @@ import setPostThumb from '../functions/setPostThumb';
 import cancelPostThumb from '../functions/cancelPostThumb';
 import setPostCommentThumb from '../functions/PostComment/setPostCommentThumb';
 import cancelPostCommentThumb from '../functions/PostComment/cancelPostCommentThumb';
-
+import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的函数
+import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
 import addPostViews from '../functions/addPostViews';
 import { ref, computed, onBeforeMount } from 'vue'
 
@@ -301,11 +359,55 @@ const handleCancelCommentThumb = async (id: number, post_id: number) => {
 
     AllPostComment.value = JSON.parse(sessionStorage.getItem("AllPostComment") || "null") || ""
 }
+
+// const getMedalImg = (medalId: number) => {
+//     switch (medalId) {
+//         case 1:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E5%8D%9A%E5%AE%A2.png', // 假设徽章ID为1对应的图片路径
+//                 title: '博客达人'
+//             }
+//         case 2:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E6%89%93%E5%8D%A1.png', // 假设徽章ID为2对应的图片路径
+//                 title: '打卡之星'
+//             }
+//         case 3:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E7%82%B9%E8%B5%9E.png', // 假设徽章ID为2对应的图片路径
+//                 title: '身经百赞'
+//             }
+//         case 4:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E7%BA%BF%E4%B8%8B%E8%A7%82%E7%9C%8B.png', // 假设徽章ID为2对应的图片路径
+//                 title: '身临其境'
+//             }
+//         case 5:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E8%AF%84%E8%AE%BA.png', // 假设徽章ID为2对应的图片路径
+//                 title: '评易近人'
+//             }
+//         case 6:
+//             return {
+//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E9%80%9A%E5%85%B3.png',// 假设徽章ID为2对应的图片路径
+//                 title: '游戏霸主'
+//             }
+//     }
+// }
 </script>
 
 <style lang="scss" scoped>
 .main {
     padding: 0;
+}
+
+:deep(.el-popper) {
+    padding: 0;
+}
+
+:deep(.el-popover.el-popper) {
+    padding: 0;
+    height: 90px;
 }
 
 .circle {
@@ -521,7 +623,7 @@ const handleCancelCommentThumb = async (id: number, post_id: number) => {
 
     .bk-infor {
         padding-top: 10px;
-        width: 300px;
+        width: 350px;
         height: 70px;
         display: flex;
         margin-top: 10px;
@@ -530,13 +632,13 @@ const handleCancelCommentThumb = async (id: number, post_id: number) => {
     }
 
     .bk-infor .intxt {
-        margin-top: 10px;
-        margin-left: 10px;
-        text-align: left;
+        display: flex;
+        align-items: center;
     }
 
     .elintxt {
         color: #000;
+        margin-left: 30px;
     }
 
     .bk-content {
@@ -545,7 +647,7 @@ const handleCancelCommentThumb = async (id: number, post_id: number) => {
         padding-left: 10px;
         // width: 500px;
         //height: 200px;
-        text-align: left;
+        text-align: justify;
     }
 
     .contxt {

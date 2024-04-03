@@ -1,5 +1,4 @@
 import myAxios from "../../plugins/myAxios";
-import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import getActivityAndMeetingChoice from '../getActivityAndMeetingChoice';
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
@@ -22,11 +21,11 @@ const setActivityParticipation = async (item: any, itemId: any) => {
             }
         });
         // 处理响应数据
-        ElMessage({
-            showClose: true,
-            message: '报名成功',
-            type: 'success',
-        })
+        // ElMessage({
+        //     showClose: true,
+        //     message: '报名成功',
+        //     type: 'success',
+        // })
         await getActivityAndMeetingChoice(user.userId)
         console.log(response);
 

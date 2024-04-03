@@ -145,6 +145,7 @@ const handleCancelThumb = async () => {
     await cancelMeetingThumb(SingleMeeting.value.meeting.itemId)
     SingleMeeting.value = JSON.parse(sessionStorage.getItem("SingleMeeting") || "null") || ""
 }
+
 </script>
 
 <style lang="scss" scoped>

@@ -1,15 +1,15 @@
 <template>
     <div class="box animate__animated animate__bounceInLeft" v-show="showContent">
         <img src="../assets/智能助手.gif" @click="centerDialogVisible = true">
-
     </div>
-    <el-dialog class="AIAsistant" style="margin-left: 200px" v-model="centerDialogVisible" width="400" align-center
+    <el-dialog class="AIAsistant" style="margin-left: 200px" v-model="centerDialogVisible" width="550" align-center
         overflow :close-on-click-modal="false" draggable>
-
-        <div class="content"></div>
-        <div class="btns">
-            <el-button round type="primary" plain>智能助手</el-button>
+        <div class="content">
+            <iframe class="iframe-no-border" src="http://localhost:5174" width="500px" height="600px"></iframe>
         </div>
+        <!-- <div class="btns">
+            <el-button round type="primary" plain>智能助手</el-button>
+        </div> -->
     </el-dialog>
 </template>
 
@@ -50,6 +50,10 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-dialog) {
+    border-radius: 15px;
+}
+
 .box {
     cursor: pointer;
     position: fixed;
@@ -61,7 +65,11 @@ onUnmounted(() => {
 .AIAsistant {
 
     .content {
-        height: 500px;
+        // height: 500px;
     }
+}
+
+.iframe-no-border {
+    border: none;
 }
 </style>

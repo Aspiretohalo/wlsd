@@ -97,7 +97,7 @@ import getAllBlogsNotLogin from '../functions/notLogin/getAllBlogsNotLogin';
 import getAllPostsNotLogin from '../functions/notLogin/getAllPostsNotLogin';
 import getTask from '../functions/Task/getTask';
 import getTaskStatus from '../functions/Task/getTaskStatus';
-
+import getMedal from '../functions/Medal/getMedal';
 
 import { onMounted } from 'vue'
 
@@ -123,6 +123,7 @@ onMounted(async () => {
         await getAllBlogs(user.userId)
         await getAllPosts(user.userId)
         await getTaskStatus(user.userId)
+        await getMedal(user.userId)
 
     } else {
         await getAllMeetingsNotLogin()

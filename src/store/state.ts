@@ -28,4 +28,6 @@ export default {
     Task: [],
     TaskStatus: [],
     SingleActivityParticipation: [],
+    Medal: [],
+    CheckedMedal: 0,
 }

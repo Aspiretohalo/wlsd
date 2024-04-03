@@ -13,7 +13,6 @@
                                 <el-input v-model="form.phoneNumber" placeholder="手机号" />
                             </el-form-item>
                             <div id="captcha-div"></div>
-
                             <el-form-item>
                                 <el-input v-model="form.verificationCode" placeholder="验证码">
                                     <template #append>

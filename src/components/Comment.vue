@@ -25,7 +25,36 @@
                             <el-avatar class="avatar" :src="i.user.userAvatar">
                             </el-avatar>
                             <div class="intxt">
-                                <h3 style="margin-bottom: 10px;">{{ i.user.userName }}</h3>
+                                <div class="userMsg" style="display: flex;align-items: center;">
+                                    <h3>{{ i.user.userName }}</h3>
+                                    <el-popover placement="top" trigger="hover" :popper-style="{
+                background: `url(${getVIPGrade(i.user.experience)?.img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '85px'
+            }" width="200">
+                                        <template #reference>
+                                            <img :src="getMedalImg(i.user.medal)?.img"
+                                                style="width: 30px;margin-left: 10px;cursor: pointer;">
+                                        </template>
+                                        <template #default>
+                                            <div class="demo-rich-conent"
+                                                style="display: flex;align-items: center;justify-content: space-around;margin-top: 25px;">
+                                                <img :src="getMedalImg(i.user.medal)?.img" style="width: 30px;" />
+                                                <div v-if="i.user.experience < 30000"
+                                                    style="text-align: center;margin-left: 50px;margin-top: 10px;">
+                                                    {{ getMedalImg(i.user.medal)?.title }} </div>
+                                                <div v-else
+                                                    style="text-align: center;margin-left: 50px;margin-top: 10px;color: #fff;">
+                                                    {{ getMedalImg(i.user.medal)?.title }} </div>
+                                            </div>
+                                        </template>
+                                    </el-popover>
+                                    <img v-if="i.user.certification == 1" style="width: 60px;margin-left: 10px;"
+                                        src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
+
+                                </div>
+
                                 <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>
                             </div>
                         </div>
@@ -70,10 +99,37 @@
                                 <img class="avatar2" :src="reply.user.userAvatar" />
                                 <div class="intxt">
                                     <div class="content">
-                                        <h3 style="margin-right: 20px;white-space: nowrap;">{{ reply.user.userName
+                                        <h3 style="white-space: nowrap;">{{ reply.user.userName
                                             }}
                                         </h3>
-                                        <el-text class="elintxt">{{ reply.blog.replyTime }}</el-text>
+                                        <el-popover placement="top" trigger="hover" :popper-style="{
+                background: `url(${getVIPGrade(reply.user.experience)?.img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '85px'
+            }" width="200">
+                                            <template #reference>
+                                                <img :src="getMedalImg(reply.user.medal)?.img"
+                                                    style="width: 30px;margin-left: 10px;cursor: pointer;">
+                                            </template>
+                                            <template #default>
+                                                <div class="demo-rich-conent"
+                                                    style="display: flex;align-items: center;justify-content: space-around;margin-top: 25px;">
+                                                    <img :src="getMedalImg(reply.user.medal)?.img"
+                                                        style="width: 30px;" />
+                                                    <div v-if="reply.user.experience < 30000"
+                                                        style="text-align: center;margin-left: 50px;margin-top: 10px;">
+                                                        {{ getMedalImg(reply.user.medal)?.title }} </div>
+                                                    <div v-else
+                                                        style="text-align: center;margin-left: 50px;margin-top: 10px;color: #fff;">
+                                                        {{ getMedalImg(reply.user.medal)?.title }} </div>
+                                                </div>
+                                            </template>
+                                        </el-popover>
+                                        <img v-if="reply.user.certification == 1" style="width: 60px;margin-left: 10px;"
+                                            src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
+                                        <el-text class="elintxt" style="margin-left: 20px;">{{ reply.blog.replyTime
+                                            }}</el-text>
 
                                     </div>
                                     <div class="contxt">{{ reply.blog.content }}</div>
@@ -118,7 +174,8 @@ import setBlogThumb from '../functions/setBlogThumb';
 import cancelBlogThumb from '../functions/cancelBlogThumb';
 import setBlogComment from '../functions/setBlogComment';
 import setBlogReply from '../functions/setBlogReply';
-
+import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的函数
+import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
 const dialogCommentVisible = ref(false)
 const dialogReplyVisible = ref(false)
 const comment = reactive({
@@ -182,7 +239,6 @@ const handleComment = async () => {
             type: 'warning',
         })
     }
-
 }
 const handleSetThumb = async (id: number) => {
     if (token.value != null) {
@@ -200,6 +256,8 @@ const handleCancelThumb = async (id: number) => {
     await cancelBlogThumb(id)
     Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
 }
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -307,6 +365,8 @@ const handleCancelThumb = async (id: number) => {
     margin-left: 10px;
     text-align: left;
 }
+
+
 
 .elintxt {
     color: #000;

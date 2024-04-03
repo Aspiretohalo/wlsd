@@ -6,12 +6,14 @@
             </el-header>
             <el-main class="main bgc">
                 <h1 class="w-margin" style="margin-top: 30px;margin-bottom: 0;display: flex;justify-content: start;">
-                    活动报名</h1>
+                    活动报名<span><el-button style="margin-left: 30px;" round plain
+                            @click="goTo()">返回活动详情</el-button></span>
+                </h1>
                 <el-card
-                    style="width: 1200px;height: 500px;margin: 20px auto;margin-bottom: 100px;border-radius: 10px;">
+                    style="width: 1200px;height: 450px;margin: 20px auto;padding-top: 20px;margin-bottom: 100px;border-radius: 10px;">
                     <div class="activity">
                         <img :src="SingleActivity.activity.itemCover"
-                            style="width: 520px; height:320px;object-fit: cover;border-radius: 15px;">
+                            style="width: 550px; height:380px;object-fit: cover;border-radius: 15px;">
                         <div class="msg">
                             <div class="title"> {{ SingleActivity.activity.itemTitle }} </div>
                             <div class="date">
@@ -28,17 +30,31 @@
                                 <span>{{ SingleActivity.activity.owner }}</span>
                             </div>
                             <div class="ticketType">
-                                <div style="font-weight: 700;margin-top: 10px;">活动票种</div>
-                                <el-checkbox style="height: 80px;" v-model="checked1" label="Option1" size="large"
-                                    border>
+                                <div style="font-weight: 700;margin-top: 20px;">活动票种</div>
+                                <el-checkbox style="height: 80px;margin-top: 20px;" v-model="checked1" label="Option1"
+                                    size="large" border>
                                     <div class="price">￥{{ SingleActivity.activity.price }}</div>
                                     <div class="select">线上基础课</div>
                                 </el-checkbox>
                             </div>
-                            <el-button type="primary" @click="dialogVisible = true" style="margin-top: 20px;" round
-                                size="large" v-if="SingleActivityParticipation == ''">立即报名</el-button>
-                            <el-button type="primary" disabled style="margin-top: 20px;" round size="large"
-                                v-else>已报名</el-button>
+                            <div class="btns">
+                                <el-button type="primary" @click="dialogVisible = true" round size="large"
+                                    v-if="SingleActivityParticipation == ''">立即报名</el-button>
+                                <el-button type="primary" disabled round size="large" v-else>已报名</el-button>
+                                <div class="view_share">
+                                    <div class="view">
+                                        <img src="../assets/icon/浏览量(黑).png" class="icon">
+                                        {{ SingleActivity.activity.itemViews }}
+                                    </div>
+                                    <div class="share">
+                                        分享
+                                        <img src="../assets/icon/分享.png" width="28">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
                         </div>
                     </div>
                     <el-dialog v-model="dialogVisible" title="报名信息填写" width="500" align-center>
@@ -86,16 +102,17 @@ const checked1 = ref(false)
 const dialogVisible = ref(false)
 import addActivityViews from '../functions/addViewsActivity';
 import setActivityParticipation from '../functions/Activity/setActivityParticipation';
-import { onBeforeMount, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router'
+import getActivityParticipationById from '../functions/Activity/getActivityParticipationById';
+import { computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute();
+const router = useRouter();
+const goTo = () => {
+    router.push('/activityDetail/' + route.params.itemId)
+}
 const SingleActivityParticipation: any = ref(JSON.parse(sessionStorage.getItem("SingleActivityParticipation") || "null") || "")
 
-onBeforeMount(async () => {
-    await addActivityViews(SingleActivity.value.activity.itemId)
-    SingleActivity.value.activity.itemViews++
-})
 const SingleActivity: any = ref(JSON.parse(sessionStorage.getItem("SingleActivity") || "null") || "")
 import type { FormInstance, FormRules } from 'element-plus'
 interface RuleForm {
@@ -114,7 +131,12 @@ const ruleForm = reactive<RuleForm>({
     position: '',
 })
 onMounted(async () => {
+    await addActivityViews(SingleActivity.value.activity.itemId)
+    SingleActivity.value.activity.itemViews++
+
     const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+    await getActivityParticipationById(route.params.itemId, user.userId)
+
     ruleForm.phoneNumber = user.phoneNumber;
     ruleForm.email = user.email;
     ruleForm.company = user.company;
@@ -139,13 +161,17 @@ const rules = reactive<FormRules<RuleForm>>({
     ],
 })
 const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
 const handleSignUp = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
+            router.push('/activityParticipation/' + route.params.itemId + '/aliPay')
             await setActivityParticipation(ruleForm, route.params.itemId)
             ActivityAndMeetingChoice.value = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
+            await getActivityParticipationById(route.params.itemId, user.userId)
+
             dialogVisible.value = false
         } else {
             console.log('error submit!', fields)
@@ -167,6 +193,10 @@ const formattedData = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-card) {
+    background-color: rgba($color: #fff, $alpha: 0.5);
+}
+
 :deep(.el-checkbox__inner) {
     width: 0;
     height: 0;
@@ -198,7 +228,7 @@ const formattedData = computed(() => {
         .date {
             display: flex;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 20px;
 
             .time {
                 font-size: 16px;
@@ -222,11 +252,11 @@ const formattedData = computed(() => {
         }
 
         .owner {
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .ticketType {
-            margin-top: 10px;
+            margin-top: 20px;
             border-top: 1px solid var(--el-border-color);
 
             .price {
@@ -237,6 +267,41 @@ const formattedData = computed(() => {
                 font-size: 16px;
                 margin-top: 5px;
             }
+        }
+
+        .btns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+
+            .view_share {
+                display: flex;
+                align-items: center;
+
+                .view {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 5px;
+                    }
+                }
+
+                .share {
+                    display: flex;
+                    align-items: center;
+                    margin-left: 30px;
+
+                    img {
+                        margin-left: 10px;
+                        cursor: pointer;
+                    }
+                }
+            }
+
         }
     }
 

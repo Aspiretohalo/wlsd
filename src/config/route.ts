@@ -21,7 +21,6 @@ import IntegralGifts from "../pages/integral/IntegralGifts.vue"
 import IntegralLottery from "../pages/integral/IntegralLottery.vue"
 import IntegralRules from "../pages/integral/IntegralRules.vue"
 import FunGames from "../pages/FunGames.vue"
-// import WordGame from "../pages/WordGame.vue"
 import ExhibitDetail from "../pages/ExhibitDetail.vue"
 import ActivityDetail from '../pages/ActivityDetail.vue'
 import ActivityParticipation from '../pages/ActivityParticipation.vue'
@@ -30,6 +29,7 @@ import Robert from '../pages/ctf/Robert.vue'
 import FirstGame from '../pages/ctf/FirstGame.vue'
 import SecondGame from '../pages/ctf/SecondGame.vue'
 import ThirdGame from '../pages/ctf/ThirdGame.vue'
+import AliPay from '../pages/AliPay.vue'
 
 
 const routes = [
@@ -48,6 +48,7 @@ const routes = [
     { path: "/wonderfulActivity", component: WonderfulActivity },
     { path: "/activityDetail/:itemId", component: ActivityDetail },
     { path: "/activityParticipation/:itemId", component: ActivityParticipation },
+    { path: "/activityParticipation/:itemId/aliPay", component: AliPay },
 
     { path: "/ctf", component: Ctf },
     { path: "/user", component: User },
@@ -74,8 +75,6 @@ const routes = [
     { path: "/newsDetail/:newsId", component: NewsDetail },
     { path: "/postDetail/:id", component: PostDetail },
     { path: "/funGames", component: FunGames },
-    // { path: "/wordGame", component: WordGame },
-
     { path: "/robert", component: Robert },
     { path: "/firstgame", component: FirstGame },
     { path: "/secondgame", component: SecondGame },

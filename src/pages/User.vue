@@ -6,10 +6,52 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <div class="name">
-                        <el-avatar :size="64" :src="form.userAvatar" />
-                        <span style="margin-left: 20px;">{{ form.userName }}</span>
+                    <div class="IDcard w-margin" style="margin-top: 0;">
+                        <div class="name" style="padding-top: 70px;padding-left: 20px;padding-right: 10px;" :style="{
+                            background: `url(${getVIPGrade(form.experience)?.img})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '80px', width: '280px'
+                        }">
+                            <img style="width: 52px;height: 52px;border-radius: 50%;" :src="form.userAvatar" />
+                            <span v-if="form.experience < 30000" style="margin-left: 20px;font-size: 24px;">{{
+                            form.userName }}</span>
+                            <span v-else style="margin-left: 20px;color: #ccc;font-size:24px;">{{ form.userName
+                                }}</span>
+                            <span class="medal">
+                                <img :src="getMedalImg(form.medal)?.img" @click="dialogVisible = true" />
+                                <img v-if="form.certification == 1" style="width: 80px;"
+                                    src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
+                            </span>
+                        </div>
+
                     </div>
+
+                    <el-dialog v-model="dialogVisible" width="400">
+                        <template #header="{ titleId, titleClass }">
+                            <div class="my-header">
+                                <h4 :id="titleId" :class="titleClass">珍藏勋章(已拥有)</h4>
+                                <div class="tip" style="color:#eebe77;">tip：达成隐藏条件即可获得，快探索网站或者问问已经得到的朋友吧！</div>
+                            </div>
+                        </template>
+                        <div class="medal_img">
+                            <el-checkbox v-for="o in Medal" :key="o" style="height: 80px;margin-right: 0;"
+                                v-model="o.checked" size="large" border @change="handleCheckboxChange(o)">
+                                <div class="msg">
+                                    <img :src="o.medal.medalImg" style="width: 50px;">
+                                    <div>{{ o.medal.medalName }}</div>
+                                </div>
+                            </el-checkbox>
+                        </div>
+                        <template #footer>
+                            <span class="dialog-footer">
+                                <el-button round @click="dialogFormVisible = false">取消</el-button>
+                                <el-button type="primary" round @click="handleWear(); dialogVisible = false">
+                                    佩戴
+                                </el-button>
+                            </span>
+                        </template>
+                    </el-dialog>
                     <div class="message w-margin">
                         <el-card class="msg_card">
                             <el-button type="success" plain style="width: 100%;"
@@ -162,19 +204,35 @@ import Bottom from '../components/Bottom.vue'
 
 import { Coin, ChatLineRound, ArrowRight } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
+import state from '../store/state'
+import setWornMedal from '../functions/Medal/setWornMedal';
+import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的函数
+import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
+
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
-
+const dialogVisible = ref(false)
+const Medal: any = ref(JSON.parse(sessionStorage.getItem("Medal") || "null") || "")
 const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
 const ThumbBlogShare: any = reactive(JSON.parse(sessionStorage.getItem("ThumbBlogShare") || "null") || "")
-
+const handleCheckboxChange = (checkbox: any) => {
+    Medal.value.forEach((item: any) => {
+        if (item !== checkbox) {
+            item.checked = false;
+        }
+    });
+    state.CheckedMedal = checkbox.medal.medalId
+};
+const handleWear = async () => {
+    await setWornMedal(state.CheckedMedal)
+    form.medal = (JSON.parse(sessionStorage.getItem("User") || "null") || "").medal
+}
 const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const dialogFormVisible = ref(false)
 
 const handleEdit = () => {
     dialogFormVisible.value = true
-    console.log(dialogFormVisible.value);
 }
 
 const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
@@ -182,11 +240,32 @@ const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 const checkIntegral = () => {
     router.push('/integral/integralDetails')
 }
+
 </script>
 
 <style lang="scss" scoped>
 * {
     text-align: left;
+}
+
+:deep(.el-checkbox__inner) {
+    width: 0;
+    height: 0;
+    border: 0;
+}
+
+:deep(.el-checkbox.el-checkbox--large .el-checkbox__inner) {
+    width: 0;
+    height: 0;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+    background: transparent;
+    border: transparent;
+}
+
+:deep(.el-checkbox.is-bordered) {
+    border: 0;
 }
 
 :deep(.el-card) {
@@ -203,14 +282,43 @@ const checkIntegral = () => {
     border-radius: 15px;
 }
 
+.medal_img {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+    img {
+        margin-top: 10px;
+    }
+}
+
+.IDcard {
+    display: flex;
+    justify-content: flex-start;
+}
+
 .name {
     display: flex;
     justify-content: flex-start;
-    margin: 0 auto;
+    align-items: center;
+    // margin: 0 auto;
     width: 1200px;
 
     span {
         font-size: 48px;
+    }
+
+
+}
+
+.medal {
+    display: flex;
+    align-items: center;
+
+    img {
+        cursor: pointer;
+        margin-left: 20px;
+        width: 40px;
     }
 }
 
