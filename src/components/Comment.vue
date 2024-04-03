@@ -31,9 +31,6 @@
                         </div>
                         <div class="bk-content">
                             <el-text class="contxt">{{ i.blog.content }}</el-text>
-                            <!-- <div class="imgs">
-                                <img class="bk-img" v-for="url in i.blogImg" :key="url.id" :src="url.imgUrl" />
-                            </div> -->
                         </div>
                         <el-dialog v-model="dialogReplyVisible" title="回复" center width="500" align-center>
                             <el-form :model="reply" style="max-width: 450px">

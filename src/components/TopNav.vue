@@ -95,6 +95,9 @@ import getAllMeetingsNotLogin from '../functions/notLogin/getAllMeetingsNotLogin
 import getAllActivitysNotLogin from '../functions/notLogin/getAllActivitysNotLogin';
 import getAllBlogsNotLogin from '../functions/notLogin/getAllBlogsNotLogin';
 import getAllPostsNotLogin from '../functions/notLogin/getAllPostsNotLogin';
+import getTask from '../functions/Task/getTask';
+import getTaskStatus from '../functions/Task/getTaskStatus';
+
 
 import { onMounted } from 'vue'
 
@@ -107,6 +110,7 @@ onMounted(async () => {
     await getAllNews()
     await getIntegralGifts()
     await getHotTopic()
+    await getTask()
 
     if (token.value != null) {
         await getAllMeetings(user.userId)
@@ -118,6 +122,7 @@ onMounted(async () => {
         await getDrawRecord(user.userId)
         await getAllBlogs(user.userId)
         await getAllPosts(user.userId)
+        await getTaskStatus(user.userId)
 
     } else {
         await getAllMeetingsNotLogin()

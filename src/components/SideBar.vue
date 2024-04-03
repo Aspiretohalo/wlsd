@@ -1,17 +1,18 @@
 <template>
+    <el-dialog v-model="centerDialogVisible" width="300" :close-on-click-modal="false">
+        <div class="poster">
+            <img src="../assets/poster/1.png" style="width: 95%;">
+        </div>
+        <div class="btns">
+            <el-button round type="primary" plain>添加元素</el-button>
+            <el-button round type="primary" plain>分享海报</el-button>
+        </div>
+    </el-dialog>
+    <el-dialog v-model="dialogVisible" title="小程序码" width="200" align-center>
+        <img src="../assets/小程序码.jpg" style="width: 80%;">
+    </el-dialog>
     <nav class="social animate__animated animate__bounceInRight" v-show="showContent">
-        <el-dialog v-model="centerDialogVisible" width="300" :close-on-click-modal="false">
-            <div class="poster">
-                <img src="../assets/poster/1.png" style="width: 95%;">
-            </div>
-            <div class="btns">
-                <el-button round type="primary" plain>添加元素</el-button>
-                <el-button round type="primary" plain>分享海报</el-button>
-            </div>
-        </el-dialog>
-        <el-dialog v-model="dialogVisible" title="小程序码" width="200" align-center>
-            <img src="../assets/小程序码.jpg" style="width: 80%;">
-        </el-dialog>
+
         <ul>
             <li @click="sharePoster">
                 <div class="icon">
@@ -25,7 +26,7 @@
                 </div>
                 <span>趣味游戏</span>
             </li>
-            <li>
+            <li @click="goToIntegral">
                 <div class="icon">
                     <img src="../assets/sidebar_icon/金币.png" alt="">
                 </div>
@@ -83,6 +84,16 @@ const sharePoster = () => {
 const goToGames = () => {
     if (token.value != null) {
         router.push('/ctf')
+    } else {
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+        })
+    }
+};
+const goToIntegral = () => {
+    if (token.value != null) {
+        router.push('/integral/integralGifts')
     } else {
         ElMessage({
             message: '请先登录',

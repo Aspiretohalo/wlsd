@@ -2,7 +2,7 @@
     <div class="box">
         <Turntable @child="getNewData"></Turntable>
         <div class="record">
-            <h2 style="text-align: center;margin-bottom: 20px;">抽奖记录</h2>
+            <h2 style="text-align: center;margin-bottom: 20px;">抽奖记录(500积分/次)</h2>
             <el-table :data="formattedDrawRecord" height="350" style="width: 100%;background-color: transparent;">
                 <el-table-column prop="drawRecordName" label="奖品" width="200px" />
                 <el-table-column prop="drawRecordTime" label="中奖时间" width="200px" />

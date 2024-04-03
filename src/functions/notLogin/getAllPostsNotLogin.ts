@@ -7,7 +7,7 @@ const getAllPostsNotLogin = async () => {
         });
         // 处理响应数据
         state.AllPost = response.data
-        sessionStorage.setItem('Blog', JSON.stringify(state.AllPost))
+        sessionStorage.setItem('AllPost', JSON.stringify(state.AllPost))
 
     } catch (error) {
         console.error('获取信息失败', error);

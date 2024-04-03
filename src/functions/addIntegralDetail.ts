@@ -3,6 +3,10 @@ import getIntegralDetail from './getIntegralDetail';
 import getUserMsg from './getUserMsg';
 
 const addIntegralDetail = async (integralName: any, integralAmount: any) => {
+    console.log(integralName);
+    console.log(integralAmount);
+    console.log((JSON.parse(sessionStorage.getItem("User") || "null") || "").userId);
+
     try {
         const response = await myAxios.post('/addIntegralDetail', {
             integralName: integralName,

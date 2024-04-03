@@ -13,13 +13,13 @@
                         <h5>Highlights</h5>
                         <el-row class="">
                             <el-col :span="8" v-for="item in MediaVideo" :key="item.videoId">
-                                <img style="width: 90%; height: 200px;cursor: pointer; margin-top: 20px;"
+                                <img style="object-fit: cover;width: 90%; height: 200px;cursor: pointer; margin-top: 20px;"
                                     :src="item.videoCover" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
                                     :initial-index="4" fit="cover" lazy />
                                 <div class="words">
                                     <div class="title">{{ item.videoTitle }}</div>
                                     <div class="views"><img src="../assets/icon/浏览量.png" style="width: 20px;">{{
-                                        item.videoViews }}</div>
+                                item.videoViews }}</div>
                                 </div>
                             </el-col>
                         </el-row>

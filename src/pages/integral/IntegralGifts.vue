@@ -13,7 +13,7 @@
                             {{ item.price }}
                         </div>
                     </div>
-                    <el-button round>
+                    <el-button round type="warning">
                         兑换
                     </el-button>
                 </div>

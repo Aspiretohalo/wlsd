@@ -30,7 +30,7 @@ const cancelReserve = () => {
     <div class="container">
       <video muted autoPlay preload="true" x5-video-player-fullscreen="true" x5-playsinline="true" playsInline
         webkit-playsinline="true" ref="videoRef" loop>
-        <source src="../../public/background02.mp4" />
+        <source src="../assets/background02.mp4" />
       </video>
       <p ref="pRef">
       <div class="name animate__animated animate__fadeIn">

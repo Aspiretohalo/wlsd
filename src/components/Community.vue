@@ -82,14 +82,30 @@
                 </template>
             </el-dialog>
 
-            <div class="popularity-ranking">
+            <!-- <div class="popularity-ranking">
                 <h2 class="popularity-h2">热点话题榜</h2>
                 <el-table :data="tableData" height="400" style="width: 100%;background: transparent;">
                     <el-table-column prop="Ranking" label="排名" width="60" />
                     <el-table-column prop="topic" label="话题" width="150" />
                     <el-table-column prop="heat" label="热度" />
                 </el-table>
+            </div> -->
+            <div class="popularity-ranking">
+                <h2 class="popularity-h2">热点话题榜</h2>
+                <el-table :data="tableData" height="400" style="width: 100%;background: transparent;">
+                    <el-table-column label="排名" width="60">
+                        <template v-slot="{ $index }">
+                            <!-- 前三行显示图片 -->
+                            <img v-if="$index < 3" :src="getRankingImage($index)" style="width: 15px; height: 20px;" />
+                            <!-- 其他行显示序号 -->
+                            <span v-else>{{ $index + 1 }}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="topic" label="话题" width="150" />
+                    <el-table-column prop="heat" label="热度" />
+                </el-table>
             </div>
+
         </el-card>
 
         <el-card class="rightcc">
@@ -135,20 +151,35 @@ const dialogFormVisible = ref(false)
 import { reactive } from 'vue'
 import getPostById from '../functions/getPostById';
 import getPostByIdNotLogin from '../functions/notLogin/getPostByIdNotLogin';
-
+import getAllPostCommentNotLogin from '../functions/PostComment/notLogin/getAllPostCommentNotLogin';
+import getAllPostComment from '../functions/PostComment/getAllPostComment';
+import getPostCommentCount from '../functions/PostComment/getPostCommentCount';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const AllPost: any = ref(JSON.parse(sessionStorage.getItem("AllPost") || "null") || "")
-
+const getRankingImage = (index: number) => {
+    switch (index) {
+        case 0:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/modal%2Fmodal1.png';
+        case 1:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/modal%2Fmodal2.png';
+        case 2:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/modal%2Fmodal3.png';
+    }
+}
 const token: any = ref(localStorage.getItem('token') || null)
-
-const goToPage = async (id: Number) => {
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const goToPage = async (id: number) => {
     if (token.value != null) {
         await getPostById(id)
+        await getAllPostComment(id, user.userId)
     } else {
         await getPostByIdNotLogin(id)
+        await getAllPostCommentNotLogin(id)
     }
+    await getPostCommentCount(id)
+
     router.push('/postDetail/' + id)
 
 }

@@ -23,4 +23,9 @@ export default {
     AllPost: [],
     SinglePost: [],
     HotTopic: [],
+    AllPostComment: [],
+    PostCommentCount: 0,
+    Task: [],
+    TaskStatus: [],
+    SingleActivityParticipation: [],
 }

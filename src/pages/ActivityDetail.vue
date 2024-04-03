@@ -46,23 +46,26 @@ import { ref } from 'vue'
 // import setActivityThumb from '../functions/setActivityThumb';
 // import cancelActivityParticipation from '../functions/cancelActivityParticipation';
 // import cancelActivityThumb from '../functions/cancelActivityThumb';
+import getActivityParticipationById from '../functions/Activity/getActivityParticipationById';
+
 import addActivityViews from '../functions/addViewsActivity';
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, reactive } from 'vue';
 onBeforeMount(async () => {
     await addActivityViews(SingleActivity.value.activity.itemId)
     SingleActivity.value.activity.itemViews++
 })
 const SingleActivity: any = ref(JSON.parse(sessionStorage.getItem("SingleActivity") || "null") || "")
-console.log(SingleActivity.value);
 
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
 const token: any = ref(localStorage.getItem('token') || null)
 import { ElMessage } from 'element-plus'
 const goTo = async (itemId: Number) => {
     if (token.value != null) {
+        await getActivityParticipationById(itemId, user.userId)
         router.push('/activityParticipation/' + itemId)
     } else {
         ElMessage({

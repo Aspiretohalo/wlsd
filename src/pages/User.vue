@@ -114,8 +114,9 @@
 
                                             <div class="subscription_content" v-else
                                                 v-for="o in ActivityAndMeetingChoice.meeting" :key="o.itemId">
-                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px;border-radius: 10px;"
+                                                <img style="object-fit: cover;width: 270px; height: 180px; margin-top: 10px;margin-right: 20px;border-radius: 10px;"
                                                     :src="o.itemCover" />
+                                                <div class="title">{{ o.itemTitle }}</div>
                                                 <el-tag class="subscription_name">{{ o.itemType }}</el-tag>
                                             </div>
                                         </div>
@@ -126,9 +127,9 @@
                                                 v-if="ActivityAndMeetingChoice.activity.length == 0" />
                                             <div class="subscription_content" v-else
                                                 v-for="o in ActivityAndMeetingChoice.activity" :key="o.itemId">
-                                                <img style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px; border-radius: 10px;"
+                                                <img style="object-fit: cover;width: 270px; height: 180px; margin-top: 10px;margin-right: 20px; border-radius: 10px;"
                                                     :src="o.itemCover" />
-                                                <el-tag class="subscription_name">{{ o.itemTitle }}</el-tag>
+                                                <div class="title">{{ o.itemTitle }}</div>
                                             </div>
                                         </div>
                                     </el-tab-pane>
@@ -283,6 +284,19 @@ const checkIntegral = () => {
 
                 .subscription_content {
                     position: relative;
+
+                    img {
+                        cursor: pointer;
+                    }
+
+                    .title {
+                        color: #e6e6e6;
+                        position: absolute;
+                        bottom: 15px;
+                        left: 2px;
+                        font-size: 12px;
+                        background: rgba(0, 0, 0, .5);
+                    }
 
                     .subscription_name {
                         position: absolute;
