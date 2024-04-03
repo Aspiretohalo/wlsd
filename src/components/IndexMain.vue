@@ -21,20 +21,36 @@
                 </div>
                 <div class="overviews">
                     <div class="overview" @click="goToAgenda(1)">
-                        <img src="../assets/agenda/1.png" alt="">
-                        <div class="words">
-                            <div class="mask">
-                                <div class="time">5月5日 18:00 - 21:00</div>
-                                <div class="title">格致论道@西湖论剑</div>
+                        <div class="front">
+                            <img src="../assets/agenda/1.png" alt="">
+                            <div class="words">
+                                <div class="mask">
+                                    <div class="time">5月5日 18:00 - 21:00</div>
+                                    <div class="title">格致论道@西湖论剑</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div
+                                style="color: white;font-size: 15px;text-indent:28px; padding:8px 8px 8px 8px;text-align:left">
+                                "格致论道@西湖论剑是一场汇聚了来自不同领域专家的交流盛会，将于5月5日晚上18:00至21:00在西湖举行。此次论坛汇集了业界顶尖人士，他们将围绕当今社会重要议题展开讨论，分享他们的见解和经验。无论您是行业新秀还是资深专家，都将有机会从这次论坛中获得新的启发和收获。格致论道@西湖论剑，期待您的参与！"
                             </div>
                         </div>
                     </div>
                     <div class="overview" @click="goToAgenda(8)">
-                        <img src="../assets/agenda/2.png" alt="">
-                        <div class="words">
-                            <div class="mask">
-                                <div class="time">5月7日 13:30 - 18:00</div>
-                                <div class="title">数字中国&安全治理论坛</div>
+                        <div class="front">
+                            <img src="../assets/agenda/2.png" alt="">
+                            <div class="words">
+                                <div class="mask">
+                                    <div class="time">5月7日 13:30 - 18:00</div>
+                                    <div class="title">数字中国&安全治理论坛</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div
+                                style="color: white;font-size: 15px;text-indent:28px; padding:8px 8px 8px 8px;text-align:left">
+                                "数字中国&安全治理论坛是一场汇聚了来自不同领域专家的交流盛会，将于5月5日晚上18:00至21:00在西湖举行。此次论坛汇集了业界顶尖人士，他们将围绕当今社会重要议题展开讨论，分享他们的见解和经验。无论您是行业新秀还是资深专家，都将有机会从这次论坛中获得新的启发和收获。"
                             </div>
                         </div>
                     </div>
@@ -48,20 +64,37 @@
                         </div>
                     </div>
                     <div class="overview" @click="goToAgenda(16)">
-                        <img src="../assets/agenda/4.png" alt="">
-                        <div class="words">
-                            <div class="mask">
-                                <div class="time"> 08:30 - 12:10</div>
-                                <div class="title">教育技术产业融合创新发展论坛</div>
+                        <div class="front">
+                            <img src="../assets/agenda/4.png" alt="">
+                            <div class="words">
+                                <div class="mask">
+                                    <div class="time"> 08:30 - 12:10</div>
+                                    <div class="title">教育技术产业融合创新发展论坛</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div
+                                style="color: white;font-size: 15px;text-indent:28px; padding:8px 8px 8px 8px;text-align:left">
+                                "教育技术产业融合创新发展论坛是一场汇聚了来自不同领域专家的交流盛会，将于5月5日晚上18:00至21:00在西湖举行。此次论坛汇集了业界顶尖人士，他们将围绕当今社会重要议题展开讨论，分享他们的见解和经验。无论您是行业新秀还是资深专家，都将有机会从这次论坛中获得新的启发和收获。"
                             </div>
                         </div>
                     </div>
                     <div class="overview" @click="goToAgenda(7)">
-                        <img src="../assets/agenda/5.png" alt="">
-                        <div class="words">
-                            <div class="mask">
-                                <div class="time">5月7日 09:00 - 22:00</div>
-                                <div class="title">生态合作伙伴分论坛</div>
+                        <div class="front">
+
+                            <img src="../assets/agenda/5.png" alt="">
+                            <div class="words">
+                                <div class="mask">
+                                    <div class="time">5月7日 09:00 - 22:00</div>
+                                    <div class="title">生态合作伙伴分论坛</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="back">
+                            <div
+                                style="color: white;font-size: 15px;text-indent:28px; padding:8px 8px 8px 8px;text-align:left">
+                                "生态合作伙伴分论坛是一场汇聚了来自不同领域专家的交流盛会，将于5月5日晚上18:00至21:00在西湖举行。此次论坛汇集了业界顶尖人士，他们将围绕当今社会重要议题展开讨论，分享他们的见解和经验。无论您是行业新秀还是资深专家，都将有机会从这次论坛中获得新的启发和收获。"
                             </div>
                         </div>
                     </div>
@@ -267,24 +300,47 @@ const goToAgendaPage = () => {
 }
 
 .overview {
-    // height: 100px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -ms-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-transition: -webkit-transform 1.2s;
-    -moz-transition: -moz-transform 1.2s;
-    -ms-transition: -ms-transform 1.2s;
-    -o-transition: -o-transform 1.2s;
-    transition: transform 1.2s;
+    perspective: 1000px;
 }
 
-.overview:hover {
-    -webkit-transform: translateZ(-50px) rotateX(95deg);
-    -moz-transform: translateZ(-50px) rotateX(95deg);
-    -ms-transform: translateZ(-50px) rotateX(95deg);
-    -o-transform: translateZ(-50px) rotateX(95deg);
-    transform: translateZ(-50px) rotateX(95deg);
+.overview:hover .front {
+    transform: rotateY(180deg);
+}
+
+.overview:hover .back {
+    transform: rotateY(0deg);
+}
+
+.front,
+.back {
+    position: absolute;
+    backface-visibility: hidden;
+    transition: ease-in-out 600ms;
+}
+
+.front {
+    width: 392.4px;
+}
+
+.back {
+    width: 392.4px;
+    height: 150px;
+    margin-top: 8px;
+    border-radius: 10px;
+    background-color: #fff;
+    // background: url('http://unsplash.it/1200x800') center center no-repeat;
+    // background-image: linear-gradient(to bottom right, #002f4b, #dc4225);
+    background: rgb(0, 172, 238);
+    background: linear-gradient(0deg, rgba(0, 172, 238, 1) 0%, rgba(2, 126, 251, 1) 100%);
+    transform: rotateY(-180deg);
+
+}
+
+.card:hover .front {
+    transform: rotateY(180deg);
+}
+
+.card:hover .back {
+    transform: rotateY(0deg);
 }
 </style>
