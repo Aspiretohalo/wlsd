@@ -7,11 +7,11 @@
             <el-main class="main bgc">
                 <div class="banner ax-row wow animate__animated animate__fadeInLeft" data-wow-duration="1s"
                     style="visibility: visible; animation-duration: 1s; animation-name: fadeInLeft;">
-                    <h2 class="title text-overflow2 ax-align-left">西湖论剑安全特训营·网络攻防蓝队实战技法进阶班
+                    <h2 class="title text-overflow2 ax-align-left">{{ SingleActivity.activity.itemTitle }}
                     </h2>
                     <div class="msg">
                         <div class="date">
-                            2024/3/30
+                            {{ formattedData.activity.beginTime }}-{{ formattedData.activity.finishTime }}
                         </div>
                         <div class="view_btn">
                             <div class="view">
@@ -41,12 +41,15 @@
 <script setup lang="ts">
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import setActivityParticipation from '../functions/setActivityParticipation';
 // import setActivityThumb from '../functions/setActivityThumb';
 // import cancelActivityParticipation from '../functions/cancelActivityParticipation';
 // import cancelActivityThumb from '../functions/cancelActivityThumb';
+import getAllActivityCommentNotLogin from '../functions/ActivityComment/notLogin/getAllActivityCommentNotLogin';
+import getAllActivityComment from '../functions/ActivityComment/getAllActivityComment';
 import getActivityParticipationById from '../functions/Activity/getActivityParticipationById';
+import getActivityCommentCount from '../functions/ActivityComment/getActivityCommentCount';
 
 import addActivityViews from '../functions/addViewsActivity';
 import { onBeforeMount, reactive } from 'vue';
@@ -55,7 +58,15 @@ onBeforeMount(async () => {
     SingleActivity.value.activity.itemViews++
 })
 const SingleActivity: any = ref(JSON.parse(sessionStorage.getItem("SingleActivity") || "null") || "")
-
+const goToPage = async (id: number) => {
+    if (token.value != null) {
+        await getAllActivityComment(id, user.userId)
+    } else {
+        await getAllActivityCommentNotLogin(id)
+    }
+    await getActivityCommentCount(id)
+    router.push('/activityParticipation/' + id)
+}
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
@@ -63,9 +74,10 @@ const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 
 const token: any = ref(localStorage.getItem('token') || null)
 import { ElMessage } from 'element-plus'
-const goTo = async (itemId: Number) => {
+const goTo = async (itemId: number) => {
     if (token.value != null) {
         await getActivityParticipationById(itemId, user.userId)
+        await goToPage(itemId)
         router.push('/activityParticipation/' + itemId)
     } else {
         ElMessage({
@@ -74,6 +86,15 @@ const goTo = async (itemId: Number) => {
         })
     }
 }
+const formattedData = computed(() => {
+    if (!SingleActivity.value.activity || !SingleActivity.value.activity.beginTime) return null;
+
+    const originalDate1 = new Date(SingleActivity.value.activity.beginTime);
+    const formattedTime1 = originalDate1.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" });
+    const originalDate2 = new Date(SingleActivity.value.activity.finishTime);
+    const formattedTime2 = originalDate2.toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai" });
+    return { ...SingleActivity.value.activity, activity: { beginTime: formattedTime1, finishTime: formattedTime2 } };
+});
 </script>
 
 <style lang="scss" scoped>

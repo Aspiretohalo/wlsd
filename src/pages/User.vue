@@ -7,20 +7,23 @@
                 </el-header>
                 <el-main class="main bgc">
                     <div class="IDcard w-margin" style="margin-top: 0;">
-                        <div class="name" style="padding-top: 70px;padding-left: 20px;padding-right: 10px;" :style="{
+                        <div class="name" :style="{
                             background: `url(${getVIPGrade(form.experience)?.img})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '80px', width: '280px'
+                            backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '150px', width: '300px'
                         }">
-                            <img style="width: 52px;height: 52px;border-radius: 50%;" :src="form.userAvatar" />
-                            <span v-if="form.experience < 30000" style="margin-left: 20px;font-size: 24px;">{{
+                            <img style="width: 52px;height: 52px;border-radius: 50%;margin-top: 70px;margin-left: 10px;"
+                                :src="form.userAvatar" />
+                            <span v-if="form.experience < 30000"
+                                style="margin-left: 20px;font-size: 24px;margin-top: 70px;">{{
                             form.userName }}</span>
-                            <span v-else style="margin-left: 20px;color: #ccc;font-size:24px;">{{ form.userName
-                                }}</span>
+                            <span v-else style="margin-left: 20px;margin-top: 70px;color: #ccc;font-size:24px;">{{
+                            form.userName
+                        }}</span>
                             <span class="medal">
                                 <img :src="getMedalImg(form.medal)?.img" @click="dialogVisible = true" />
-                                <img v-if="form.certification == 1" style="width: 80px;"
+                                <img v-if="!(form.certification == 0)" style="width: 80px;"
                                     src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
                             </span>
                         </div>
@@ -89,8 +92,33 @@
                                     </span>
                                 </template>
                             </el-dialog>
-                            <el-button type="warning" plain
-                                style="width: 100%; margin-top: 20px;margin-left: 0;">定制个性化内容</el-button>
+                            <el-button type="warning" plain style="width: 100%; margin-top: 20px;margin-left: 0;"
+                                @click="dialogRecognizeVisible = true" v-if="form.certification == 0">线下参会认证</el-button>
+                            <el-button type="warning" plain style="width: 100%; margin-top: 20px;margin-left: 0;"
+                                @click="dialogTicketisible = true" v-else>
+                                <el-icon size="20">
+                                    <Ticket />
+                                </el-icon>数字票夹
+                            </el-button>
+                            <el-dialog v-model="dialogRecognizeVisible" title="线下参会认证" width="500" align-center>
+                                <el-form :model="RecognizeCode">
+                                    <el-form-item label="专属认证码" label-width="100px">
+                                        <el-input v-model="RecognizeCode.code" autocomplete="off" />
+                                    </el-form-item>
+                                </el-form>
+                                <template #footer>
+                                    <span class="dialog-footer">
+                                        <el-button round @click="dialogRecognizeVisible = false">取消</el-button>
+                                        <el-button type="primary" round
+                                            @click="handleRecognize(); dialogVisible = false">
+                                            认证
+                                        </el-button>
+                                    </span>
+                                </template>
+                            </el-dialog>
+                            <el-dialog v-model="dialogTicketisible" title="我的票夹" width="500" align-center>
+                                <img :src="getTicket(form.certification)" style="width: 100%;border-radius: 8px;">
+                            </el-dialog>
                             <div style="margin-top: 50px;">个人简介</div>
                             <div class="data">
                                 <h4>性别</h4><span>{{ form.gender }}</span>
@@ -176,6 +204,7 @@
                                         </div>
                                     </el-tab-pane>
                                     <el-tab-pane label="已点赞">
+
                                         <div class="thumb">
                                             <div class="thumb_content" v-for="o in 5" :key="o">
                                                 <el-image
@@ -206,12 +235,16 @@ import { Coin, ChatLineRound, ArrowRight } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import state from '../store/state'
 import setWornMedal from '../functions/Medal/setWornMedal';
+import setCertification from '../functions/Medal/setCertification';
 import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的函数
 import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
 
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
+const dialogRecognizeVisible = ref(false)
+const dialogTicketisible = ref(false)
+
 const dialogVisible = ref(false)
 const Medal: any = ref(JSON.parse(sessionStorage.getItem("Medal") || "null") || "")
 const ActivityAndMeetingChoice: any = ref(JSON.parse(sessionStorage.getItem("ActivityAndMeetingChoice") || "null") || "")
@@ -239,6 +272,26 @@ const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 
 const checkIntegral = () => {
     router.push('/integral/integralDetails')
+}
+const RecognizeCode = reactive({
+    code: ''
+})
+const handleRecognize = async () => {
+    await setCertification(Math.floor(Math.random() * 3) + 1)
+    dialogRecognizeVisible.value = false
+}
+const getTicket = (id: number) => {
+    switch (id) {
+        case 1:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/ticket%2Fticket1.png'
+
+        case 2:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/ticket%2Fticket2.png'
+
+        case 3:
+            return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/ticket%2Fticket3.png'
+
+    }
 }
 
 </script>
@@ -314,6 +367,7 @@ const checkIntegral = () => {
 .medal {
     display: flex;
     align-items: center;
+    margin-top: 70px;
 
     img {
         cursor: pointer;

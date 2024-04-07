@@ -86,6 +86,7 @@
                         </template>
                     </el-dialog>
                 </el-card>
+                <CommentActivity></CommentActivity>
             </el-main>
             <el-footer style="padding: 0;">
                 <Bottom></Bottom>
@@ -103,6 +104,7 @@ const dialogVisible = ref(false)
 import addActivityViews from '../functions/addViewsActivity';
 import setActivityParticipation from '../functions/Activity/setActivityParticipation';
 import getActivityParticipationById from '../functions/Activity/getActivityParticipationById';
+import CommentActivity from '../components/CommentActivity.vue';
 import { computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 

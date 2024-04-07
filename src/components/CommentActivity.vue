@@ -1,11 +1,12 @@
 <template>
     <div class="box w-margin">
+        <h2>全部讨论</h2>
         <el-card class="leftcc">
             <el-button type="primary" @click="dialogCommentVisible = true;" plain round
                 style="margin: 20px;">发表评论</el-button>
             <div class="bk-container">
                 <div v-infinite-scroll="load" class="infinite-list">
-                    <el-dialog v-model="dialogCommentVisible" title="发表评论" center width="500" align-center>
+                    <!-- <el-dialog v-model="dialogCommentVisible" title="发表评论" center width="500" align-center>
                         <el-form :model="comment" style="max-width: 450px">
                             <el-form-item>
                                 <el-input v-model="comment.words" :rows="2" type="textarea" />
@@ -14,13 +15,13 @@
                         <template #footer>
                             <div class="dialog-footer">
                                 <el-button @click="dialogCommentVisible = false" round>取消</el-button>
-                                <el-button type="primary" round @click="handleComment; dialogCommentVisible = false">
+                                <el-button type="primary" @click="handleComment; dialogCommentVisible = false" round>
                                     确认
                                 </el-button>
                             </div>
                         </template>
-                    </el-dialog>
-                    <div v-for="i in rootBlog" :key="i.blog.id" class="infinite-list-item">
+</el-dialog> -->
+                    <div v-for="i in rootActivityComment" :key="i.activityComment.id" class="infinite-list-item">
                         <div class="bk-infor">
                             <el-avatar class="avatar" :src="i.user.userAvatar">
                             </el-avatar>
@@ -55,13 +56,13 @@
 
                                 </div>
 
-                                <el-text class="elintxt">{{ i.blog.replyTime }}</el-text>
+                                <el-text class="elintxt">{{ i.activityComment.replyTime }}</el-text>
                             </div>
                         </div>
                         <div class="bk-content">
-                            <el-text class="contxt">{{ i.blog.content }}</el-text>
+                            <el-text class="contxt">{{ i.activityComment.content }}</el-text>
                         </div>
-                        <el-dialog v-model="dialogReplyVisible" title="回复" center width="500" align-center>
+                        <!-- <el-dialog v-model="dialogReplyVisible" title="回复" center width="500" align-center>
                             <el-form :model="reply" style="max-width: 450px">
                                 <el-form-item>
                                     <el-input v-model="reply.words" :rows="2" type="textarea" />
@@ -71,12 +72,12 @@
                                 <div class="dialog-footer">
                                     <el-button @click="dialogCommentVisible = false" round>取消</el-button>
                                     <el-button type="primary"
-                                        @click=" handleReply(i.blog.id); dialogReplyVisible = false" round>
+                                        @click=" handleReply(i.activityComment.id); dialogReplyVisible = false" round>
                                         确认
                                     </el-button>
                                 </div>
                             </template>
-                        </el-dialog>
+                        </el-dialog> -->
                         <div class="bk-communicate">
                             <div class="circle icon_item">
                                 <div class="replyBtn" @click="dialogReplyVisible = true;">
@@ -85,16 +86,19 @@
                             </div>
                             <div class="circle icon_item" :class="i.thumbed ? 'check' : ''">
                                 <div class="img-box" :class="i.thumbed ? 'img-box-check' : ''">
-                                    <img v-if="i.thumbed == false" @click="handleSetThumb(i.blog.id)"
+                                    <img v-if="i.thumbed == false"
+                                        @click="handleSetCommentThumb(i.activityComment.id, i.activityComment.activityId)"
                                         src="../assets/icon/点赞.png" alt="" />
-                                    <img v-else @click="handleCancelThumb(i.blog.id)" src="../assets/icon/点赞(红).svg"
-                                        alt="" />
+                                    <img v-else
+                                        @click="handleCancelCommentThumb(i.activityComment.id, i.activityComment.activityId)"
+                                        src="../assets/icon/点赞(红).svg" alt="" />
                                 </div>
                                 {{ i.thumbCount }}
                             </div>
                         </div>
 
-                        <div v-for="reply in replyBlog(i.blog.id)" :key="reply.blog.id" class="infinite-list-item2">
+                        <div v-for="reply in replyActivityComment(i.activityComment.id)" :key="reply.activityComment.id"
+                            class="infinite-list-item2">
                             <div class="bk-infor2">
                                 <img class="avatar2" :src="reply.user.userAvatar" />
                                 <div class="intxt">
@@ -128,24 +132,26 @@
                                         </el-popover>
                                         <img v-if="reply.user.certification == 1" style="width: 60px;margin-left: 10px;"
                                             src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
-                                        <el-text class="elintxt" style="margin-left: 20px;">{{ reply.blog.replyTime
-                                            }}</el-text>
+                                        <el-text class="elintxt" style="margin-left: 20px;">{{
+                reply.activityComment.replyTime
+            }}</el-text>
 
                                     </div>
-                                    <div class="contxt">{{ reply.blog.content }}</div>
+                                    <div class="contxt">{{ reply.activityComment.content }}</div>
                                     <div class="bk-communicate">
                                         <div class="circle icon_item">
                                             <div class="replyBtn"
-                                                @click="dialogReplyVisible = true; handleReply(i.blog.id)">
+                                                @click="dialogReplyVisible = true; handleReply(i.activityComment.id)">
                                                 回复
                                             </div>
                                         </div>
                                         <div class="circle icon_item" :class="reply.thumbed ? 'check' : ''">
                                             <div class="img-box" :class="reply.thumbed ? 'img-box-check' : ''">
                                                 <img v-if="reply.thumbed == false"
-                                                    @click="handleSetThumb(reply.blog.id)" src="../assets/icon/点赞.png"
-                                                    alt="" />
-                                                <img v-else @click="handleCancelThumb(reply.blog.id)"
+                                                    @click="handleSetCommentThumb(reply.activityComment.id, reply.activityComment.activityId)"
+                                                    src="../assets/icon/点赞.png" alt="" />
+                                                <img v-else
+                                                    @click="handleCancelCommentThumb(reply.activityComment.id, reply.activityComment.activityId)"
                                                     src="../assets/icon/点赞(红).svg" alt="" />
                                             </div>
                                             {{ reply.thumbCount }}
@@ -158,80 +164,45 @@
                 </div>
             </div>
         </el-card>
-        <div class="rightcc">
-            <h2>会议推荐</h2>
-            <h5 style="margin-bottom: 20px;">Meeting recommendation</h5>
-            <el-card class="card" style="padding: 30px;">
-                <div class="img">
-                    <img :src="getRandomMeetingById(randomNumber).meeting.itemCover"
-                        style="width: 100%;border-radius: 8px;object-fit: cover;" alt="">
-                </div>
-                <div class="title" style="font-weight: 700;font-size: 20px;text-align: left;">
-                    {{ getRandomMeetingById(randomNumber).meeting.itemTitle }}
-                </div>
-                <div class="time" style="text-align: left;margin-top: 10px;">
-                    {{ getRandomMeetingById(randomNumber).meeting.itemDate }}
-                    {{ getRandomMeetingById(randomNumber).meeting.itemTime }}
-                </div>
-                <div style="margin-top: 10px;text-align: left;">
-                    <el-button type="primary" round plain>预约参会</el-button>
-                </div>
-            </el-card>
-        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive } from 'vue';
-import setBlogThumb from '../functions/setBlogThumb';
-import cancelBlogThumb from '../functions/cancelBlogThumb';
-import setBlogComment from '../functions/setBlogComment';
-import setBlogReply from '../functions/setBlogReply';
+import { computed, ref } from 'vue';
+import setActivityCommentThumb from '../functions/ActivityComment/setActivityCommentThumb';
+import cancelActivityCommentThumb from '../functions/ActivityComment/cancelActivityCommentThumb';
+// import setActivityCommentComment from '../functions/setActivityCommentComment';
+// import setActivityCommentReply from '../functions/setActivityCommentReply';
 import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的函数
 import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
 const dialogCommentVisible = ref(false)
 const dialogReplyVisible = ref(false)
-const comment = reactive({
-    words: ''
-})
-const reply = reactive({
-    words: ''
-})
-const Meeting: any = ref(JSON.parse(sessionStorage.getItem("Meeting") || "null") || "")
-const min = 1;
-const max = 21;
-const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-// 定义一个函数，根据 Meeting 的 id 随机返回其中的某个对象
-const getRandomMeetingById = (id: any) => {
-
-    // 根据 id 查找对应的 Meeting 对象
-    const meeting = Meeting.value.find((item: any) => item.meeting.itemId === id);
-    if (!meeting) {
-        return null; // 如果找不到对应的对象，则返回 null
-    }
-    // 返回找到的对象
-    return meeting;
-}
-const Blog: any = ref(JSON.parse(sessionStorage.getItem("Blog") || "null") || "")
-const rootBlog = computed(() => {
-    return Blog.value.filter((blog: any) => blog.blog.replyLevel === 0)
+// const comment = reactive({
+//     words: ''
+// })
+// const reply = reactive({
+//     words: ''
+// })
+const AllActivityComment: any = ref(JSON.parse(sessionStorage.getItem("AllActivityComment") || "null") || "")
+const rootActivityComment = computed(() => {
+    return AllActivityComment.value.filter((activityComment: any) => activityComment.activityComment.replyLevel === 0)
         .map((item: any) => {
-            const originalDate = new Date(item.blog.replyTime);
+            const originalDate = new Date(item.activityComment.replyTime);
             // 时区设置为中国
             const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-            item.blog.replyTime = formattedTime;
+            item.activityComment.replyTime = formattedTime;
 
             return item
 
         });
 });
-const replyBlog = computed(() => (id: number) => {
-    return Blog.value
-        .filter((blog: any) => blog.blog.replyLevel !== 0 && blog.blog.replyParentId === id)
+const replyActivityComment = computed(() => (id: number) => {
+    return AllActivityComment.value
+        .filter((activityComment: any) => activityComment.activityComment.replyLevel !== 0 && activityComment.activityComment.replyParentId === id)
         .map((item: any) => {
-            const originalDate = new Date(item.blog.replyTime);
+            const originalDate = new Date(item.activityComment.replyTime);
             const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-            item.blog.replyTime = formattedTime;
+            item.activityComment.replyTime = formattedTime;
 
             return item
         });
@@ -248,8 +219,10 @@ import { ElMessage } from 'element-plus'
 
 const handleReply = async (id: number) => {
     if (token.value != null) {
-        await setBlogReply(id, reply.words)
-        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+        console.log(id);
+
+        // await setActivityCommentReply(id, reply.words)
+        AllActivityComment.value = JSON.parse(sessionStorage.getItem("ActivityComment") || "null") || ""
     } else {
         ElMessage({
             message: '请先登录',
@@ -257,21 +230,21 @@ const handleReply = async (id: number) => {
         })
     }
 }
-const handleComment = async () => {
+// const handleComment = async () => {
+//     if (token.value != null) {
+//         // await setActivityCommentComment(comment.words)
+//         AllActivityComment.value = JSON.parse(sessionStorage.getItem("ActivityComment") || "null") || ""
+//     } else {
+//         ElMessage({
+//             message: '请先登录',
+//             type: 'warning',
+//         })
+//     }
+// }
+const handleSetCommentThumb = async (id: number, activity_id: number) => {
     if (token.value != null) {
-        await setBlogComment(comment.words)
-        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
-    } else {
-        ElMessage({
-            message: '请先登录',
-            type: 'warning',
-        })
-    }
-}
-const handleSetThumb = async (id: number) => {
-    if (token.value != null) {
-        await setBlogThumb(id)
-        Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
+        await setActivityCommentThumb(id, activity_id)
+        AllActivityComment.value = JSON.parse(sessionStorage.getItem("AllActivityComment") || "null") || ""
     } else {
         ElMessage({
             message: '请先登录',
@@ -280,23 +253,25 @@ const handleSetThumb = async (id: number) => {
     }
 
 }
-const handleCancelThumb = async (id: number) => {
-    await cancelBlogThumb(id)
-    Blog.value = JSON.parse(sessionStorage.getItem("Blog") || "null") || ""
-}
+const handleCancelCommentThumb = async (id: number, activity_id: number) => {
+    await cancelActivityCommentThumb(id, activity_id)
 
+    AllActivityComment.value = JSON.parse(sessionStorage.getItem("AllActivityComment") || "null") || ""
+}
 
 </script>
 
 <style lang="scss" scoped>
 .box {
-    display: flex;
-    justify-content: space-between;
+    h2 {
+        text-align: left;
+        margin-bottom: 20px;
+    }
 
     .leftcc {
         text-align: left;
         padding-left: 30px;
-        width: 68%;
+        // width: 68%;
         background-color: rgba($color: #fff, $alpha: 0.5);
     }
 
@@ -305,7 +280,7 @@ const handleCancelThumb = async (id: number) => {
     }
 
     .card {
-        // height: 300px;
+        height: 300px;
         background-color: rgba($color: #fff, $alpha: 0.5);
     }
 }

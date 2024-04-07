@@ -40,7 +40,7 @@
 
                 </div>
 
-                <el-drawer v-model="drawer" title="评论" style="text-align: left;">
+                <el-drawer v-model="drawer" :title="'评论（' + PostCommentCount + '）'" style="text-align: left;">
                     <el-empty description="暂无评论" v-if="PostCommentCount == 0" />
                     <el-card class="leftcc" v-else>
                         <!-- <el-button type="primary" @click="dialogCommentVisible = true;" plain round
@@ -211,7 +211,6 @@
                 <div v-html="SinglePost.post.content" style="width: 1000px; margin:50px auto;">
 
                 </div>
-
             </el-main>
             <el-footer style="padding: 0;">
                 <Bottom></Bottom>
@@ -284,7 +283,6 @@ const handleCancelThumb = async () => {
 //     words: ''
 // })
 const PostCommentCount: any = ref(JSON.parse(sessionStorage.getItem("PostCommentCount") || "null") || "")
-console.log(PostCommentCount.value);
 
 const AllPostComment: any = ref(JSON.parse(sessionStorage.getItem("AllPostComment") || "null") || "")
 
@@ -360,40 +358,6 @@ const handleCancelCommentThumb = async (id: number, post_id: number) => {
     AllPostComment.value = JSON.parse(sessionStorage.getItem("AllPostComment") || "null") || ""
 }
 
-// const getMedalImg = (medalId: number) => {
-//     switch (medalId) {
-//         case 1:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E5%8D%9A%E5%AE%A2.png', // 假设徽章ID为1对应的图片路径
-//                 title: '博客达人'
-//             }
-//         case 2:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E6%89%93%E5%8D%A1.png', // 假设徽章ID为2对应的图片路径
-//                 title: '打卡之星'
-//             }
-//         case 3:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E7%82%B9%E8%B5%9E.png', // 假设徽章ID为2对应的图片路径
-//                 title: '身经百赞'
-//             }
-//         case 4:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E7%BA%BF%E4%B8%8B%E8%A7%82%E7%9C%8B.png', // 假设徽章ID为2对应的图片路径
-//                 title: '身临其境'
-//             }
-//         case 5:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E8%AF%84%E8%AE%BA.png', // 假设徽章ID为2对应的图片路径
-//                 title: '评易近人'
-//             }
-//         case 6:
-//             return {
-//                 img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/title%2F%E9%80%9A%E5%85%B3.png',// 假设徽章ID为2对应的图片路径
-//                 title: '游戏霸主'
-//             }
-//     }
-// }
 </script>
 
 <style lang="scss" scoped>

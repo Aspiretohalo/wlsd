@@ -1,12 +1,72 @@
 <template>
-    <el-dialog v-model="centerDialogVisible" width="300" :close-on-click-modal="false">
-        <div class="poster">
-            <img src="../assets/poster/1.png" style="width: 95%;">
+    <el-dialog v-model="dialogVisiblePoster" width="850" style="border-radius: 15px;" align-center>
+        <template #header="{ titleId, titleClass }">
+            <div class="my-header">
+                <h4 :id="titleId" :class="titleClass">选择海报模板</h4>
+                <div class="tip" style="color:#eebe77;">Tip：可直接使用模板，也可添加元素生成个性化海报！</div>
+            </div>
+        </template>
+        <div class="poster_img">
+            <el-checkbox v-for="(o, index) in Poster" :key="index"
+                style="margin-right: 0; height: 200px; margin-bottom: 20px;" v-model="o.checked" size="large" border
+                @change="handleCheckboxChange(o)">
+                <div class="msg">
+                    <img class="poster" :src="o.img" :class="{ 'selected': o.checked }" style="width: 100px;">
+                </div>
+            </el-checkbox>
         </div>
-        <div class="btns">
-            <el-button round type="primary" plain>添加元素</el-button>
-            <el-button round type="primary" plain>分享海报</el-button>
-        </div>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button round type="primary" plain>添加元素</el-button>
+
+                <el-button round @click="dialogVisiblePoster = false">取消</el-button>
+                <el-button type="primary" round @click="handleShare(); dialogVisible = false">
+                    分享
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
+    <el-dialog v-model="dialogVisibleCheck" width="850" style="border-radius: 15px;" align-center>
+        <template #header="{ titleId, titleClass }">
+            <div class="my-header">
+                <h4 :id="titleId" :class="titleClass">场景打卡</h4>
+                <div class="tip" style="color:#eebe77;margin: 0 auto;margin-top: 20px;width: 600px;text-align: left;">
+                    Tip：打卡之前需进行个人认证！！</div>
+                <div class="tip" style="color:#eebe77;margin: 0 auto;width: 600px;text-align: left;text-indent: 2em;">
+                    认证后，需本人在要求的地点、景点，在相关背景下进行合影，即可打卡成功！</div>
+            </div>
+        </template>
+        <h2 style="width: 600px; margin: 0 auto; text-align: left">打卡模板</h2>
+        <el-carousel arrow="always" indicator-position="none" height="450px" :autoplay="false">
+            <el-carousel-item v-for="(item, index) in checkImg" :key="index">
+                <div class="check_img">
+                    <img :src="item.img"
+                        style="width: 600px;height: 360px;object-fit: cover;border-radius: 8px;margin: 0 auto;">
+                    <div class="msg" style="display: flex;align-items: center;justify-content: center;">
+                        <h2>{{ item.name }}</h2>
+                        <div class="tip" style="margin-left: 20px;">{{ item.tip }}</div>
+                    </div>
+                    <div class="btn" style="margin-top: 20px;display: flex;justify-content: center;">
+                        <el-upload class="upload-demo"
+                            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                            :disabled="item.uploaded">
+                            <el-button type="primary" round v-if="!item.uploaded"
+                                @click="handleupload(item); dialogVisible = false" plain>
+                                上传照片
+                            </el-button>
+                            <el-button type="primary" round disabled v-else
+                                @click="handleupload(item); dialogVisible = false" plain>
+                                审核中
+                            </el-button>
+                        </el-upload>
+                        <!-- <el-button type="primary" round @click="handleCheck(item); dialogVisible = false"
+                            style="margin-left: 20px;" plain>
+                            提交打卡
+                        </el-button> -->
+                    </div>
+                </div>
+            </el-carousel-item>
+        </el-carousel>
     </el-dialog>
     <el-dialog v-model="dialogVisible" title="小程序码" width="200" align-center>
         <img src="../assets/小程序码.jpg" style="width: 80%;">
@@ -26,11 +86,11 @@
                 </div>
                 <span>趣味游戏</span>
             </li>
-            <li @click="goToIntegral">
+            <li @click="goToCheck">
                 <div class="icon">
-                    <img src="../assets/sidebar_icon/金币.png" alt="">
+                    <img src="../assets/sidebar_icon/拍照.png" alt="">
                 </div>
-                <span>积分福利</span>
+                <span>场景打卡</span>
             </li>
             <li @click="visitMiniProgram">
                 <div class="icon">
@@ -63,7 +123,9 @@
 
 import { ref, onMounted, onUnmounted } from 'vue';
 import { ElMessage } from 'element-plus'
-const centerDialogVisible = ref(false)
+const dialogVisiblePoster = ref(false)
+const dialogVisibleCheck = ref(false)
+
 import { useRouter, useRoute } from 'vue-router'
 const token: any = ref(localStorage.getItem('token') || null)
 
@@ -72,7 +134,7 @@ const route = useRoute();
 
 const sharePoster = () => {
     if (token.value != null) {
-        centerDialogVisible.value = true
+        dialogVisiblePoster.value = true
     } else {
         ElMessage({
             message: '请先登录',
@@ -91,9 +153,9 @@ const goToGames = () => {
         })
     }
 };
-const goToIntegral = () => {
+const goToCheck = () => {
     if (token.value != null) {
-        router.push('/integral/integralGifts')
+        dialogVisibleCheck.value = true
     } else {
         ElMessage({
             message: '请先登录',
@@ -130,12 +192,149 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
 });
+
+const Poster = ref([
+    {
+        id: 1,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F1.png'
+    },
+    {
+        id: 2,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F2.png'
+    },
+    {
+        id: 3,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F3.png'
+    },
+    {
+        id: 4,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F4.png'
+    },
+    {
+        id: 5,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F5.png'
+    },
+    {
+        id: 6,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F6.png'
+    },
+    {
+        id: 7,
+        checked: false,
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/poster%2F7.png'
+    },
+])
+const checkImg = ref([
+    {
+        id: 1,
+        uploaded: false,
+        img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/e49da182c8364cb7af6d39fe2bcd2fd3.jpg',
+        tip: '吉祥物会在哪呢？',
+        name: '安恒小龙人打卡',
+    },
+    {
+        id: 2,
+        uploaded: false,
+        img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/a6f8ec2f39bf430db23f67d0dfb95ce6.jpg',
+        tip: '场馆一楼大厅有一个海报噢',
+        name: '场馆一楼大厅',
+    },
+    {
+        id: 3,
+        uploaded: false,
+        img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/918ce5b658af4e0f9022c8d483e17647.jpg',
+        tip: '和我们的大会签到点合个影吧',
+        name: '大会签到点',
+    },
+])
+import state from '../store/state'
+
+const handleCheckboxChange = (checkbox: any) => {
+    Poster.value.forEach((item: any) => {
+        if (item !== checkbox) {
+            item.checked = false;
+        }
+    });
+    state.CheckedPoster
+};
+const handleShare = () => {
+    alert('666')
+}
+// const handleCheck = (item: any) => {
+//     console.log(item);
+
+// }
+const handleupload = (item: any) => {
+
+    // 模拟上传成功后的处理
+    setTimeout(() => {
+        // 设置对应项的上传状态为true
+        item.uploaded = true;
+        console.log(item);
+
+    }, 5000);
+}
 </script>
 
 <style scoped lang="scss">
+:deep(.el-checkbox.el-checkbox--large) {
+    height: 150px;
+}
+
+:deep(.el-checkbox__inner) {
+    width: 0;
+    height: 0;
+    border: 0;
+}
+
+:deep(.el-checkbox.el-checkbox--large .el-checkbox__inner) {
+    width: 0;
+    height: 0;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+    background: transparent;
+    border: transparent;
+}
+
+:deep(.el-checkbox.is-bordered) {
+    border: 0;
+}
+
 :deep(.el-backtop) {
     width: 100%;
     position: initial;
+}
+
+:deep(.el-dialog__body) {
+    padding: 30px;
+}
+
+:deep(.el-dialog) {
+    border-radius: 15px;
+}
+
+.selected {
+    transition: 0.3s;
+    border: 5px solid #409EFF !important
+        /* 可以根据需要修改颜色 */
+}
+
+.poster_img {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    .poster {
+        border-radius: 8px;
+        border: 5px solid transparent
+    }
 }
 
 .side {

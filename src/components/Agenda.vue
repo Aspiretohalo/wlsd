@@ -12,14 +12,14 @@
                 <el-tab-pane label="5月7日" name="2024/5/7"></el-tab-pane>
                 <el-tab-pane label="5月8日" name="2024/5/8"></el-tab-pane>
             </el-tabs>
-            <el-select v-model="value" class="m-2" placeholder="论坛类型" size="large" style="width: 150px;">
+            <el-select v-model="selectedValue" class="m-2" placeholder="论坛类型" size="large" style="width: 150px;">
                 <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
         </div>
 
         <el-card class="box w-margin">
             <div class="agenda">
-                <el-card class="agenda_item" v-for="item in filteredMeetings" :key="item.meeting.itemId"
+                <el-card class="agenda_item" v-for="item in filteredMeetingsWithSelect" :key="item.meeting.itemId"
                     style="margin-bottom: 25px;">
                     <div class="meeting">
                         <div class="time">
@@ -80,7 +80,7 @@ const goToAgenda = async (id: Number) => {
     router.push('/agendaDetail/' + id)
 }
 const activeTab = ref('1')
-const value = ref('全部')
+
 const options = [
     {
         value: '全部',
@@ -124,15 +124,31 @@ const handleCancelMeetingSubscription = async (itemId: any) => {
     await cancelMeetingSubscription(itemId)
     Meeting.value = JSON.parse(sessionStorage.getItem("Meeting") || "null") || ""
 }
+// 这部分是已有的计算属性，用于根据活动选项进行过滤
 const filteredMeetings = computed(() => {
-    if (activeTab.value == '1') {
+    if (activeTab.value === '1') {
         return Meeting.value;
     }
     return Meeting.value.filter((m: any) => {
-
-        return m.meeting.itemDate == activeTab.value;
+        return m.meeting.itemDate === activeTab.value;
     });
 });
+
+// 定义选择值变量，并设置选项
+const selectedValue = ref('全部');
+
+// 添加根据选择值进一步过滤数据的计算属性
+const filteredMeetingsWithSelect = computed(() => {
+    if (selectedValue.value == '全部') {
+        return filteredMeetings.value;
+    }
+    // 根据选择值进一步过滤数据
+    return filteredMeetings.value.filter((m: any) => {
+        // 在这里根据您的需求进行筛选条件的匹配
+        return m.meeting.itemType === selectedValue.value;
+    });
+});
+
 const changeTab = ((tab: any) => {
     activeTab.value = tab;
 })

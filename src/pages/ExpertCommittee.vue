@@ -10,7 +10,7 @@
                     <Committee></Committee>
                     <div class="speakers w-margin">
                         <h2>大会嘉宾</h2>
-                        <h5>speakers</h5>
+                        <h5 style="margin-bottom: 30px;">speakers</h5>
                         <el-row class="data">
                             <el-col :span="5" v-for="item in AllExpert" :key="item.expertId" ref="card">
                                 <!-- <img :src="item.expertImg"

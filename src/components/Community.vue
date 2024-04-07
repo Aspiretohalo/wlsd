@@ -33,6 +33,12 @@
                                 </el-button>
                             </div>
                         </el-form-item>
+                        <el-form-item label="类型">
+                            <el-radio-group v-model="radio" class="ml-4" @change="console.log(radio)">
+                                <el-radio label="分享" size="large">分享</el-radio>
+                                <el-radio label="提问" size="large">提问</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
                         <el-form-item label="封面上传">
                             <el-upload action="#" list-type="picture-card" :auto-upload="false">
                                 <el-icon>
@@ -92,7 +98,8 @@
             </div> -->
             <div class="popularity-ranking">
                 <h2 class="popularity-h2">热点话题榜</h2>
-                <el-table :data="tableData" height="400" style="width: 100%;background: transparent;">
+                <el-table :data="tableData" height="400"
+                    style="width: 100%;background: transparent;border-color: transparent;">
                     <el-table-column label="排名" width="60">
                         <template v-slot="{ $index }">
                             <!-- 前三行显示图片 -->
@@ -109,7 +116,15 @@
         </el-card>
 
         <el-card class="rightcc">
-            <div class="news" v-for="item in formattedData " :key="item.id">
+            <div class="nav">
+                <el-tabs v-model="activeTab" type="card" class="demo-tabs" @tab-change="changeTab(activeTab)">
+                    <!-- <el-tab-pane label="全部" name="1"></el-tab-pane> -->
+                    <el-tab-pane v-for="o in tabs" :label="o.label" :name="o.name"></el-tab-pane>
+                </el-tabs>
+                <el-input class="search" v-model="input" style="width: 160px" size="large" placeholder="请输入关键词"
+                    :suffix-icon="Search" />
+            </div>
+            <div class="news" v-for="item in filteredNews " :key="item.id">
                 <div class="img">
                     <img :src="item.post.postCover" alt="" width="250" height="150">
                 </div>
@@ -130,6 +145,11 @@
                         <div class="date">
                             {{ item.post.postTime }}
                         </div>
+                        <div class="tag" style="margin-left: 20px;">
+                            <el-tag v-if="item.post.type == '分享'" type="success" effect="dark">{{ item.post.type
+                                }}</el-tag>
+                            <el-tag v-else type="warning" effect="dark">{{ item.post.type }}</el-tag>
+                        </div>
                     </div>
                     <div class="description">
                         <span class="topic" v-for="tag in item.post.postType.split(',')" :key="tag">
@@ -148,7 +168,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 const dialogFormVisible = ref(false)
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import getPostById from '../functions/getPostById';
 import getPostByIdNotLogin from '../functions/notLogin/getPostByIdNotLogin';
 import getAllPostCommentNotLogin from '../functions/PostComment/notLogin/getAllPostCommentNotLogin';
@@ -157,6 +177,7 @@ import getPostCommentCount from '../functions/PostComment/getPostCommentCount';
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
+import { Search } from '@element-plus/icons-vue'
 const AllPost: any = ref(JSON.parse(sessionStorage.getItem("AllPost") || "null") || "")
 const getRankingImage = (index: number) => {
     switch (index) {
@@ -168,6 +189,35 @@ const getRankingImage = (index: number) => {
             return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/modal%2Fmodal3.png';
     }
 }
+const radio = ref('分享')
+const activeTab = ref('推荐')
+const input = ref('')
+
+const changeTab = ((tab: any) => {
+    activeTab.value = tab;
+})
+const tabs = ref([
+    {
+        label: '推荐',
+        name: '推荐',
+    },
+    {
+        label: '最新发布',
+        name: '最新发布',
+    },
+    {
+        label: '热度最高',
+        name: '热度最高',
+    },
+    {
+        label: '提问',
+        name: '提问',
+    },
+    {
+        label: '分享',
+        name: '分享',
+    },
+])
 const token: any = ref(localStorage.getItem('token') || null)
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 const goToPage = async (id: number) => {
@@ -179,9 +229,7 @@ const goToPage = async (id: number) => {
         await getAllPostCommentNotLogin(id)
     }
     await getPostCommentCount(id)
-
     router.push('/postDetail/' + id)
-
 }
 
 const formattedData = AllPost.value.map((item: any) => {
@@ -191,6 +239,42 @@ const formattedData = AllPost.value.map((item: any) => {
     const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
 
     return { ...item, post: { ...item.post, postTime: formattedTime } };
+});
+// 计算属性：根据选中的选项卡和搜索框关键词过滤后的新闻内容
+const filteredNews = computed(() => {
+    console.log(input.value);
+
+    // 如果搜索关键词为空，则根据tab返回数据
+    if (!input.value.trim()) {
+        if (activeTab.value == '提问') {
+            return formattedData.filter((item: any) => item.post.type === activeTab.value);
+        }
+        else if (activeTab.value == '问答') {
+            return formattedData.filter((item: any) => item.post.type === activeTab.value);
+        }
+        else if (activeTab.value === '最新发布') {
+            // 按时间排序
+            return formattedData.slice().sort((a: any, b: any) => {
+                const dateA = new Date(a.post.postTime);
+                const dateB = new Date(b.post.postTime);
+                return dateB.getTime() - dateA.getTime();
+            });
+        } else if (activeTab.value === '热度最高') {
+            // 按热度排序
+            return formattedData.slice().sort((a: any, b: any) => {
+                // 假设热度是根据点赞数来衡量的，您可以根据实际情况修改
+                return b.post.itemViews - a.post.itemViews;
+            });
+        } else
+            return formattedData; // 如果选中推荐，返回所有新闻内容
+    }
+    // 如果搜索关键词不为空，根据关键词过滤数据
+    return formattedData.filter((item: any) => {
+        // 在这里根据您的需求进行搜索条件的匹配，这里假设匹配标题
+        return item.post.title.toLowerCase().includes(input.value.trim().toLowerCase());
+    });
+
+
 });
 
 // do not use same name with ref
@@ -508,6 +592,16 @@ const tableData = HotTopic.value.map((item: any, index: any) => ({
     }
 }
 
+.nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+:deep(.el-input__wrapper) {
+    background-color: rgba($color: #fff, $alpha: 0.7);
+}
+
 .rightcc {
     background-color: rgba($color: #fff, $alpha: 0.5);
     width: 68%;
@@ -545,5 +639,39 @@ const tableData = HotTopic.value.map((item: any, index: any) => ({
             }
         }
     }
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
+    color: #303133;
+    border: 0;
+    background-color: #fff;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item.is-active) {
+    border-bottom: 0;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__item) {
+    border-left: 0;
+    border-radius: 25px;
+}
+
+:deep(.el-tabs--card>.el-tabs__header .el-tabs__nav) {
+    border: 0;
+}
+
+:deep(.el-tabs__item) {
+    border: 0;
+}
+
+:deep(.el-tabs__item:hover) {
+    color: #303133;
+    background-color: #fff;
+    transition: opacity 1s;
+}
+
+:deep(.el-tabs__header) {
+    height: 0;
+    border-bottom: 0px;
 }
 </style>

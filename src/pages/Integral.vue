@@ -7,15 +7,17 @@
                 </el-header>
                 <el-main class="main bgc">
                     <div class="IDcard w-margin" style="margin-top: 0;">
-                        <div class="name" style="padding-top: 70px;padding-left: 20px;" :style="{
+                        <div class="name" style="" :style="{
                             background: `url(${getVIPGrade(user.experience)?.img})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '80px', width: '280px'
+                            backgroundRepeat: 'no-repeat', border: 0, borderRadius: '15px', height: '150px', width: '300px'
                         }">
-                            <el-avatar :size="64" :src="user.userAvatar" />
-                            <span v-if="user.experience < 30000" style="margin-left: 20px;">{{ user.userName }}</span>
-                            <span v-else style="margin-left: 20px;color: #ccc;">{{ user.userName }}</span>
+                            <el-avatar :size="64" :src="user.userAvatar" style="margin-left: 20px;margin-top: 70px;" />
+                            <span v-if="user.experience < 30000" style="margin-left: 20px;margin-top: 70px;">{{
+                            user.userName }}</span>
+                            <span v-else style="margin-left: 20px;margin-top: 70px;color: #ccc;">{{ user.userName
+                                }}</span>
                         </div>
                     </div>
 

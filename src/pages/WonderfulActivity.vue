@@ -12,7 +12,7 @@
                     <el-carousel height="600px" :interval="1000000" arrow="always" indicator-position="none">
                         <el-carousel-item v-for="item in  formattedData " :key="item.activity.itemId">
                             <div class="activity w-margin">
-                                <img style="border-radius: 15px;" width="800" height="500"
+                                <img style="border-radius: 15px;object-fit: cover;" width="800" height="500"
                                     :src="item.activity.itemCover" />
                                 <el-card class="card" :body-style="{
                         height: '320px', display: 'flex', flexDirection: 'column',
@@ -28,7 +28,15 @@
 
 
                                     <div class="msg">
-                                        <el-tag class="media" type="info" round>
+                                        <el-tag class="media" type="success" round
+                                            v-if="isCurrentTimeInRange(item.activity.beginTime, item.activity.finishTime) == 0">
+                                            进行中
+                                        </el-tag>
+                                        <el-tag class="media" type="info" round
+                                            v-else-if="isCurrentTimeInRange(item.activity.beginTime, item.activity.finishTime) < 0">
+                                            未开始
+                                        </el-tag>
+                                        <el-tag class="media" type="info" round v-else>
                                             已结束
                                         </el-tag>
                                         <div class="date">
@@ -60,7 +68,8 @@
 
                         <div class="news" v-for=" item  in  formattedData " :key="item.activity.itemId">
                             <div class="img">
-                                <img :src="item.activity.itemCover" alt="" width="250" height="150">
+                                <img :src="item.activity.itemCover" alt="" width="250" height="150"
+                                    style="object-fit: cover;">
                             </div>
                             <div class="news_content">
                                 <el-link :underline="false" @click="goToActivityPage(item.activity.itemId)">
@@ -139,6 +148,10 @@ const isCurrentTimeInRange = (startTimeStr: any, endTimeStr: any) => {
 
     // 获取当前时间
     const currentTime = new Date();
+    console.log(currentTime);
+
+    console.log(currentTime > startTime && currentTime < endTime);
+
     if (currentTime < startTime) {
         return -1;
     } else if (currentTime > endTime) {

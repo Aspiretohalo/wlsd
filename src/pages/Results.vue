@@ -11,7 +11,8 @@
                     <div class="white_paper w-margin">
                         <h2>白皮书</h2>
                         <h5>White Paper</h5>
-                        <el-card style="margin-top: 20px;" :body-style="{ backgroundColor: '#f9f0fb' }">
+                        <el-card style="margin-top: 20px;"
+                            :body-style="{ backgroundColor: 'rgba(249, 240, 251, 0.5)' }">
                             <div class="papers" v-for="item in WhitePaper1" :key="item.title">
                                 <div class="img">
                                     <img :src="item.img" style="height: 200px;">
@@ -56,7 +57,7 @@
                                 <div
                                     style="padding: 0 20px; text-align: justify;text-indent: 2em;font-size: 12px;color: #666;">
                                     {{
-                            item.description }}</div>
+                                item.description }}</div>
                             </el-card>
                         </div>
 
@@ -102,17 +103,17 @@ const Product = ref([
     {
         title: '下一代防火墙',
         description: '明御防火墙（DAS-TGFW）秉持“持续边界安全态势改善”的理念，以用户为核心，以边界、应用、威胁、权限为防护对象，构建了以资产为视角的可持续智能安全运营防护体系。',
-        style: '#f0f0fb',
+        style: 'rgba(240, 240, 251, 0.5)',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/bf77ef3740464bd38b383633d30831a6.jpg'
     }, {
         title: '安全托管运营服务MSS',
         description: '提供体系化、常态化的安全托管服务，协助构建7*24小时全天候、全方位的安全运营体系， 实现安全风险从发现到响应处置的闭环，持续不断提高网络安全水平。',
-        style: '#f0f0fb',
+        style: 'rgba(240, 240, 251, 0.5)',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/500e36be359f492ab623b7998263ccc2.jpg'
     }, {
         title: '安恒信息数据安全',
         description: '全球知名市场研究机构IDC发布《IDC Perspective中国数据安全市场研究》报告认为：安恒信息数据安全解决方案是国内首家覆盖数据全生命周期关联的网络、终端、应用、数据库和接口的综合解决方案，解决数据静态和流动状态中数据泄露、数据篡改、数据滥用和隐私泄露风险。',
-        style: '#f0f0fb',
+        style: 'rgba(240, 240, 251, 0.5)',
         img: 'https://www.dbappsecurity.com.cn/Upload/image/20210517/20210517220626_0138.jpg'
     }
 ])
@@ -129,7 +130,6 @@ const WhitePaper2 = ref([
         content: '数字经济成为全球新一轮科技革命和产业变革的重要引擎，将开启人类数字文明的新时代。数字安全的基础性作用日益突出，在数字化建设进程中，加紧实施国家信息化发展战略，筑牢可信可控的数字安全屏障，夯实数字基础设施安全底座，增强关键基础设施安全韧性，助力数字社会安全发展，已成为支撑现代化建设、增强国家综合实力的必然选择。',
         img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/5/8cc23042ae8f4a6e80f25997132d13c0.png'
     }
-
 ])
 const WhitePaper3 = ref([
     {
@@ -143,6 +143,7 @@ const WhitePaper3 = ref([
 <style lang="scss" scoped>
 :deep(.el-card) {
     border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .New_Product_Launch {
@@ -153,7 +154,6 @@ const WhitePaper3 = ref([
         width: 32%;
         margin-right: 20px;
 
-        p {}
     }
 }
 
