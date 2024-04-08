@@ -9,8 +9,8 @@
                     <div style=" float: left;margin-left: 50px; margin-top: 150px;">
                         <el-button style="font-size: 18px;" @click="goBack" type="primary" plain
                             size="large">返回</el-button>
-                        <el-button style=" font-size: 18px;" @click="checkRule" type="primary"
-                            size="large">规则</el-button>
+                        <!-- <el-button style=" font-size: 18px;" @click="checkRule" type="primary"
+                            size="large">规则</el-button> -->
 
                     </div>
 
@@ -30,7 +30,7 @@
             </el-container>
         </div>
 
-        <el-dialog v-model="ruleDialogVisible" title="闯关规则" style="height: 500px;border-radius: 30px;" width="500">
+        <!-- <el-dialog v-model="ruleDialogVisible" title="闯关规则" style="height: 500px;border-radius: 30px;" width="500">
             <p style="text-align: left; font-size: 16px; margin-left: 25px;">游戏介绍：</p>
             <p style="text-align: left; margin-left: 70px;">1.每道题目仅有一个正确选项！</p>
             <p style="text-align: left; margin-left: 70px;">2.大会闯关题目与西湖论剑历史有关！</p>
@@ -39,7 +39,7 @@
             <p style="text-align: left; margin-left: 70px;">1.每道题目仅有一次答题机会！</p>
             <p style="text-align: left; margin-left: 70px;">2.每答对一道题，增加100积分，榜上高手会有额外奖励！</p>
             <p style="text-align: left; margin-left: 70px;">3.挑战机会用完？分享活动海报和观看视频获取更多机会！</p>
-        </el-dialog>
+        </el-dialog> -->
 
         <el-dialog v-model="centerDialogVisible" width="920"
             style="height: 650px;border-radius: 20px;background-color: transparent;" align-center
@@ -51,33 +51,45 @@
                     <el-radio-group v-model="selectedOption" size="large">
                         <div class="radio-container">
                             <div class="radio-item" v-for="option in options" :key="option.id">
-                                <el-radio-button :label="option.id" :disabled="selectedOption !== null">
+                                <el-radio-button :label="option.id" :disabled="selectedOption !== null"
+                                    @click="showAnswer">
                                     {{ mappedCorrectOption(option.id) }}. {{ option.option }}
                                 </el-radio-button>
                             </div>
                         </div>
                     </el-radio-group>
-
-                    <div v-if="answer">
-                        <div class="answer">
-                            正确答案: {{ mappedCorrectOption(SingleQuestion.question.correctOptionId) }}
+                    <div v-if="show">
+                        <div v-if="answer">
+                            <div class="answer" style="color: green;">
+                                正确答案: {{ mappedCorrectOption(SingleQuestion.question.correctOptionId) }}
+                            </div>
+                            <div class="analysis">
+                                {{ SingleQuestion.question.questionDescription }}
+                            </div>
                         </div>
-                        <div class="analysis">
-                            {{ SingleQuestion.question.questionDescription }}
+
+                        <div v-else>
+                            <div class="answer">
+                                回答错误！
+                            </div>
+                            <div class="analysis">
+                                <el-button @click="watchVisible = true" type="primary">观看视频</el-button>
+                            </div>
                         </div>
                     </div>
 
-                    <div v-else>
-                        <div class="answer">
-                            回答错误！
-                        </div>
-                        <div class="analysis">
-                            <el-button type="primary">分享活动</el-button>
-                            <el-button type="primary">观看视频</el-button>
-                        </div>
-                    </div>
 
                 </div>
+
+                <el-dialog v-model="watchVisible" width="700" title="观看视频后可继续答题" style="text-align: center;"
+                    append-to-body align-center>
+                    <video ref="videoPlayer" src="../assets/大会介绍.mp4" muted type="video/mp4" autoplay width="600"
+                        @ended="showButton"></video>
+                    <el-button v-show="showCompleteButton" type="primary" style="margin-top: 20px;" @click="retry">
+                        观看完成
+                    </el-button>
+                </el-dialog>
+
 
                 <!-- <el-button v-for="(question, index) in questions" :key="question.question" type="primary"
                         @click="renderQuestion(index)">
@@ -226,17 +238,33 @@ const selectedOption = ref(null);
 //     currentQuestion.value = questions[index];
 // };
 
+const show = ref(false);
 const answer = ref(false);
 
-const ruleDialogVisible = ref(false);
+// const ruleDialogVisible = ref(false);
 
 
-const checkRule = async () => {
+// const checkRule = async () => {
 
-    ruleDialogVisible.value = true;
+//     ruleDialogVisible.value = true;
+// };
+
+const showAnswer = () => {
+    // 在这里根据选项ID来判断是否显示答案内容
+    show.value = true;
 };
 
+const watchVisible = ref(false);
 
+const showCompleteButton = ref(false);
+
+const showButton = () => {
+    showCompleteButton.value = true;
+};
+const retry = () => {
+    watchVisible.value = false;
+    selectedOption.value = null;
+};
 </script>
 
 <style scoped lang="scss">
