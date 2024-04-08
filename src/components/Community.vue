@@ -8,7 +8,7 @@
                 <div style="border: 1px solid #ccc">
                     <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :defaultConfig="toolbarConfig"
                         :mode="mode" />
-                    <Editor style="height: 500px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
+                    <Editor style="height: 300px; overflow-y: hidden;" v-model="valueHtml" :defaultConfig="editorConfig"
                         :mode="mode" @onCreated="handleCreated" />
                 </div>
                 <div class="message">
@@ -121,7 +121,7 @@
                     <!-- <el-tab-pane label="全部" name="1"></el-tab-pane> -->
                     <el-tab-pane v-for="o in tabs" :label="o.label" :name="o.name"></el-tab-pane>
                 </el-tabs>
-                <el-input class="search" v-model="input" style="width: 160px" size="large" placeholder="请输入关键词"
+                <el-input class="search" v-model="input" style="width: 240px" size="large" placeholder="请输入关键词"
                     :suffix-icon="Search" />
             </div>
             <div class="news" v-for="item in filteredNews " :key="item.id">
@@ -249,7 +249,7 @@ const filteredNews = computed(() => {
         if (activeTab.value == '提问') {
             return formattedData.filter((item: any) => item.post.type === activeTab.value);
         }
-        else if (activeTab.value == '问答') {
+        else if (activeTab.value == '分享') {
             return formattedData.filter((item: any) => item.post.type === activeTab.value);
         }
         else if (activeTab.value === '最新发布') {
@@ -271,7 +271,9 @@ const filteredNews = computed(() => {
     // 如果搜索关键词不为空，根据关键词过滤数据
     return formattedData.filter((item: any) => {
         // 在这里根据您的需求进行搜索条件的匹配，这里假设匹配标题
-        return item.post.title.toLowerCase().includes(input.value.trim().toLowerCase());
+        const titleMatch = item.post.title.toLowerCase().includes(input.value.trim().toLowerCase());
+        const topicMatch = item.post.postType.toLowerCase().includes(input.value.trim().toLowerCase());
+        return titleMatch || topicMatch;
     });
 
 

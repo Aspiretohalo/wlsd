@@ -1,25 +1,16 @@
 <template>
-    <div>
+    <div class="bg">
         <div class="Conference_Highlights w-margin">
-            <h1> 大会亮点</h1>
-            <h3>Conference Highlights</h3>
+            <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/大会亮点.png" width="400"></h1>
+            <h3 style="margin-bottom: 0;color: #0c166a;">Conference Highlights</h3>
             <el-row class="data">
-                <!-- <el-col :span="5" v-for="item in highlight_data" :key="item.title">
-                    <el-statistic :title="item.title" :value="item.data">
-                        <template #suffix>
-                            <el-icon style="vertical-align: -0.125em">
-                                <Plus />
-                            </el-icon>
-                        </template>
-</el-statistic>
-</el-col> -->
                 <LineCombination></LineCombination>
             </el-row>
             <div class="Highlights">
                 <el-card class="Highlights_card" :body-style="{ backgroundColor: item.style, height: '100%' }"
                     v-for="item in Highlights" :key="item.style">
                     <h2>{{ item.HighlightsTitle }}</h2>
-                    <div style="text-align: left;">{{ item.HighlightsDescription }}</div>
+                    <div style="text-align: justify;text-indent: 2em;">{{ item.HighlightsDescription }}</div>
                 </el-card>
             </div>
 
@@ -53,15 +44,15 @@ const Highlights = ref([
     {
         HighlightsTitle: '议题更前沿',
         HighlightsDescription: '大会主题及议题、展览锚定数字中国建设要求，助力政企单位从政策、技术、人才、产业等各层面落实工作。',
-        style: '#f0f0fb',
+        style: 'rgba(240, 240, 251, 0.7)',
     }, {
         HighlightsTitle: '线上更精彩',
         HighlightsDescription: '“掌上论剑”将进一步丰富内容，增强互动性、趣味性，线上持续精彩。',
-        style: '#f3f9fc',
+        style: 'rgba(243, 249, 252, 0.7)',
     }, {
         HighlightsTitle: '成果更显著',
         HighlightsDescription: '将推出国内首份《2023中国数字安全能力洞察报告》，报告涵盖趋势、科技、人才、实践等多部分内容，引领行业发展方向。',
-        style: '#fef2f0',
+        style: 'rgba(254, 242, 240, 0.7)',
     },
 ])
 </script>
@@ -69,6 +60,13 @@ const Highlights = ref([
 <style lang="scss" scoped>
 h3 {
     margin: 20px auto;
+}
+
+.bg {
+    // background-image: url(../assets/bg.jpg);
+    background-size: cover;
+    padding-bottom: 70px;
+    padding-top: 30px;
 }
 
 .Conference_Highlights {
@@ -86,7 +84,7 @@ h3 {
     }
 
     .Highlights {
-        margin-top: 30px;
+        margin: 30px auto;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -97,6 +95,10 @@ h3 {
             border-radius: 15px;
         }
     }
+}
+
+:deep(.el-card) {
+    background: rgba($color: #fff, $alpha: 0.5);
 }
 
 .Highlights_card:hover {

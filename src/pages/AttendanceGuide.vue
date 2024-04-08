@@ -6,7 +6,8 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">参会指南</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/参会指南.png" width="400"> </h1>
+
                     <el-card class="box w-margin">
                         <template #header>
                             <div class="card-header">

@@ -8,8 +8,8 @@
         <DisplayTextInSmoke></DisplayTextInSmoke>
         <div class="meetings">
             <div class="agenda w-margin">
-                <h1>大会总览</h1>
-                <h3>Conference Overview</h3>
+                <h1><img src="../assets/title/大会总览.png" width="400"></h1>
+                <h3 style="margin-bottom: 0;color: #0c166a;">Conference Overview</h3>
                 <div class="overview_main" @click="goToAgenda(6)">
                     <img src="../assets/agenda/0.png" class="img_main" alt="">
                     <div class="words">
@@ -112,8 +112,24 @@
                 </div>
             </div>
             <Highlights></Highlights>
+
+            <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/大咖云集.png" width="400"></h1>
+            <h3 style="margin-bottom: 0;color: #0c166a;">Gathering Of Experts</h3>
             <Committee></Committee>
 
+            <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/合作伙伴.png" width="400"></h1>
+            <h3 style="margin-bottom: 0;color: #0c166a;margin-bottom: 20px;">Collaboration Partner</h3>
+            <div class="partner">
+                <div class="box" v-for="(box, index) in boxes" :key="index" :style="{ width: boxWidth(index) }"
+                    @mouseover="expandBox(index)">
+                    <h2 class="title">{{ box.title }}</h2>
+                    <div class="imgs">
+                        <div class="bg" v-if="box.expanded" v-for="i in box.partners" :key="i">
+                            <img :src="i" style="width: 80px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- <Exhibitor></Exhibitor> -->
         </div>
     </div>
@@ -125,8 +141,67 @@ import DisplayTextInSmoke from './DisplayTextInSmoke.vue';
 import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
 // import Exhibitor from '../components/Exhibitor.vue';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
+const boxes = ref([
+    {
+        expanded: true,
+        title: '生态合作伙伴',
+        partners: [
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/bce6aa664cd44e76af59ba89e4d4f04d.png",
+            'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/d79ec14ff65b4af19b8439659668fd19.png',
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/d86aad180ee14acb95d1df723414aec2.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/8077d0d14baa4eb9ad78181285b0ee09.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/2cf78591048d49d28414ee2b1426d4f9.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/5236e6f4e39c49d0ae1b491c735038cf.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/73bd035a85dd43a988a928d0557818d4.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/2e88c33068c04d31a5bb9599c22382a0.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/a39af7377bbb4860809ab761137bc8ea.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/c39a007819cc484e964e9dbcb8e155c2.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/8d55bacac63a499c9a50c19a996d4cfd.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/4e59350e44e04e50bff593c080c8a57b.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/b93ab5c255cb4830b2c0b7e09aaced8e.png",
+            "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/5739d4caa7214beaa27cc66d10644a62.png"
+        ]
+    }, // 初始时第一个 box 展开
+    {
+        expanded: false, title: '战略合作伙伴',
+        partners: [
+            "https://img2023.gcsis.cn/2023/4/60234dda9f664775a5b991bd8412dca1.png",
+            "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694673658416/%E5%92%96%E5%95%A1%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%403x.png",
+            "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694673663919/%E9%A4%90%E9%A5%AE%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%403x.png",
+            "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694685067453/%E8%BD%BB%E9%A3%9F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%403x.png",
+            "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694682256942/%E9%9B%B6%E9%A3%9F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%403x.png",
+            "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694682045449/%E8%B5%9E%E5%8A%A9%E5%95%86%402x_19.png",
+        ]
+    },
+    {
+        expanded: false, title: '新闻媒体',
+        partners: [
+            "https://img2023.gcsis.cn/2024/4/62f13ffc63b244539bde19bfd9aed55c.png",
+            "https://img2023.gcsis.cn/2023/4/5c64dfd9685d4ea0b48a4df497a28669.png",
+            "https://img2023.gcsis.cn/2023/4/e0ac725f69aa45229e72e8c451393147.png",
+            "https://img2023.gcsis.cn/2023/4/2933697fbe214fe2aec9457a124ba92f.png",
+            "https://img2023.gcsis.cn/2023/4/e4d7fcbe27f94fa0a1ecb8b9d9b7aa90.png",
+            "https://img2023.gcsis.cn/2024/4/2e4d265afd1542f3b8e3f176278f5090.png",
+
+        ]
+    }
+]);
+
+const expandBox = (index: number) => {
+    boxes.value.forEach((box, i) => {
+        if (i === index) {
+            box.expanded = true;
+        } else {
+            box.expanded = false;
+        }
+    });
+};
+
+const boxWidth = (index: number) => {
+    return boxes.value[index].expanded ? '700px' : '250px';
+};
 import { useRouter } from 'vue-router'
 
 const router = useRouter();
@@ -207,12 +282,51 @@ const goToAgendaPage = () => {
     }
 }
 
+.partner {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+
+    .box {
+        height: 400px;
+        background: rgba($color: #fff, $alpha: 0.7);
+        border: 1px solid #fff;
+        border-radius: 10px;
+        transition: width 0.3s ease;
+        padding: 20px;
+
+        .title {
+            font-size: 32px;
+        }
+
+        .imgs {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            .bg {
+                margin-left: 35px;
+                margin-top: 10px;
+                width: 100px;
+                height: 80px;
+                background: #fff;
+                border-radius: 15%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+        }
+    }
+}
+
 .banner {
     width: 100%;
     height: 650px;
 }
 
 .agenda {
+    margin-bottom: 100px;
 
     .overview_main {
         margin-top: 40px;

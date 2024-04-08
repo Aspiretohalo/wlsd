@@ -1,8 +1,8 @@
 <template>
     <div>
+        <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/展商风采.png" width="400"></h1>
+        <h3 style="margin-bottom: 0;color: #0c166a;">Exhibitor Style</h3>
         <el-card class="w-margin">
-            <h2>展商风采</h2>
-            <h5>Exhibitor Style</h5>
             <div class="Exhibitors">
                 <div class="img" @click="goToPage" v-for="src in srcList">
                     <img :src="src" alt="" width="100px">

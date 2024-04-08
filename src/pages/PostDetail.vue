@@ -19,6 +19,8 @@
                         </div>
                     </div>
                     <div class="btn">
+                        <el-button round plain @click="goBack()">返回论剑堂</el-button>
+
                         <div class="icon_item">
                             <img src="../assets/icon/浏览量(黑).png" alt="" class="icon">
                             {{ SinglePost.post.itemViews }}
@@ -230,7 +232,12 @@ import { getVIPGrade } from '../functions/vip/getVIPGrade'; // 导入封装的�
 import { getMedalImg } from '../functions/vip/getMedalImg'; // 导入封装的函数
 import addPostViews from '../functions/addPostViews';
 import { ref, computed, onBeforeMount } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
+const goBack = () => {
+    router.push('/communityCenter')
+}
 onBeforeMount(async () => {
     const SinglePost: any = ref(JSON.parse(sessionStorage.getItem("SinglePost") || "null") || "")
     await addPostViews(SinglePost.value.post.id)

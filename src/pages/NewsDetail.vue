@@ -8,10 +8,14 @@
                 <div class="banner">
                     <h2 class="title">{{ SingleNews.newsTitle }}</h2>
                     <div class="msg">
-                        <el-tag>{{ SingleNews.newsTag }}</el-tag>
-                        <div class="date">
-                            {{ SingleNews.newsDate }}
+                        <el-button round plain @click="goBack()">返回新闻中心</el-button>
+                        <div class="b">
+                            <el-tag>{{ SingleNews.newsTag }}</el-tag>
+                            <div class="date">
+                                {{ SingleNews.newsDate }}
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
@@ -38,7 +42,12 @@ import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 import { ref } from 'vue'
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router'
 
+const router = useRouter();
+const goBack = () => {
+    router.push('/news')
+}
 const SingleNews: any = ref(JSON.parse(sessionStorage.getItem("SingleNews") || "null") || "")
 const NewsDetail: any = reactive(JSON.parse(sessionStorage.getItem("NewsDetail") || "null") || "")
 const isLink = (value: string) => {
@@ -65,8 +74,15 @@ const isLink = (value: string) => {
     .msg {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        width: 800px;
+        margin: 0 auto;
         margin-top: 20px;
+
+        .b {
+            display: flex;
+
+        }
 
         .date {
             margin-left: 20px;

@@ -14,14 +14,17 @@
                             {{ formattedData.activity.beginTime }}-{{ formattedData.activity.finishTime }}
                         </div>
                         <div class="view_btn">
-                            <div class="view">
-                                <img src="../assets/icon/浏览量(黑).png" class="icon">
-                                {{ SingleActivity.activity.itemViews }}
+                            <el-button round plain @click="goBack()">返回活动中心</el-button>
+                            <div class="b" style="display: flex;">
+                                <div class="view">
+                                    <img src="../assets/icon/浏览量(黑).png" class="icon">
+                                    {{ SingleActivity.activity.itemViews }}
+                                </div>
+                                <div class="btn">
+                                    <el-button round @click="goTo(SingleActivity.activity.itemId)">立即报名</el-button>
+                                </div>
+                            </div>
 
-                            </div>
-                            <div class="btn">
-                                <el-button round @click="goTo(SingleActivity.activity.itemId)">立即报名</el-button>
-                            </div>
                         </div>
 
                     </div>
@@ -53,6 +56,12 @@ import getActivityCommentCount from '../functions/ActivityComment/getActivityCom
 
 import addActivityViews from '../functions/addViewsActivity';
 import { onBeforeMount, reactive } from 'vue';
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
+const goBack = () => {
+    router.push('/wonderfulActivity')
+}
 onBeforeMount(async () => {
     await addActivityViews(SingleActivity.value.activity.itemId)
     SingleActivity.value.activity.itemViews++
@@ -67,9 +76,7 @@ const goToPage = async (id: number) => {
     await getActivityCommentCount(id)
     router.push('/activityParticipation/' + id)
 }
-import { useRouter } from 'vue-router'
 
-const router = useRouter();
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
 
 const token: any = ref(localStorage.getItem('token') || null)
@@ -147,7 +154,7 @@ h1 {
         .view_btn {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between;
             margin-top: 50px;
 
             .view {

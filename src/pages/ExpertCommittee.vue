@@ -6,11 +6,13 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">大咖云集</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/大咖云集.png" width="400"></h1>
+                    <h3 style="margin-bottom: 0;color: #0c166a;">Gathering Of Experts</h3>
                     <Committee></Committee>
                     <div class="speakers w-margin">
-                        <h2>大会嘉宾</h2>
-                        <h5 style="margin-bottom: 30px;">speakers</h5>
+                        <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/大会嘉宾.png" width="400">
+                        </h1>
+                        <h3 style="color: #0c166a;margin-bottom: 30px;">speakers</h3>
                         <el-row class="data">
                             <el-col :span="5" v-for="item in AllExpert" :key="item.expertId" ref="card">
                                 <!-- <img :src="item.expertImg"

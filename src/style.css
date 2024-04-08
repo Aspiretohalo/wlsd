@@ -50,8 +50,8 @@ h5 {
       rgba(179,
         207,
         242, 0) 70.71%) beige; */
-  background: url(assets/bg.png);
-  background-repeat: no-repeat;
+  background: url(assets/背景2.png);
+  /* background-repeat: no-repeat; */
   background-size: cover;
 }
 

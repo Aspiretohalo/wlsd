@@ -6,7 +6,8 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">新闻资讯</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/新闻资讯.png" width="400"> </h1>
+
                     <NewsNav></NewsNav>
                     <div class="news w-margin" v-for="item in News" :key="item.newsId">
                         <div class="img">

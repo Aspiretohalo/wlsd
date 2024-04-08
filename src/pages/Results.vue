@@ -6,13 +6,12 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">成果发布</h1>
-
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/成果发布.png" width="400"> </h1>
                     <div class="white_paper w-margin">
-                        <h2>白皮书</h2>
-                        <h5>White Paper</h5>
                         <el-card style="margin-top: 20px;"
                             :body-style="{ backgroundColor: 'rgba(249, 240, 251, 0.5)' }">
+                            <h2>白皮书</h2>
+                            <h5>White Paper</h5>
                             <div class="papers" v-for="item in WhitePaper1" :key="item.title">
                                 <div class="img">
                                     <img :src="item.img" style="height: 200px;">

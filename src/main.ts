@@ -11,7 +11,6 @@ import 'tcplayer.js/dist/tcplayer.min.css';
 import 'animate.css';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-
 const app = createApp(App)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

@@ -6,9 +6,7 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin"
-                        style="margin-top: 20px;margin-bottom: 0;display: flex;justify-content: start;">
-                        热门活动</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/热门活动.png" width="400"></h1>
                     <el-carousel height="600px" :interval="1000000" arrow="always" indicator-position="none">
                         <el-carousel-item v-for="item in  formattedData " :key="item.activity.itemId">
                             <div class="activity w-margin">
@@ -52,10 +50,7 @@
                             </div>
                         </el-carousel-item>
                     </el-carousel>
-
-                    <h1 class="w-margin"
-                        style="margin-top: 80px;margin-bottom: 0;display: flex;justify-content: start;">
-                        活动总览</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/活动总览.png" width="400"></h1>
                     <el-card class="all_activities w-margin">
                         <!-- <div class="select">
                             <el-tabs v-model="activeTab" type="card" class="demo-tabs">

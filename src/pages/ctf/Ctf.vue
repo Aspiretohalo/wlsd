@@ -15,13 +15,14 @@
         </template>
     </el-dialog>
 
-    <el-dialog v-model="rankDialogVisible" header="岁哦" width="500" style="text-align: center;">
+    <el-dialog v-model="rankDialogVisible" width="500" style="text-align: center;" align-center>
         <template #header>
-            <p style="font-size: 22px;font-weight: bold">排行榜</p>
+            <p style="font-size: 22px;font-weight: bold;margin: 0;">排行榜</p>
             <p style="display: inline-block;">你代表的省份是：</p>
-            <p style="display: inline-block; font-weight: bold ;font-size: 16px;">{{ value }}</p>
+            <p style="display: inline-block; font-weight: bold ;font-size: 16px;color: #67C23A;">{{ value
+                }}</p>
         </template>
-        <div style="display: inline-block;">
+        <div style="display: inline-block;padding-top: 0;">
             <div style="width: 420px; background-color: #fff; height: 450px;">
                 <el-table :data="rankData" height="450" style="width: 100%;background: transparent;"
                     :header-cell-style="{ background: '#009879', color: '#ffffff' }" class="custom-table">
@@ -31,59 +32,65 @@
                 </el-table>
             </div>
         </div>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button type="primary" @click="rankDialogVisible = false">
-                    确定
-                </el-button>
-            </div>
-        </template>
     </el-dialog>
 
-    <el-dialog v-model="shareDialogVisible" title="分享海报" width="500" style="text-align: center; " modal="false">
-        <div
-            style="width: 400px;height: 450px;margin-left: 30px; background-image: url(/src/assets/images/poster.png);background-size: cover;">
-
-        </div>
-        <div style="width: 400px;margin-left: 30px;padding-top: 10px ;background-color: black;">
-            <div style="width: 100px;color: white; font-size: 17px; display: inline-block ;">用户名</div>
-            <div style="width: 100px;color: white; font-size: 17px;display: inline-block">答题总数</div>
-            <div style="width: 100px;color: white; font-size: 17px;display: inline-block ">解题数量</div>
-            <div style="width: 100px;color: white; font-size: 17px; display: inline-block">贡献分数</div>
-        </div>
-        <div style="width: 400px;margin-left: 30px;padding-top: 10px ;background-color: black;">
-            <div style="width: 100px;color: white; font-size: 17px; display: inline-block">阿优</div>
-            <div style="width: 100px;color: white; font-size: 17px;display: inline-block">1</div>
-            <div style="width: 100px;color: white; font-size: 17px;display: inline-block ">0</div>
-            <div style="width: 100px;color: white; font-size: 17px; display: inline-block">10</div>
-        </div>
-        <div style="width: 400px;height: 100px;margin-left: 30px;">
-            <div style="width: 300px;height: 100px; background-color: #fff;float: left;padding-top: 20px;">
-                <el-text style="font-size: 20px;font-weight: bold ;">
-                    欢迎来到西湖论剑趣味游戏大厅
-                </el-text>
-                <el-text style="font-size: 20px;font-weight: bold ;">
-                    数字安全 牢记于心
-                </el-text>
-            </div>
-            <div style="width: 100px;height: 100px;float: right;">
-                <img src="/src/assets/images/frame.png" style="width: 100%;" alt="">
+    <el-dialog class="dialog_poster" v-model="shareDialogVisible" title="分享" width="350" style="text-align: center;"
+        modal="false" align-center>
+        <div class="poster" ref="poster">
+            <div
+                style="height:500px;display: flex;flex-direction: column; background-image: url(/src/assets/images2/趣味游戏分享.png);background-size: cover;">
+                <div class="top">
+                    <img src="../../assets/favicon.ico" alt="">
+                    <div class="title">
+                        快来西湖论剑
+                    </div>
+                    <div class="title">
+                        一起为阵营助力！
+                    </div>
+                </div>
+                <div class="msg_parent" style="padding: 10px 0; margin-top: auto;margin-bottom: 50px;">
+                    <div class="msgs">用户名</div>
+                    <div class="msgs">答题总数</div>
+                    <div class="msgs">解题数量</div>
+                    <div class="msgs">贡献分数</div>
+                    <div class="msgs child">阿优</div>
+                    <div class="msgs child">8</div>
+                    <div class="msgs child">3</div>
+                    <div class="msgs child">170</div>
+                </div>
+                <div
+                    style="height: 80px;display: flex;justify-content: space-between;margin-bottom: 80px;margin-left: 10px;">
+                    <div class="msg_parent" style="height:80px;">
+                        <div style="font-size: 20px;font-weight: bold;color: #000;padding-top: 10px;">
+                            欢迎来到西湖论剑
+                        </div>
+                        <div style="font-size: 20px;font-weight: bold;color: #000;">
+                            数字安全 牢记于心
+                        </div>
+                    </div>
+                    <div style="width: 100px;height: 100px;margin-right: 10px;margin-left: 10px;">
+                        <img src="/src/assets/images/frame.png" style="width: 100%;" alt="">
+                    </div>
+                </div>
             </div>
         </div>
 
         <template #footer>
-            <div class="dialog-footer">
-                <el-text style="font-size: 20px;font-weight: bold ;text-align: center;">
+            <div class="dialog-footer" style="display: flex;align-items: center;justify-content: space-between;">
+                <el-text style="font-size: 16px;font-weight: bold ;text-align: center;">
                     https://ln.run/VTYE6
                 </el-text>
-                <el-button type="primary" @click="copyLink">
+                <el-button type="primary" @click="copyLink" plain style="margin-left: 5px;">
                     复制链接
+                </el-button>
+                <el-button type="primary" @click="goDown" plain>
+                    导出图片
                 </el-button>
             </div>
         </template>
     </el-dialog>
 
-    <el-dialog v-model="ruleDialogVisible" title="规则" width="500" style="text-align: center;">
+    <el-dialog v-model="ruleDialogVisible" title="规则" width="500" style="text-align: center;" align-center>
         <p style="text-align: left; font-size: 16px; margin-left: 25px;">游戏介绍：</p>
         <p style="text-align: left; margin-left: 70px;">1.西湖论剑闯关答题，每道题目仅有一次答题机会！</p>
         <p style="text-align: left; margin-left: 70px;">2.CTF题目解答，寻找藏匿在网站中的信息</p>
@@ -120,8 +127,6 @@
         </div>
 
         <div class="card-container">
-
-
             <div style="display: inline-block;margin-left: 70px;">
                 <el-row class="row-bg" justify="space-around" style="margin-top: 50px;">
                     <el-col :span="8">
@@ -152,8 +157,10 @@
 </template>
 
 <script setup lang="ts">
+import html2canvas from "html2canvas"
+
 import { ElMessage } from 'element-plus'
-import { ref } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter();
 const gotogame = (gameid: number) => {
@@ -170,48 +177,81 @@ const gotogame = (gameid: number) => {
 const goToIndex = () => {
     router.push('/')
 }
+const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
+const centerDialogVisible = ref(false)
+onMounted(() => {
+    if (user.province == '') {
+        centerDialogVisible.value = true
+    }
+});
 
+const posterimg = ref();
+// 绑定  需要把那个内容生成图片
+const poster = ref();
+
+const goDown = () => {
+    //    document.querySelector() document.getElementById
+    // html2canvas(绑定的元素,{})
+    // 海报图默认是  2倍尺寸
+    html2canvas(poster.value, {
+        backgroundColor: '#fff',//海报的背景颜色
+        useCORS: true, // 允许跨域 
+        width: 460, //生成海报的w
+        height: 700, //生成海报的h    默认是px
+    }).then(canvas => {
+        // canvas 其实就是我们所讲的res 的意思 返回报文的意思
+        let baseImg = canvas.toDataURL("image/png");
+        posterimg.value = baseImg;
+        let save = document.createElement('a');
+        // <a href=''></a>
+        save.href = baseImg;
+        // 下载的名字
+        save.download = '西湖论剑·趣味游戏'
+        // 直接回调a的点击事件
+        save.click()
+    })
+}
 
 //排行榜假数据
 const rankData = ref([
-    { Ranking: 1, province: '浙江', score: 9980 },
-    { Ranking: 2, province: '上海', score: 7950 },
-    { Ranking: 3, province: '广东', score: 4920 },
-    { Ranking: 4, province: '北京', score: 3900 },
-    { Ranking: 5, province: '江苏', score: 2890 },
-    { Ranking: 6, province: '天津', score: 2550 },
-    { Ranking: 7, province: '重庆', score: 2000 },
-    { Ranking: 8, province: '辽宁', score: 1890 },
-    { Ranking: 9, province: '吉林', score: 1500 },
-    { Ranking: 10, province: '黑龙江', score: 1200 },
-    { Ranking: 11, province: '河北', score: 1000 },
-    { Ranking: 12, province: '山西', score: 950 },
-    { Ranking: 13, province: '内蒙古', score: 900 },
-    { Ranking: 14, province: '安徽', score: 850 },
-    { Ranking: 15, province: '山东', score: 800 },
-    { Ranking: 16, province: '河南', score: 750 },
-    { Ranking: 17, province: '湖北', score: 700 },
-    { Ranking: 18, province: '湖南', score: 650 },
-    { Ranking: 19, province: '福建', score: 600 },
-    { Ranking: 20, province: '广西', score: 550 },
-    { Ranking: 21, province: '海南', score: 500 },
-    { Ranking: 22, province: '四川', score: 450 },
-    { Ranking: 23, province: '江西', score: 450 },
-    { Ranking: 24, province: '贵州', score: 400 },
-    { Ranking: 25, province: '云南', score: 350 },
-    { Ranking: 26, province: '西藏', score: 300 },
-    { Ranking: 27, province: '陕西', score: 250 },
-    { Ranking: 28, province: '甘肃', score: 200 },
-    { Ranking: 29, province: '青海', score: 150 },
-    { Ranking: 30, province: '宁夏', score: 100 },
-    { Ranking: 31, province: '新疆', score: 50 },
-    { Ranking: 32, province: '台湾', score: 20 },
-    { Ranking: 33, province: '香港', score: 10 },
-    { Ranking: 34, province: '澳门', score: 8 },
+    { Ranking: 1, province: '浙江', score: 1210 },
+    { Ranking: 2, province: '上海', score: 150 },
+    { Ranking: 3, province: '广东', score: 70 },
+    { Ranking: 4, province: '北京', score: 60 },
+    { Ranking: 5, province: '江苏', score: 60 },
+    { Ranking: 6, province: '天津', score: 50 },
+    { Ranking: 7, province: '重庆', score: 30 },
+    { Ranking: 8, province: '辽宁', score: 30 },
+    { Ranking: 9, province: '吉林', score: 20 },
+    { Ranking: 10, province: '黑龙江', score: 10 },
+    { Ranking: 11, province: '河北', score: 0 },
+    { Ranking: 12, province: '山西', score: 0 },
+    { Ranking: 13, province: '内蒙古', score: 0 },
+    { Ranking: 14, province: '安徽', score: 0 },
+    { Ranking: 15, province: '山东', score: 0 },
+    { Ranking: 16, province: '河南', score: 0 },
+    { Ranking: 17, province: '湖北', score: 0 },
+    { Ranking: 18, province: '湖南', score: 0 },
+    { Ranking: 19, province: '福建', score: 0 },
+    { Ranking: 20, province: '广西', score: 0 },
+    { Ranking: 21, province: '海南', score: 0 },
+    { Ranking: 22, province: '四川', score: 0 },
+    { Ranking: 23, province: '江西', score: 0 },
+    { Ranking: 24, province: '贵州', score: 0 },
+    { Ranking: 25, province: '云南', score: 0 },
+    { Ranking: 26, province: '西藏', score: 0 },
+    { Ranking: 27, province: '陕西', score: 0 },
+    { Ranking: 28, province: '甘肃', score: 0 },
+    { Ranking: 29, province: '青海', score: 0 },
+    { Ranking: 30, province: '宁夏', score: 0 },
+    { Ranking: 31, province: '新疆', score: 0 },
+    { Ranking: 32, province: '台湾', score: 0 },
+    { Ranking: 33, province: '香港', score: 0 },
+    { Ranking: 34, province: '澳门', score: 0 },
 ]);
 
 
-const centerDialogVisible = ref(true)
+
 const options = [
     {
         value: '浙江',
@@ -407,6 +447,41 @@ const copyLink = () => {
     }
 }
 
+.top {
+    text-align: left;
+    margin-top: 50px;
+    margin-left: 30px;
+
+    img {
+        margin-bottom: 30px;
+    }
+
+    .title {
+        font-size: 30px;
+        font-weight: 900;
+        color: #000;
+    }
+}
+
+.msg_parent {
+    background-color: rgba($color: #fff, $alpha: 0.7);
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 8px;
+
+    .msgs {
+        width: 65px;
+        color: #000;
+        font-size: 15px;
+        font-weight: 700;
+        display: inline-block;
+    }
+
+    .child {
+        color: #E6A23C;
+        margin-top: 10px;
+    }
+}
 
 .card {
     background-size: cover;
@@ -590,15 +665,10 @@ a {
     /* Transform text to uppercase */
 }
 
-::v-deep .el-table tr:hover {
+:deep(.el-table tr:hover) {
     color: #009879;
     font-weight: bold;
 }
-
-
-
-
-
 
 .custom-btn {
     width: 130px;

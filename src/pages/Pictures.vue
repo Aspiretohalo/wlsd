@@ -6,16 +6,21 @@
                     <TopNav></TopNav>
                 </el-header>
                 <el-main class="main bgc">
-                    <h1 class="w-margin" style="margin-top: 80px;display: flex;justify-content: start;">新闻资讯</h1>
+                    <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/新闻资讯.png" width="400"> </h1>
+
                     <NewsNav></NewsNav>
                     <div class="picures w-margin">
+
                         <h3>精彩图片</h3>
                         <h5>pictures</h5>
                         <el-row class="">
                             <el-col :span="8" v-for="item in WonderfulPictures" :key="item.pictureId">
-                                <img style="width: 90%;  margin-top: 20px;" :src="item.pictureUrl" :zoom-rate="1.2"
-                                    :max-scale="7" :min-scale="0.2" :preview-src-list="item.pictureUrl" :initial-index="4"
-                                    fit="cover" lazy />
+                                <div class="demo-image__preview">
+                                    <el-image style="width: 360px; height: 240px;object-fit: cover; margin-top: 20px;"
+                                        :src="item.pictureUrl" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2"
+                                        :preview-src-list="[item.pictureUrl]" :initial-index="4" fit="cover" lazy>
+                                    </el-image>
+                                </div>
                             </el-col>
                         </el-row>
 
@@ -37,6 +42,7 @@ import NewsNav from '../components/NewsNav.vue'
 import { ref } from 'vue'
 
 const WonderfulPictures = ref(JSON.parse(sessionStorage.getItem("WonderfulPictures") || "null") || "")
+
 </script>
 
 <style lang="scss" scoped>

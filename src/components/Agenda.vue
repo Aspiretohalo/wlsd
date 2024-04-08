@@ -1,8 +1,9 @@
 <template>
     <div>
-        <h2 style="font-size: 36px;margin-top: 50px;">
-            大会议程</h2>
-        <h5 style="font-size: 14px;">
+        <h2 style="margin-top: 50px;">
+            <img src="../assets/title/大会议程.png" width="400">
+        </h2>
+        <h5 style="font-size: 22px;margin-bottom: 0;color: #0c166a;">
             西湖论剑·数字安全大会</h5>
         <div class="nav w-margin">
             <el-tabs v-model="activeTab" type="card" class="demo-tabs" @tab-change="changeTab(activeTab)">
