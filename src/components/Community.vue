@@ -275,8 +275,6 @@ const filteredNews = computed(() => {
         const topicMatch = item.post.postType.toLowerCase().includes(input.value.trim().toLowerCase());
         return titleMatch || topicMatch;
     });
-
-
 });
 
 // do not use same name with ref
@@ -626,6 +624,10 @@ const tableData = HotTopic.value.map((item: any, index: any) => ({
             .description {
                 font-size: 14px;
                 color: #6b6b6b;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4;
+                overflow: hidden;
 
                 .topic {
                     font-size: 15px;

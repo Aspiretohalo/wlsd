@@ -196,8 +196,8 @@ const goDown = () => {
     html2canvas(poster.value, {
         backgroundColor: '#fff',//海报的背景颜色
         useCORS: true, // 允许跨域 
-        width: 460, //生成海报的w
-        height: 700, //生成海报的h    默认是px
+        width: 310, //生成海报的w
+        height: 500, //生成海报的h    默认是px
     }).then(canvas => {
         // canvas 其实就是我们所讲的res 的意思 返回报文的意思
         let baseImg = canvas.toDataURL("image/png");

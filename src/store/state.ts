@@ -30,7 +30,7 @@ export default {
     SingleActivityParticipation: [],
     Medal: [],
     CheckedMedal: 0,
-    CheckedPoster: 0,
+    CheckedPoster: '',
     AllActivityComment: [],
     ActivityCommentCount: 0,
 }

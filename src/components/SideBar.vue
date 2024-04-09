@@ -17,11 +17,27 @@
         </div>
         <template #footer>
             <span class="dialog-footer">
-                <el-button round type="primary" plain>添加元素</el-button>
-
+                <el-button round type="primary" plain @click="dialogVisiblePosterMake = true">自定义创建</el-button>
                 <el-button round @click="dialogVisiblePoster = false">取消</el-button>
-                <el-button type="primary" round @click="handleShare(); dialogVisible = false">
-                    分享
+                <el-button type="primary" round @click="handleSave(); dialogVisiblePosterMake = false">
+                    保存海报
+                </el-button>
+            </span>
+        </template>
+    </el-dialog>
+    <el-dialog v-model="dialogVisiblePosterMake" width="650" style="border-radius: 15px;" align-center>
+        <template #header="{ titleId, titleClass }">
+            <div class="my-header">
+                <h4 :id="titleId" :class="titleClass">自定义海报</h4>
+                <div class="tip" style="color:#eebe77;">Tip：快拖动各元素，制作一份独一无二的海报吧！</div>
+            </div>
+        </template>
+        <PosterEditor ref="posterEditorRef"></PosterEditor>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button round @click="dialogVisiblePosterMake = false">取消</el-button>
+                <el-button type="primary" round @click="goDown();">
+                    保存海报
                 </el-button>
             </span>
         </template>
@@ -72,7 +88,6 @@
         <img src="../assets/小程序码.jpg" style="width: 80%;">
     </el-dialog>
     <nav class="social animate__animated animate__bounceInRight" v-show="showContent">
-
         <ul>
             <li @click="sharePoster">
                 <div class="icon">
@@ -97,10 +112,7 @@
                     <img src="../assets/sidebar_icon/小程序.png" alt="">
                 </div>
                 <span>小程序访问</span>
-
             </li>
-
-
         </ul>
     </nav>
     <el-backtop :right="10">
@@ -120,6 +132,8 @@
 </template>
 
 <script setup lang="ts">
+// import html2canvas from "html2canvas"
+import PosterEditor from "./PosterEditor.vue"
 
 import { ref, onMounted, onUnmounted } from 'vue';
 import { ElMessage } from 'element-plus'
@@ -131,6 +145,37 @@ const token: any = ref(localStorage.getItem('token') || null)
 
 const router = useRouter();
 const route = useRoute();
+
+const posterEditorRef = ref(); // PosterEditor组件的ref
+
+// 保存海报
+const goDown = () => {
+    const posterEditor = posterEditorRef.value;
+
+    if (!posterEditor) return;
+
+    posterEditor.handleCanvasToImage(); // 调用PosterEditor组件的方法生成海报图片
+
+    setTimeout(() => {
+        dialogVisiblePoster.value = false
+        dialogVisiblePosterMake.value = false
+    }, 1000)
+    ElMessage({
+        message: '海报保存成功',
+        type: 'success',
+    })
+};
+
+const handleSave = () => {
+    let save = document.createElement('a');
+    // <a href=''></a>
+    save.href = state.CheckedPoster;
+    // 下载的名字
+    save.download = '西湖论剑·海报'
+    save.target = '_blank';
+    // 直接回调a的点击事件
+    save.click()
+}
 
 const sharePoster = () => {
     if (token.value != null) {
@@ -163,6 +208,7 @@ const goToCheck = () => {
         })
     }
 };
+const dialogVisiblePosterMake = ref(false)
 const dialogVisible = ref(false)
 const visitMiniProgram = () => {
     dialogVisible.value = true
@@ -256,16 +302,16 @@ const checkImg = ref([
 import state from '../store/state'
 
 const handleCheckboxChange = (checkbox: any) => {
+
     Poster.value.forEach((item: any) => {
         if (item !== checkbox) {
             item.checked = false;
         }
     });
-    state.CheckedPoster
+    state.CheckedPoster = checkbox.img
+    console.log(state.CheckedPoster);
 };
-const handleShare = () => {
-    alert('666')
-}
+
 // const handleCheck = (item: any) => {
 //     console.log(item);
 

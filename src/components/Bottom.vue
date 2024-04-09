@@ -1,7 +1,7 @@
 <template>
     <div class="bottom">
         <div class="middle">
-            <img class="logo" src="../assets/logo.png" @click="goToIndex()">
+            <img class="logo" src="https://www.gcsis.cn/img/logo.png" @click="goToIndex()">
             <div class="title">
                 <div class="title-item" @click="goToPages(item.titleRouter)" v-for="item in title"
                     :key="item.titleName">
@@ -28,7 +28,7 @@ const title = ref([
     { titleName: '成果发布', titleRouter: '/results' },
     { titleName: '媒体中心', titleRouter: '/news' },
     { titleName: '参会指南', titleRouter: '/attendanceGuide' },
-    { titleName: '社区中心', titleRouter: '/communityCenter' },
+    { titleName: '论剑堂', titleRouter: '/communityCenter' },
 ])
 const goToPages = (item: string) => {
     router.push(item)
@@ -45,7 +45,6 @@ const goToIndex = () => {
     align-items: center;
     width: 100vw;
     height: 300px;
-    // background-color: black;
 
 
     .logo {

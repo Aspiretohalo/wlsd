@@ -1,7 +1,7 @@
 <template>
     <div class="topNav">
         <div class="middle">
-            <img class="logo" src="../assets/logo.png" @click="goToIndex()">
+            <img class="logo" src="https://www.gcsis.cn/img/logo.png" @click="goToIndex()">
             <el-menu class="el-menu-demo" :default-active="defaultMenu" mode="horizontal" :router="true"
                 :ellipsis="false">
                 <el-menu-item index="/">首页</el-menu-item>
@@ -15,6 +15,8 @@
                 <el-menu-item index="/attendanceGuide">参会指南</el-menu-item>
                 <el-menu-item index="/communityCenter">论剑堂</el-menu-item>
             </el-menu>
+            <el-input class="search" v-model="input" style="width: 120px" size="large" placeholder="聚合搜索"
+                :suffix-icon="Search" />
             <div class="login" v-if="token == null && route.path != '/login'">
                 <el-link type="info" :underline="false" style="border-right: 1px solid;padding-right: 3px;"
                     @click="goToLogin()">登录</el-link>
@@ -23,8 +25,8 @@
             <div class="user" v-else-if="token != null && route.path != '/login'">
                 <el-popover placement="bottom-end" :width="300" trigger="click">
                     <template #reference>
-                        <el-link type="info" :underline="false" style="font-size: 18px;">
-                            <el-icon size="18">
+                        <el-link type="info" :underline="false" style="font-size: 16px;">
+                            <el-icon size="16">
                                 <User />
                             </el-icon>
                             个人中心</el-link>
@@ -98,6 +100,8 @@ import getAllPostsNotLogin from '../functions/notLogin/getAllPostsNotLogin';
 import getTask from '../functions/Task/getTask';
 import getTaskStatus from '../functions/Task/getTaskStatus';
 import getMedal from '../functions/Medal/getMedal';
+import { Search } from '@element-plus/icons-vue'
+const input = ref('')
 
 import { onMounted } from 'vue'
 
@@ -159,7 +163,7 @@ const goToRegister = () => {
 
 <style lang="scss" scoped>
 :deep(.el-menu--horizontal>.el-menu-item) {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .img_icon {
@@ -187,7 +191,7 @@ const goToRegister = () => {
     z-index: 1000;
 
     .logo {
-        height: 48px;
+        height: 36px;
         cursor: pointer;
     }
 

@@ -26,7 +26,7 @@ const cancelReserve = () => {
 </script>
 
 <template>
-  <div style="width: 100%">
+  <div style="width: 100%;">
     <div class="container">
       <video muted autoPlay preload="true" x5-video-player-fullscreen="true" x5-playsinline="true" playsInline
         webkit-playsinline="true" ref="videoRef" loop>
@@ -46,12 +46,23 @@ const cancelReserve = () => {
         <img src="https://mpics.bdstatic.com/qm/202403/pic_JGUBIj_1709891846.png" v-else @click="cancelReserve">
       </div>
       </p>
-
     </div>
+    <div class="bg_tradition"></div>
+
   </div>
 </template>
 
 <style scoped lang="scss">
+.bg_tradition {
+  position: absolute;
+  top: 723px;
+  height: 200px;
+  width: 100%;
+  z-index: 2;
+  opacity: 0.8;
+  background: linear-gradient(to bottom, #8e62cf, #a1c3f0);
+}
+
 .container {
   // height: 500px;
   display: flex;
@@ -61,6 +72,14 @@ const cancelReserve = () => {
   background-color: #000;
   position: relative;
   top: -140px;
+  z-index: 1;
+  // opacity: 0.7;
+
+  .container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .button {
     img {

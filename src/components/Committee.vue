@@ -94,12 +94,12 @@ const getCommittees = (index: number) => {
             // display: flex;
             .name {
                 font-size: 22px;
-                margin-top: 10px;
+                // margin-top: 10px;
             }
 
             .position {
                 font-size: 14px;
-                width: 180px;
+                width: 190px;
                 margin: 0 auto;
             }
         }

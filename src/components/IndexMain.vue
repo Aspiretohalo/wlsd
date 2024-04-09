@@ -1,14 +1,9 @@
 <template>
-    <div class="main">
-        <!-- <el-carousel :interval="5000" class="carousel" trigger="click">
-            <el-carousel-item v-for="item in 4" :key="item" style="height: 650px;">
-                <img class="banner" src="../assets/banner/2024banner.png" alt="">
-            </el-carousel-item>
-        </el-carousel> -->
+    <div class="main index_main">
         <DisplayTextInSmoke></DisplayTextInSmoke>
         <div class="meetings">
             <div class="agenda w-margin">
-                <h1><img src="../assets/title/大会总览.png" width="400"></h1>
+                <h1 style="padding-top: 30px;"><img src="../assets/title/大会总览.png" width="400"></h1>
                 <h3 style="margin-bottom: 0;color: #0c166a;">Conference Overview</h3>
                 <div class="overview_main" @click="goToAgenda(6)">
                     <img src="../assets/agenda/0.png" class="img_main" alt="">
@@ -19,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="overviews">
+                <div class="overviews animate__animated animate__fadeInUp">
                     <div class="overview" @click="goToAgenda(1)">
                         <div class="front">
                             <img src="../assets/agenda/1.png" alt="">
@@ -112,6 +107,62 @@
                 </div>
             </div>
             <Highlights></Highlights>
+            <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/优质博客.png" width="400"></h1>
+            <h3 style="margin-bottom: 30px;color: #0c166a;">Excellent Blog</h3>
+            <div class="blog">
+                <div class="main_blog">
+                    <img src="https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/blog%2Fblog1.png"
+                        style="width: 550px;height: 350px;object-fit: cover;border-radius: 15px;">
+                    <div class="title" style="font-size: 20px;font-weight: 700;margin-top: 5px;">“AI
+                        程序员”席卷而来，吴恩达四步设计让Agent提前超越GPT-5
+                    </div>
+                    <div class="description" style="color: #777;text-align: justify;margin-top: 5px;">
+                        <span class="topic">
+                            #AI #人工智能 #吴恩达 #Agent #GPT-5
+                        </span>现在，随着 AI Agents
+                        的应用浮出水面，这种幻想逐渐走入了现实。Agent 可以翻译为“代理”，在 AI
+                        领域有了“智能体“这一含义，是当前人工智能技术的发展方向，它可以代表用户执行任务并做出决策，具有高度的自主性和适应性。随着 AI Agents 的应用浮出水面，这种幻想逐渐走入了现实。
+                    </div>
+                </div>
+                <div class="sub_blog">
+                    <div class="post" v-for="item in topThreePosts " :key="item.id">
+                        <div class="img">
+                            <img :src="item.post.postCover" alt="" width="250" height="150">
+                        </div>
+                        <div class="post_content">
+                            <el-link :underline="false" @click="goToPage(item.post.id)">
+                                <h3 class="post_title">
+                                    {{ item.post.title }}
+                                </h3>
+                            </el-link>
+                            <div class="msg">
+                                <div class="user">
+                                    <img :src="item.user.userAvatar"
+                                        style="width: 30px;height: 30px; border-radius: 50%;margin-right: 8px;" />
+                                </div>
+                                <div class="name" style="margin-right: 10px;">
+                                    {{ item.user.userName }}
+                                </div>
+                                <div class="date">
+                                    {{ item.post.postTime }}
+                                </div>
+                                <div class="tag" style="margin-left: 20px;">
+                                    <el-tag v-if="item.post.type == '分享'" type="success" effect="dark">{{ item.post.type
+                                        }}</el-tag>
+                                    <el-tag v-else type="warning" effect="dark">{{ item.post.type }}</el-tag>
+                                </div>
+                            </div>
+                            <div class="description">
+                                <span class="topic" v-for="tag in item.post.postType.split(',')" :key="tag">
+                                    #{{ tag.trim() }}
+                                </span>
+                                {{ item.post.postDescription }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/大咖云集.png" width="400"></h1>
             <h3 style="margin-bottom: 0;color: #0c166a;">Gathering Of Experts</h3>
@@ -120,12 +171,24 @@
             <h1 style="padding-top: 30px;color: #0c166a;"><img src="../assets/title/合作伙伴.png" width="400"></h1>
             <h3 style="margin-bottom: 0;color: #0c166a;margin-bottom: 20px;">Collaboration Partner</h3>
             <div class="partner">
-                <div class="box" v-for="(box, index) in boxes" :key="index" :style="{ width: boxWidth(index) }"
-                    @mouseover="expandBox(index)">
-                    <h2 class="title">{{ box.title }}</h2>
-                    <div class="imgs">
-                        <div class="bg" v-if="box.expanded" v-for="i in box.partners" :key="i">
-                            <img :src="i" style="width: 80px;">
+                <div class="box" v-for="(box, index) in boxes" :key="index" :style="{
+                    width: boxWidth(index),
+                    backgroundImage: !box.expanded ? 'url(' + box.bg + ')' : 'url(' + box.bg2 + ')',
+                }" @mouseover="expandBox(index)">
+                    <div class="content" v-if="!box.expanded">
+                        <h2 class="title">{{ box.title }}</h2>
+                        <div class="imgs">
+                            <div class="bg" v-if="box.expanded" v-for="i in box.partners" :key="i">
+                                <img :src="i" style="width: 80px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <h2 class="title">{{ box.title }}</h2>
+                        <div class="imgs">
+                            <div class="bg" v-if="box.expanded && showImage" v-for="i in box.partners" :key="i">
+                                <img :src="i" style="width: 80px;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -140,9 +203,16 @@ import Highlights from './Highlights.vue';
 import DisplayTextInSmoke from './DisplayTextInSmoke.vue';
 import getMeetingById from '../functions/getMeetingById';
 import Committee from './Committee.vue';
+import getPostById from '../functions/getPostById';
+import getPostByIdNotLogin from '../functions/notLogin/getPostByIdNotLogin';
+import getAllPostCommentNotLogin from '../functions/PostComment/notLogin/getAllPostCommentNotLogin';
+import getAllPostComment from '../functions/PostComment/getAllPostComment';
+import getPostCommentCount from '../functions/PostComment/getPostCommentCount';
 // import Exhibitor from '../components/Exhibitor.vue';
-import { reactive, ref } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
+
+const showImage = ref(false);
 const boxes = ref([
     {
         expanded: true,
@@ -163,6 +233,8 @@ const boxes = ref([
             "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/b93ab5c255cb4830b2c0b7e09aaced8e.png",
             "https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/5739d4caa7214beaa27cc66d10644a62.png"
         ]
+        , bg: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E4%BA%AE%E7%82%B9%E8%83%8C%E6%99%AF_%E6%9C%AA%E5%B1%95%E5%BC%80.png',
+        bg2: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E5%B1%95%E5%BC%801.png',
     }, // 初始时第一个 box 展开
     {
         expanded: false, title: '战略合作伙伴',
@@ -174,6 +246,8 @@ const boxes = ref([
             "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694682256942/%E9%9B%B6%E9%A3%9F%E5%90%88%E4%BD%9C%E4%BC%99%E4%BC%B4%403x.png",
             "https://ala-gift.cdn.bcebos.com/gift/2023-9/1694682045449/%E8%B5%9E%E5%8A%A9%E5%95%86%402x_19.png",
         ]
+        , bg: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E4%BA%AE%E7%82%B9%E8%83%8C%E6%99%AF2_%E6%9C%AA%E5%B1%95%E5%BC%80.png',
+        bg2: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E5%B1%95%E5%BC%802.png',
     },
     {
         expanded: false, title: '新闻媒体',
@@ -186,6 +260,8 @@ const boxes = ref([
             "https://img2023.gcsis.cn/2024/4/2e4d265afd1542f3b8e3f176278f5090.png",
 
         ]
+        , bg: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E4%BA%AE%E7%82%B9%E8%83%8C%E6%99%AF3_%E6%9C%AA%E5%B1%95%E5%BC%80.png',
+        bg2: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/highlight%2F%E5%B1%95%E5%BC%803.png',
     }
 ]);
 
@@ -198,7 +274,12 @@ const expandBox = (index: number) => {
         }
     });
 };
-
+watch(boxes, () => {
+    showImage.value = false; // Hide images when boxes change
+    setTimeout(() => {
+        showImage.value = true; // Show images after 1 second
+    }, 500);
+}, { deep: true });
 const boxWidth = (index: number) => {
     return boxes.value[index].expanded ? '700px' : '250px';
 };
@@ -206,7 +287,18 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter();
 const user: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") || "")
-
+const token: any = ref(localStorage.getItem('token') || null)
+const goToPage = async (id: number) => {
+    if (token.value != null) {
+        await getPostById(id)
+        await getAllPostComment(id, user.userId)
+    } else {
+        await getPostByIdNotLogin(id)
+        await getAllPostCommentNotLogin(id)
+    }
+    await getPostCommentCount(id)
+    router.push('/postDetail/' + id)
+}
 const goToAgenda = async (id: Number) => {
     await getMeetingById(id, user.userId)
 
@@ -215,7 +307,20 @@ const goToAgenda = async (id: Number) => {
 const goToAgendaPage = () => {
     router.push('/conferenceAgenda')
 }
+const AllPost: any = ref(JSON.parse(sessionStorage.getItem("AllPost") || "null") || "")
 
+const formattedData = AllPost.value.map((item: any) => {
+    const originalDate = new Date(item.post.postTime);
+
+    // 时区设置为中国
+    const formattedTime = originalDate.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+
+    return { ...item, post: { ...item.post, postTime: formattedTime } };
+});
+const topThreePosts = formattedData
+    .slice() // 克隆数组以避免改变原始数组
+    .sort((a: any, b: any) => b.post.views - a.post.views) // 按浏览量降序排序
+    .slice(0, 3); // 取前三条数据
 
 </script>
 
@@ -282,17 +387,94 @@ const goToAgendaPage = () => {
     }
 }
 
+.blog {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    margin-bottom: 80px;
+    width: 1200px;
+
+    .main_blog {
+        .title {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+        }
+
+        .topic {
+            font-size: 15px;
+            font-weight: 700;
+            color: #000;
+        }
+    }
+
+    .sub_blog {
+        margin-left: 20px;
+
+        .post {
+            display: flex;
+            justify-content: flex-start;
+            border-bottom: 1px solid #ababab;
+            padding: 5px;
+
+            img {
+                border-radius: 8px;
+            }
+
+            .post_content {
+                text-align: left;
+                width: 350px;
+                padding-left: 20px;
+            }
+
+            .description {
+                font-size: 14px;
+                color: #6b6b6b;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 4;
+                overflow: hidden;
+
+                .topic {
+                    font-size: 15px;
+                    font-weight: 700;
+                    color: #000;
+                }
+            }
+
+            .msg {
+                display: flex;
+                justify-content: flex-start;
+            }
+        }
+    }
+}
+
 .partner {
     width: 1200px;
     margin: 0 auto;
     display: flex;
+    margin-bottom: 80px;
+
+    .content {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        text-align: center;
+    }
 
     .box {
+        position: relative;
         height: 400px;
-        background: rgba($color: #fff, $alpha: 0.7);
+        margin-left: 5px;
+        // background: rgba($color: #fff, $alpha: 0.7);
+        background-size: cover;
         border: 1px solid #fff;
         border-radius: 10px;
-        transition: width 0.3s ease;
+        transition: 0.5s ease;
         padding: 20px;
 
         .title {
@@ -323,6 +505,20 @@ const goToAgendaPage = () => {
 .banner {
     width: 100%;
     height: 650px;
+}
+
+
+.index_main {
+    position: relative;
+
+    .bg_tradition {
+        position: absolute;
+        top: 800px;
+        height: 300px;
+        width: 100%;
+        z-index: 2000;
+        background-color: #fff;
+    }
 }
 
 .agenda {
