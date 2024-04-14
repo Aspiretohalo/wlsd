@@ -19,8 +19,7 @@
         <template #header>
             <p style="font-size: 22px;font-weight: bold;margin: 0;">排行榜</p>
             <p style="display: inline-block;">你代表的省份是：</p>
-            <p style="display: inline-block; font-weight: bold ;font-size: 16px;color: #67C23A;">{{ value
-                }}</p>
+            <p style="display: inline-block; font-weight: bold ;font-size: 16px;color: #67C23A;"> 浙江</p>
         </template>
         <div style="display: inline-block;padding-top: 0;">
             <div style="width: 420px; background-color: #fff; height: 450px;">

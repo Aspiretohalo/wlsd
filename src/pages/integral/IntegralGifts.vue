@@ -13,8 +13,11 @@
                             {{ item.price }}
                         </div>
                     </div>
-                    <el-button round type="warning">
-                        兑换
+                    <el-button round type="warning" v-if="item.status == '兑换'">
+                        {{ item.status }}
+                    </el-button>
+                    <el-button round type="warning" v-else disabled plain>
+                        {{ item.status }}
                     </el-button>
                 </div>
 
@@ -26,6 +29,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 const IntegralGifts: any = ref(JSON.parse(sessionStorage.getItem("IntegralGifts") || "null") || "")
+IntegralGifts.value.forEach((item: any, index: any) => {
+    if (index >= IntegralGifts.value.length - 1) {
+        item.status = "黑钻专属";
+    } else {
+        item.status = "兑换";
+    }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +65,7 @@ const IntegralGifts: any = ref(JSON.parse(sessionStorage.getItem("IntegralGifts"
             padding: 10px;
 
             .msg {
-                width: 70%;
+                width: 65%;
             }
 
             .gift_name {

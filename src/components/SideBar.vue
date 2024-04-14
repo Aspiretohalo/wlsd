@@ -62,8 +62,10 @@
                         <h2>{{ item.name }}</h2>
                         <div class="tip" style="margin-left: 20px;">{{ item.tip }}</div>
                     </div>
-                    <div class="btn" style="margin-top: 20px;display: flex;justify-content: center;">
-                        <el-upload class="upload-demo"
+                    <div class="btn" style="display: flex;justify-content: center;">
+                        <Recognition v-if="!item.uploaded"></Recognition>
+
+                        <!-- <el-upload class="upload-demo"
                             action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                             :disabled="item.uploaded">
                             <el-button type="primary" round v-if="!item.uploaded"
@@ -74,11 +76,8 @@
                                 @click="handleupload(item); dialogVisible = false" plain>
                                 审核中
                             </el-button>
-                        </el-upload>
-                        <!-- <el-button type="primary" round @click="handleCheck(item); dialogVisible = false"
-                            style="margin-left: 20px;" plain>
-                            提交打卡
-                        </el-button> -->
+                        </el-upload> -->
+
                     </div>
                 </div>
             </el-carousel-item>
@@ -134,6 +133,7 @@
 <script setup lang="ts">
 // import html2canvas from "html2canvas"
 import PosterEditor from "./PosterEditor.vue"
+import Recognition from "./Recognition.vue"
 
 import { ref, onMounted, onUnmounted } from 'vue';
 import { ElMessage } from 'element-plus'
@@ -280,9 +280,9 @@ const checkImg = ref([
     {
         id: 1,
         uploaded: false,
-        img: 'https://obs-xhlj.obs.cn-east-3.myhuaweicloud.com/2023/4/e49da182c8364cb7af6d39fe2bcd2fd3.jpg',
-        tip: '吉祥物会在哪呢？',
-        name: '安恒小龙人打卡',
+        img: 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/%E6%89%93%E5%8D%A1%E8%AE%A4%E8%AF%81%2F%E6%A8%A1%E6%9D%BF.jpg',
+        tip: '示例：和场馆中指定位置的盆栽+逃生指引标识打卡',
+        name: '盆栽+逃生指引',
     },
     {
         id: 2,
@@ -316,16 +316,16 @@ const handleCheckboxChange = (checkbox: any) => {
 //     console.log(item);
 
 // }
-const handleupload = (item: any) => {
+// const handleupload = (item: any) => {
 
-    // 模拟上传成功后的处理
-    setTimeout(() => {
-        // 设置对应项的上传状态为true
-        item.uploaded = true;
-        console.log(item);
+//     // 模拟上传成功后的处理
+//     setTimeout(() => {
+//         // 设置对应项的上传状态为true
+//         item.uploaded = true;
+//         console.log(item);
 
-    }, 5000);
-}
+//     }, 5000);
+// }
 </script>
 
 <style scoped lang="scss">

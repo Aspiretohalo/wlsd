@@ -41,7 +41,7 @@
                                         @click="handleCancelMeetingSubscription()">已订阅</el-button>
                                     <el-button round @click="goTo()">PPT下载</el-button>
                                     <el-button round @click="dialogSummaryVisible = true">AI视频总结</el-button>
-                                    <el-dialog v-model="dialogSummaryVisible" title="AI视频总结" width="500">
+                                    <el-dialog v-model="dialogSummaryVisible" title="AI视频总结" width="600" align-center>
                                         <Summary></Summary>
                                     </el-dialog>
                                 </div>

@@ -118,6 +118,14 @@
                             </el-dialog>
                             <el-dialog v-model="dialogTicketisible" title="我的票夹" width="500" align-center>
                                 <img :src="getTicket(form.certification)" style="width: 100%;border-radius: 8px;">
+                                <template #footer>
+                                    <span class="dialog-footer">
+                                        <el-button type="primary" round
+                                            @click="handleSave(); dialogTicketisible = false">
+                                            保存海报
+                                        </el-button>
+                                    </span>
+                                </template>
                             </el-dialog>
                             <div style="margin-top: 50px;">个人简介</div>
                             <div class="data">
@@ -154,25 +162,24 @@
                                             </el-icon><span>评论</span>
                                             <div class="amount">{{ ThumbBlogShare.blogCount }}</div>
                                         </div>
-                                        <div><el-icon>
-                                                <img src="../assets/icon/share.svg" width="20px" alt="">
-                                            </el-icon><span>分享</span>
-                                            <div class="amount">{{ ThumbBlogShare.shareCount }}</div>
-                                        </div>
+
                                     </div>
                                 </el-card>
                                 <el-card class="SignIn">
-                                    <span>每日签到</span><el-link class="integral_detail"
+                                    <span>我的积分</span><el-link class="integral_detail"
                                         @click="checkIntegral()">积分详情<el-icon>
                                             <ArrowRight />
                                         </el-icon></el-link>
                                     <div class="integral">
-                                        <el-icon size="28">
-                                            <Coin />
-                                        </el-icon>{{ form.integral }}
+                                        <img src="../assets/icon/金币.png"
+                                            style="height: 36px;width: 36px;margin-right:10px;"><span
+                                            style="color: #eebe77;"> {{
+                            form.integral
+                        }}</span>
                                     </div>
-                                    <el-button class="btn">签到</el-button>
-                                    <!-- <el-button class="btn" disabled>已签到</el-button> -->
+                                    <el-button type="warning" style="margin-left: 300px;margin-top: 30px;" plain
+                                        round>查看积分规则</el-button>
+
                                 </el-card>
                             </div>
                             <el-card class="record">
@@ -203,17 +210,7 @@
                                             </div>
                                         </div>
                                     </el-tab-pane>
-                                    <el-tab-pane label="已点赞">
 
-                                        <div class="thumb">
-                                            <div class="thumb_content" v-for="o in 5" :key="o">
-                                                <el-image
-                                                    style="width: 270px; height: 180px; margin-top: 10px;margin-right: 20px;"
-                                                    :src="url" fit="cover" />
-                                                <el-tag class="thumb_name">西湖论剑</el-tag>
-                                            </div>
-                                        </div>
-                                    </el-tab-pane>
                                 </el-tabs>
                             </el-card>
                         </div>
@@ -231,7 +228,7 @@
 import TopNav from '../components/TopNav.vue'
 import Bottom from '../components/Bottom.vue'
 
-import { Coin, ChatLineRound, ArrowRight } from '@element-plus/icons-vue'
+import { ChatLineRound, ArrowRight } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import state from '../store/state'
 import setWornMedal from '../functions/Medal/setWornMedal';
@@ -261,7 +258,6 @@ const handleWear = async () => {
     await setWornMedal(state.CheckedMedal)
     form.medal = (JSON.parse(sessionStorage.getItem("User") || "null") || "").medal
 }
-const url = 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const dialogFormVisible = ref(false)
 
 const handleEdit = () => {
@@ -273,6 +269,17 @@ const form: any = reactive(JSON.parse(sessionStorage.getItem("User") || "null") 
 const checkIntegral = () => {
     router.push('/integral/integralDetails')
 }
+const handleSave = () => {
+    let save = document.createElement('a');
+    // <a href=''></a>
+    save.href = getTicket(form.certification)
+    // 下载的名字
+    save.download = '西湖论剑·海报'
+    save.target = '_blank';
+    // 直接回调a的点击事件
+    save.click()
+}
+
 const RecognizeCode = reactive({
     code: ''
 })
@@ -290,7 +297,8 @@ const getTicket = (id: number) => {
 
         case 3:
             return 'https://wlsd-1317662942.cos.ap-nanjing.myqcloud.com/ticket%2Fticket3.png'
-
+        default:
+            return ''
     }
 }
 
@@ -427,6 +435,9 @@ const getTicket = (id: number) => {
                     font-size: 28px;
                     font-weight: 700;
                     margin-top: 30px;
+                    margin-left: 120px;
+                    display: flex;
+                    align-items: center;
                 }
 
                 .btn {

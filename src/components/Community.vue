@@ -12,7 +12,8 @@
                         :mode="mode" @onCreated="handleCreated" />
                 </div>
                 <div class="message">
-                    <el-form :model="form" label-width="auto" style="max-width: 600px;margin-top: 20px;">
+                    <el-form :model="form" label-width="auto" style="max-width: 800px;margin-top: 20px;"
+                        v-loading="loading" element-loading-background="rgba(122, 122, 122, 0.8)">
                         <el-form-item label="标题">
                             <el-input v-model="form.title" />
                         </el-form-item>
@@ -32,6 +33,11 @@
                                     +新增
                                 </el-button>
                             </div>
+                        </el-form-item>
+                        <el-form-item label=" ">
+                            <el-button round plain type="primary" @click="handleClick">
+                                智能识别话题
+                            </el-button>
                         </el-form-item>
                         <el-form-item label="类型">
                             <el-radio-group v-model="radio" class="ml-4" @change="console.log(radio)">
@@ -303,7 +309,16 @@ const inputValue = ref('')
 const dynamicTags = ref([] as string[])
 const inputVisible = ref(false)
 const InputRef = ref<InstanceType<typeof ElInput>>()
+const loading = ref(false);
 
+const handleClick = () => {
+    loading.value = true; // 开启加载动画
+    // 模拟异步操作，这里可以替换成您实际的数据获取逻辑
+    setTimeout(() => {
+        dynamicTags.value.push("数字安全", "网络安全", "杭州", "数字中国", "大会", "技术");
+        loading.value = false; // 关闭加载动画
+    }, 5000); // 模拟2秒后获取数据
+};
 const handleClose = (tag: string) => {
     dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
 }
@@ -431,8 +446,10 @@ if (editorConfig.MENU_CONF && typeof editorConfig.MENU_CONF === 'object') {
         // 自定义插入图片
         customInsert(res: any, insertFn: InsertFnType) {  // TS 语法
             // res 即服务端的返回结果
+            console.log(res);
 
             // 从 res 中找到 url alt href ，然后插入图片
+            console.log(res.data.url);
 
             insertFn(res.data.url, '', '')
         },
@@ -494,7 +511,6 @@ onBeforeUnmount(() => {
 const handleCreated = (editor: any) => {
     editorRef.value = editor // 记录 editor 实例，重要！
     console.log(editor.getMenuConfig('uploadImage'));
-
 }
 import addNewPost from '../functions/addNewPost';
 

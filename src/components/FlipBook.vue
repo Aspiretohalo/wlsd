@@ -263,7 +263,7 @@ const goTo = (url: string) => {
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 100px 0 60px;
+  padding: 20px 0 60px;
 
   $paperWidth: 500px;
   $paperHeight: 500px;

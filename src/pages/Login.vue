@@ -7,7 +7,7 @@
                 </el-header>
                 <el-main class="main bgc">
                     <el-card class="box-card w-margin">
-                        <img class="logo" src="../assets/logo.png" alt="">
+                        <img class="logo" src="https://www.gcsis.cn/img/logo.png" alt="">
                         <el-form :model="form">
                             <el-form-item>
                                 <el-input v-model="form.phoneNumber" placeholder="手机号" />

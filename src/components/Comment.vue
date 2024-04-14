@@ -126,7 +126,8 @@
                                                 </div>
                                             </template>
                                         </el-popover>
-                                        <img v-if="reply.user.certification == 1" style="width: 60px;margin-left: 10px;"
+                                        <img v-if="reply.user.certification == 1"
+                                            style="width: 60px;height: 17px;margin-left: 10px;"
                                             src="https://cdn.huodongxing.com/Content/v2.0/img/vip/a1.png" />
                                         <el-text class="elintxt" style="margin-left: 20px;">{{ reply.blog.replyTime
                                             }}</el-text>
@@ -364,6 +365,7 @@ const handleCancelThumb = async (id: number) => {
             .content {
                 display: flex;
                 justify-content: flex-start;
+                align-items: center;
             }
         }
     }
